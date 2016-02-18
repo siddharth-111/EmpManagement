@@ -1,0 +1,43 @@
+﻿@model EmpManagement.Models.EmployeeDetails
+@{
+    ViewBag.Title = "Create Employee";
+}
+
+<h2>Create New Employee</h2>
+
+@using (Html.BeginForm("SaveUser", "Employee"))
+{
+    
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <fieldset>
+        Employee Name:
+    <div class="editor-field">
+         @Html.EditorFor(model => model.EmployeeName)
+         @Html.ValidationMessageFor(model => model.EmployeeName)
+    </div>
+        Employee ID:
+    <div class="editor-field">
+         @Html.EditorFor(model => model.EmployeeID)  
+         @Html.ValidationMessageFor(model => model.EmployeeID)
+    </div>
+        Address:
+    <div class="editor-field">
+         @Html.EditorFor(model => model.Address)  
+         @Html.ValidationMessageFor(model => model.Address)
+    </div>
+        Date Of Birth:
+    <div class="editor-field">
+         @Html.EditorFor(model => model.DOB)  
+         @Html.ValidationMessageFor(model => model.DOB)
+    </div>
+      Salary:
+    <div class="editor-field">
+         @Html.EditorFor(model => model.salary)  
+         @Html.ValidationMessageFor(model => model.salary)
+    </div>
+        <p>
+           <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}

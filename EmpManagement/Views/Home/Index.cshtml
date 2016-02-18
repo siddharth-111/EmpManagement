@@ -1,0 +1,27 @@
+﻿@model EmpManagement.Models.LoginDetails
+@{
+    ViewBag.Title = "Index";
+}   
+
+<h2>Login Page</h2>
+@using (Html.BeginForm("Save", "Home"))
+{
+    
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <fieldset>
+        Enter name:
+    <div class="editor-field">
+         @Html.EditorFor(model => model.username)
+         @Html.ValidationMessageFor(model => model.username)
+    </div>
+    Enter password:
+    <div class="editor-field">
+         @Html.EditorFor(model => model.password)  
+         @Html.ValidationMessageFor(model => model.password)
+    </div>
+        <p>
+           <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}

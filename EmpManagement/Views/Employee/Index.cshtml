@@ -1,0 +1,88 @@
+﻿@model PagedList.IPagedList<EmpManagement.Models.EmployeeDetails>
+@using PagedList;
+@using PagedList.Mvc; 
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container"> 
+    <div class="row">
+    <button class="btn btn-primary pull-right" type="button" onclick="location.href='@Url.Action("CreateEmployee", "Employee")'">Create Employee</button>
+    
+         @using (Html.BeginForm("Index","Employee",FormMethod.Get))
+         { 
+            <div class="input-group col-md-3 col-md-offset-4">
+             @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })  
+        <span class="input-group-btn">    
+        <input type="submit" value="Search" class = "btn btn-primary"/>
+         </span>
+        </div>
+         }
+    
+    </div>
+   
+  
+        <div class="col-lg-12">
+            <table class="table table-bordered table-hover table-striped" >
+                <thead>
+                    <tr>
+
+                        <th style = "text-align:center;">
+                             @Html.ActionLink("Employee ID", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
+                        </th>
+                       
+                         <th style = "text-align:center;">
+                             @Html.ActionLink("Employee Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                        </th>
+                        <th style = "text-align:center;">
+                             @Html.ActionLink("Address", "Index", new { sortOrder = ViewBag.AddressSortParm, currentFilter = ViewBag.CurrentFilter })
+                        </th>
+                        <th style = "text-align:center;" >
+                             @Html.ActionLink("Date of Birth", "Index", new { sortOrder = ViewBag.DOBSortParm, currentFilter = ViewBag.CurrentFilter})
+                        </th>
+                        <th style = "text-align:center;">
+                             @Html.ActionLink("Salary", "Index", new { sortOrder = ViewBag.SalarySortParm, currentFilter = ViewBag.CurrentFilter })
+                        </th>
+                        <th style="font-size:14px; text-align:center;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+    {
+                    <tr>
+                        <td style = "text-align:center; font-size:15px;font-family : sans serif;">@item.EmployeeID</td>
+                        <td style = "text-align:center; font-size:15px;font-family : sans serif;">@item.EmployeeName</td>
+                        <td style = "text-align:center; font-size:15px;font-family : sans serif;">@item.Address</td>
+                        <td style = "text-align:center; font-size:15px;font-family : sans serif;">@item.DOB</td>
+                        <td style = "text-align:center; font-size:15px;font-family : sans serif;">@item.salary</td>
+                        <td style = "text-align:center;">
+                         <div class="dropdown">
+                 <button class="btn btn-sm dropdown-toggle" style="border-radius:20px" type="button" data-toggle="dropdown"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Edit Employee", "EditEmployee", new { id = item.EmployeeID })</li>
+                        <li>@Html.ActionLink("Delete", "DeleteEmployee", new { id = item.EmployeeID})</li>
+                    </ul>
+            </div>
+                        </td>
+                    </tr>
+            }
+                    
+                   
+                </tbody>
+            </table>
+        </div>
+                <div class="col-md-offset-5">
+                    <div class="col-sm-offset-1">
+                    <font size = "2" style = "right:35px;position: relative;">
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    </font>
+                    </div>
+                    
+                                   
+              @Html.PagedListPager( Model, page => Url.Action("Index","Employee", new { page, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter }) )
+                </div>
+         
+       </div>
+  
+    
