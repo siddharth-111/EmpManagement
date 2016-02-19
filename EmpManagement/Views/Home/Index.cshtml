@@ -2,26 +2,27 @@
 @{
     ViewBag.Title = "Index";
 }   
+<link rel="stylesheet" href="@Url.Content("../../Content/reset.css")"/>
+<link rel="stylesheet" href="@Url.Content("../../Content/style.css")"/>
 
-<h2>Login Page</h2>
-@using (Html.BeginForm("Save", "Home"))
+<div class="container">
+  <div class="info">
+    <h1>Login</h1>
+  </div>
+</div>
+@using (Html.BeginForm())
 {
     
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
-    <fieldset>
-        Enter name:
-    <div class="editor-field">
-         @Html.EditorFor(model => model.username)
-         @Html.ValidationMessageFor(model => model.username)
+    <div class="form"> 
+    <div class="login-form">
+    @Html.TextBoxFor(model => model.username, new { placeholder = @Html.DisplayNameFor(m => m.username) })
+     @Html.ValidationMessageFor(model => model.username, "Please enter a username")
+       @Html.TextBoxFor(model => model.password, new { @class = "form-control input-lg", placeholder = @Html.DisplayNameFor(m => m.password) })  
+         @Html.ValidationMessageFor(model => model.password, "Please enter a password")
+    <button type = "submit">login</button>
+
+  </div>
     </div>
-    Enter password:
-    <div class="editor-field">
-         @Html.EditorFor(model => model.password)  
-         @Html.ValidationMessageFor(model => model.password)
-    </div>
-        <p>
-           <input type="submit" value="Save" />
-        </p>
-    </fieldset>
 }

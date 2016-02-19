@@ -7,6 +7,7 @@ using EmpManagement.Business_Layer;
 using EmpManagement.Models;
 using PagedList;
 using PagedList.Mvc;
+using System.Data;
 
 namespace EmpManagement.Controllers
 {
@@ -77,45 +78,73 @@ namespace EmpManagement.Controllers
         }
 
         public ActionResult CreateEmployee()
-        {
-            
+        { 
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateEmployee(EmployeeDetails newEmployee)
+        {       
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    bool check = getEmployeeList.saveUser(newEmployee);
+                    if (check)
+                        return RedirectToAction("Index", "Employee");
+                }
+            }
+            catch (DataException /* dex */)
+            {
+                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
+
             return View();
         }
 
-        public ActionResult EditUser(EmployeeDetails editedEmp) {
-            
-            bool val = getEmployeeList.EditSingleEmployee(editedEmp);
-            if (val)
-                return RedirectToAction("Index", "Employee");
-            else
-                return null;
-        }
+        [HttpPost]
+        public ActionResult EditEmployee(EmployeeDetails editedEmp) {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    bool val = getEmployeeList.EditSingleEmployee(editedEmp);
+                    if (val)
+                        return RedirectToAction("Index", "Employee");
+                    else
+                        return View(editedEmp);
+                }
+            }
+            catch (DataException /* dex */)
+            {
+                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
 
-        public ActionResult SaveUser(EmployeeDetails newEmployee)
-        {
-            bool check = getEmployeeList.saveUser(newEmployee);
-
-            return RedirectToAction("Index", "Employee");
+            return View(editedEmp);
         }
+    
+
+        
 
         public ActionResult EditEmployee(int id)
         {
-            EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id.ToString());            
+            EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id);            
             return View(singleEmp);
         }
 
         
+        
         public ActionResult DeleteEmployee(int id)
         {
-            EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id.ToString());
+            EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id);
             return View(singleEmp);
-    
-           // return RedirectToAction("Index", "Employee");
         }
 
         public ActionResult DeleteUser(EmployeeDetails emp)
         {
-            bool val = getEmployeeList.DeleteEmployee(Int32.Parse(emp.EmployeeID));
+            bool val = getEmployeeList.DeleteEmployee(emp.EmployeeID);
             return RedirectToAction("Index", "Employee");
         }
 

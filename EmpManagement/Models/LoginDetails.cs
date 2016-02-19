@@ -10,9 +10,9 @@ namespace EmpManagement.Models
     public class LoginDetails
     {
 
-        [StringLength(50, MinimumLength = 3)]
+        [Required]
         public string username { get; set; }
-        [Required(ErrorMessage = "An Album Title is required")]
+        [Required]
         public string password { get; set; }
     }
 }

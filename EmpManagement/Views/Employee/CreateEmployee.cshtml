@@ -2,42 +2,44 @@
 @{
     ViewBag.Title = "Create Employee";
 }
+<link rel="stylesheet" href="@Url.Content("../../Content/reset.css")"/>
+<link rel="stylesheet" href="@Url.Content("../../Content/style.css")"/>
 
-<h2>Create New Employee</h2>
-
-@using (Html.BeginForm("SaveUser", "Employee"))
+<div class="container">
+  <div class="info">
+   <h1>Create New Employee</h1>
+  </div>
+</div>
+@using (Html.BeginForm())
 {
-    
+    <div class="form"> 
+    <div class="login-form">
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
-    <fieldset>
-        Employee Name:
-    <div class="editor-field">
-         @Html.EditorFor(model => model.EmployeeName)
+            
+         @Html.TextBoxFor(model => model.EmployeeName, new { placeholder = @Html.DisplayNameFor(m => m.EmployeeName) })
          @Html.ValidationMessageFor(model => model.EmployeeName)
-    </div>
-        Employee ID:
-    <div class="editor-field">
-         @Html.EditorFor(model => model.EmployeeID)  
+   
+  
+ 
+         @Html.TextBoxFor(model => model.EmployeeID, new { placeholder = @Html.DisplayNameFor(m => m.EmployeeID) })  
          @Html.ValidationMessageFor(model => model.EmployeeID)
-    </div>
-        Address:
-    <div class="editor-field">
-         @Html.EditorFor(model => model.Address)  
+   
+
+         @Html.TextBoxFor(model => model.Address, new { placeholder = @Html.DisplayNameFor(m => m.Address) })  
          @Html.ValidationMessageFor(model => model.Address)
-    </div>
-        Date Of Birth:
-    <div class="editor-field">
-         @Html.EditorFor(model => model.DOB)  
+
+             
+         @Html.TextBoxFor(model => model.DOB, new { type = "text", placeholder = "Date of birth", onfocus = "(this.type='date')" })  
          @Html.ValidationMessageFor(model => model.DOB)
-    </div>
-      Salary:
-    <div class="editor-field">
-         @Html.EditorFor(model => model.salary)  
+
+         @Html.TextBoxFor(model => model.salary, new { type = "number" , placeholder = @Html.DisplayNameFor(m => m.salary) })  
          @Html.ValidationMessageFor(model => model.salary)
-    </div>
+
         <p>
-           <input type="submit" value="Save" />
+             <button type = "submit">Create</button>
         </p>
-    </fieldset>
+
+    </div>
+    </div>
 }

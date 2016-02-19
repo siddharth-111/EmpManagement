@@ -2,15 +2,21 @@
 @{
     ViewBag.Title = "Delete Employee";
 }
-
-<h2>Are you sure you want to Delete this Employee?</h2>
+<link rel="stylesheet" href="@Url.Content("../../Content/reset.css")"/>
+<link rel="stylesheet" href="@Url.Content("../../Content/style.css")"/>
+<div class="container">
+  <div class="info">
+   <h1>Delete Employee?</h1>
+  </div>
+</div>
 @using (Html.BeginForm("DeleteUser", "Employee"))
 {
     
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
-    
-    <fieldset>  
+    <div class="form"> 
+    <div class="login-form">
+    <fieldset style = "font-family:Times New Roman;">  
         @Html.HiddenFor(model => model.EmployeeID)
         Employee Name:
     <div class="editor-field">
@@ -34,7 +40,9 @@
          @Html.ValidationMessageFor(model => model.salary)
     </div>
         <p>
-          <input type="submit" value="Save" />
+          <button type="submit">Delete Employee</button>
         </p>
     </fieldset>
+    </div>
+    </div>
 }

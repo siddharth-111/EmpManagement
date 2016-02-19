@@ -71,7 +71,7 @@ namespace EmpManagement.Business_Layer
 
                     empList.Add(new EmployeeDetails
                     {
-                        EmployeeID = dataItem[0],
+                        EmployeeID = Int32.Parse(dataItem[0]),
                         EmployeeName = dataItem[1],
                         Address = dataItem[2],
                         DOB = dataItem[3],
@@ -83,7 +83,7 @@ namespace EmpManagement.Business_Layer
             return null;
         }
 
-        public EmployeeDetails getSingleEmployee(string id)
+        public EmployeeDetails getSingleEmployee(int id)
         {
             List<EmployeeDetails> empList = getAllEmployees();
             foreach (EmployeeDetails emp in empList)
