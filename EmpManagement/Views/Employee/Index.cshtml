@@ -12,12 +12,29 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.style-button {
+    outline: 0;
+    background: rgba(195, 77, 77, 0.66);
+    border: 0;
+    padding: 7px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
 </style>
 <div class="container"> 
     <div class="jumbotron">
-    <h1 align = "center">------------------------------------</h1> 
+    <h1 align = "center">Employee Management System</h1> 
+
   </div>
-  <button class="btn btn-primary pull-right" type="button" onclick="location.href='@Url.Action("CreateEmployee", "Employee")'">Create Employee</button>
+   <button class="btn style-button pull-left"  type="button" onclick="location.href='@Url.Action("Index", "Home")'">Logout</button>
+  <button class="btn style-button pull-right"  type="button" onclick="location.href='@Url.Action("CreateEmployee", "Employee")'">Create Employee</button>
     <div class="row">
     
          @using (Html.BeginForm("Index","Employee",FormMethod.Get))
@@ -30,7 +47,7 @@ body {
             @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control",placeholder = "Search by name" })  
             </div>
         <span class="input-group-btn">    
-        <input type="submit" value="Search" class = "btn btn-primary"/>
+        <input type="submit" value="Search" class = "btn style-button"/>
          </span>
         </div>
          }

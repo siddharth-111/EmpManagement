@@ -44,7 +44,7 @@
 }
 .form button {
   outline: 0;
-  background: #EF3B3A;
+  background:rgba(195, 77, 77, 0.66);
   width: 100%;
   border: 0;
   padding: 15px;
@@ -108,7 +108,7 @@
 /* END Form */
 /* Demo Purposes */
 body {
-  background-color:rgba(255, 0, 47, 0.05);
+  background-color:rgba(255, 0, 47, 0);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

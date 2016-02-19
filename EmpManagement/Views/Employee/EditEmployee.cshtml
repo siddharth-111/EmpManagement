@@ -21,23 +21,23 @@
         Employee Name:
     <div class="editor-field">
          @Html.EditorFor(model => model.EmployeeName)
-         @Html.ValidationMessageFor(model => model.EmployeeName)
+         @Html.ValidationMessageFor(model => model.EmployeeName, "Employee name is required", new { style = "font-size:12px" })
     </div>
   
         Address:
     <div class="editor-field">
          @Html.EditorFor(model => model.Address)  
-         @Html.ValidationMessageFor(model => model.Address)
+         @Html.ValidationMessageFor(model => model.Address, "Address is required",new { style = "font-size:12px" })
     </div>
         Date Of Birth:
     <div class="editor-field">
          @Html.EditorFor(model => model.DOB)  
-         @Html.ValidationMessageFor(model => model.DOB)
+         @Html.ValidationMessageFor(model => model.DOB, "Date of birth is required",new { style = "font-size:12px" })
     </div>
       Salary:
     <div class="editor-field">
          @Html.EditorFor(model => model.salary)  
-         @Html.ValidationMessageFor(model => model.salary)
+         @Html.ValidationMessageFor(model => model.salary, "Salary is required",new { style = "font-size:12px" })
     </div>
         <p>
            <button type="submit">Edit Employee</button>

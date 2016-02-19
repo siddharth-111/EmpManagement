@@ -15,9 +15,12 @@ namespace EmpManagement.Controllers
     {
         //
         // GET: /Employee/
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger
+  (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         BusinessLogic getEmployeeList = new BusinessLogic();
         public ActionResult Index(string sortOrder, string searchString,int? page,string currentFilter)
         {
+            log.Info("Employee Index method start");
             //Sorting parameters
             int pageSize = 3;
             int pageNumber = (page ?? 1);
@@ -71,8 +74,10 @@ namespace EmpManagement.Controllers
             }
             
             if (modEmplist!= null){
+                log.Info("Employee Index method stop");
                 return View(modEmplist.ToPagedList(pageNumber, pageSize));
-            }else{ 
+            }else{
+                log.Info("Employee Index method stop,the List of employees is empty");
                 return View(); 
             }
         }
@@ -84,18 +89,30 @@ namespace EmpManagement.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateEmployee(EmployeeDetails newEmployee)
-        {       
+        {
+            log.Info("Create Employee method start");
             try
             {
                 if (ModelState.IsValid)
                 {
                     bool check = getEmployeeList.saveUser(newEmployee);
+
                     if (check)
+                    {
+                        log.Info("Create Employee method stop,successfully created employee");
                         return RedirectToAction("Index", "Employee");
+                    }
+                    else
+                    {
+                        log.Info("Create Employee method stop,creating employee unsuccessful");
+                        return RedirectToAction("Index", "Employee");
+                    }
+                      
                 }
             }
-            catch (DataException /* dex */)
+            catch (DataException ex/* dex */)
             {
+                log.Error("Create Employee method error, the error is : " + ex);
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
@@ -105,19 +122,27 @@ namespace EmpManagement.Controllers
 
         [HttpPost]
         public ActionResult EditEmployee(EmployeeDetails editedEmp) {
+            log.Info("Edit employee method start");
             try
             {
                 if (ModelState.IsValid)
                 {
                     bool val = getEmployeeList.EditSingleEmployee(editedEmp);
                     if (val)
+                    {
+                        log.Info("Edit employee method stop,successful");
                         return RedirectToAction("Index", "Employee");
+                    }
                     else
+                    {
+                        log.Info("Edit employee method stop,unsuccessful");
                         return View(editedEmp);
+                    }
                 }
             }
-            catch (DataException /* dex */)
+            catch (DataException ex/* dex */)
             {
+                log.Error("Error in editing the employee details, the error is : " + ex);
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
@@ -144,8 +169,26 @@ namespace EmpManagement.Controllers
 
         public ActionResult DeleteUser(EmployeeDetails emp)
         {
-            bool val = getEmployeeList.DeleteEmployee(emp.EmployeeID);
+            try
+            {
+                log.Info("Deleting employee method called");
+                bool val = getEmployeeList.DeleteEmployee(emp.EmployeeID);
+                if (val)
+                {
+                    log.Info("Delete employee method stop,successful execution!!");
+                    return RedirectToAction("Index", "Employee");
+                }
+                else {
+                    log.Info("Delete employee method stop,unsuccessful execution");
+                    return RedirectToAction("Index", "Employee");
+                }
+             
+            }
+            catch (Exception ex) {
+                log.Error("Error in deleting the employee, the error is : " + ex);
+            }
             return RedirectToAction("Index", "Employee");
+           
         }
 
     }
