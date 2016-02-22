@@ -4,42 +4,32 @@
 }
 <link rel="stylesheet" href="@Url.Content("../../Content/reset.css")"/>
 <link rel="stylesheet" href="@Url.Content("../../Content/style.css")"/>
-
 <div class="container">
-  <div class="info">
-   <h1>Create New Employee</h1>
-  </div>
+    <div class="info">
+        <h1>
+            Create New Employee</h1>
+    </div>
 </div>
 @using (Html.BeginForm())
 {
-    <div class="form"> 
-    <div class="login-form">
-    @Html.ValidationSummary(true)
-    @Html.AntiForgeryToken()
-            
-         @Html.TextBoxFor(model => model.EmployeeName, new { placeholder = @Html.DisplayNameFor(m => m.EmployeeName) })
-         @Html.ValidationMessageFor(model => model.EmployeeName,"Employee name is required", new { style = "font-size:12px" })
-   
-  
- 
-         @Html.TextBoxFor(model => model.EmployeeID, new { placeholder = @Html.DisplayNameFor(m => m.EmployeeID) })  
-         @Html.ValidationMessageFor(model => model.EmployeeID,"Employee ID is required",new { style = "font-size:12px" })
-   
-
-         @Html.TextBoxFor(model => model.Address, new { placeholder = @Html.DisplayNameFor(m => m.Address) })  
-         @Html.ValidationMessageFor(model => model.Address, "Address is required", new { style = "font-size:12px" })
-
-             
-         @Html.TextBoxFor(model => model.DOB, new { type = "text", placeholder = "Date of birth", onfocus = "(this.type='date')" })  
-         @Html.ValidationMessageFor(model => model.DOB,"Date of birth is required",new { style = "font-size:12px" })
-
-         @Html.TextBoxFor(model => model.salary, new { type = "number" , placeholder = @Html.DisplayNameFor(m => m.salary) })  
-         @Html.ValidationMessageFor(model => model.salary,"Salary is required", new { style = "font-size:12px" })
-
-        <p>
-             <button type = "submit">Create</button>
-        </p>
-
-    </div>
+    <div class="form">
+        <div class="login-form">
+            @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
+            @Html.TextBoxFor(model => model.EmployeeName, new { placeholder = @Html.DisplayNameFor(m => m.EmployeeName) })
+            @Html.ValidationMessageFor(model => model.EmployeeName, "Employee name is required", new { style = "font-size:12px" })
+            @Html.TextBoxFor(model => model.EmployeeID, new { placeholder = @Html.DisplayNameFor(m => m.EmployeeID) })
+            @Html.ValidationMessageFor(model => model.EmployeeID, "Employee ID is required", new { style = "font-size:12px" })
+            @Html.TextBoxFor(model => model.Address, new { placeholder = @Html.DisplayNameFor(m => m.Address) })
+            @Html.ValidationMessageFor(model => model.Address, "Address is required", new { style = "font-size:12px" })
+            @Html.TextBoxFor(model => model.DOB, new { type = "text", placeholder = "Date of birth", onfocus = "(this.type='date')" })
+            @Html.ValidationMessageFor(model => model.DOB, "Date of birth is required", new { style = "font-size:12px" })
+            @Html.TextBoxFor(model => model.salary, new { type = "number", placeholder = @Html.DisplayNameFor(m => m.salary) })
+            @Html.ValidationMessageFor(model => model.salary, "Salary is required", new { style = "font-size:12px" })
+            <p>
+                <button type="submit">
+                    Create</button>
+            </p>
+        </div>
     </div>
 }

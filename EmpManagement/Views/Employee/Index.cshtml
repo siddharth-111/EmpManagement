@@ -5,53 +5,59 @@
 @{
     ViewBag.Title = "Index";
 }
-<link rel="stylesheet" href="@Url.Content("../../Content/reset.css")"/>
-<style type="text/css">
-body {
-  background-color:rgba(255, 0, 47, 0.03);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.style-button {
-    outline: 0;
-    background: rgba(195, 77, 77, 0.66);
-    border: 0;
-    padding: 7px;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    color: #FFFFFF;
-    font-size: 14px;
-    -webkit-transition: all 0.3 ease;
-    transition: all 0.3 ease;
-    cursor: pointer;
-}
-</style>
-<div class="container"> 
-    <div class="jumbotron">
-    <h1 align = "center">Employee Management System</h1> 
+@section css {
+ <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
 
-  </div>
-   <button class="btn style-button pull-left"  type="button" onclick="location.href='@Url.Action("Index", "Home")'">Logout</button>
-  <button class="btn style-button pull-right"  type="button" onclick="location.href='@Url.Action("CreateEmployee", "Employee")'">Create Employee</button>
+    <!-- FONTAWESOME STYLE CSS -->
+    <link href="@Url.Content("../../assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <!-- CUSTOM STYLE CSS -->
+    <link href="@Url.Content("../../assets/css/style.css")" rel="stylesheet" />
+    <link href="@Url.Content("../../Content/Login.css")" rel = "stylesheet" />
+    <!-- GOOGLE FONT -->
+    <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
+    
+}
+  <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">Employee Management System </a>
+            </div>
+            <!-- Collect the nav links for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="@Url.Action("Index", "Home")"><strong> Logout</strong></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <div class="container"> 
+  <button class="btn style-button pull-right common-button"  type="button" onclick="location.href='@Url.Action("CreateEmployee", "Employee")'">Create Employee</button>
     <div class="row">
     
-         @using (Html.BeginForm("Index","Employee",FormMethod.Get))
+   @using (Html.BeginForm("Index","Employee",FormMethod.Get))
          { 
             <div class="input-group col-md-3 col-md-offset-4">      
             <div class="input-group">
-             <span class="input-group-addon">
-            <i class="glyphicon glyphicon-search"></i>
-            </span>
+           
             @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control",placeholder = "Search by name" })  
+            <span class="input-group-addon">
+            <a class="icon" onclick="document.forms[0].submit();return false;">
+        	<span class="glyphicon glyphicon glyphicon-search"></span>
+            </a>
+            </span>
             </div>
-        <span class="input-group-btn">    
-        <input type="submit" value="Search" class = "btn style-button"/>
-         </span>
         </div>
          }
-    
+          
     </div>
    
   

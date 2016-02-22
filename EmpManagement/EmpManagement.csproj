@@ -139,6 +139,8 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data Access Layer\DBAccess.cs" />
+    <Compile Include="Data Access Layer\IDBAccess.cs" />
+    <Compile Include="Data Access Layer\SQLDBAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -149,6 +151,15 @@
   <ItemGroup>
     <Content Include="App_Data\data.txt" />
     <Content Include="App_Data\Employees.txt" />
+    <Content Include="assets\css\bootstrap.css" />
+    <Content Include="assets\css\font-awesome.min.css" />
+    <Content Include="assets\css\style.css" />
+    <Content Include="assets\fonts\fontawesome-webfontba72.svg" />
+    <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\js\custom.js" />
+    <Content Include="assets\plugins\bootstrap.js" />
+    <Content Include="assets\plugins\jquery-1.10.2.js" />
+    <Content Include="Content\Login.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\reset.css" />
     <Content Include="Content\style.css" />
@@ -260,6 +271,16 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\fonts\fontawesome-webfontba72.eot" />
+    <None Include="assets\fonts\fontawesome-webfontba72.ttf" />
+    <None Include="assets\fonts\fontawesome-webfontba72.woff" />
+    <None Include="assets\fonts\fontawesome-webfontd41d.eot" />
+    <None Include="assets\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="assets\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="assets\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="assets\fonts\glyphicons-halflings-regulard41d.eot" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

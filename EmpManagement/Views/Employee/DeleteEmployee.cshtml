@@ -5,44 +5,45 @@
 <link rel="stylesheet" href="@Url.Content("../../Content/reset.css")"/>
 <link rel="stylesheet" href="@Url.Content("../../Content/style.css")"/>
 <div class="container">
-  <div class="info">
-   <h1>Delete Employee?</h1>
-  </div>
+    <div class="info">
+        <h1>
+            Delete Employee?</h1>
+    </div>
 </div>
 @using (Html.BeginForm("DeleteUser", "Employee"))
 {
     
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
-    <div class="form"> 
-    <div class="login-form">
-    <fieldset style = "font-family:Times New Roman;">  
-        @Html.HiddenFor(model => model.EmployeeID)
-        Employee Name:
-    <div class="editor-field">
-         @Html.EditorFor(model => model.EmployeeName)
-         @Html.ValidationMessageFor(model => model.EmployeeName)
-    </div>
-  
-        Address:
-    <div class="editor-field">
-         @Html.EditorFor(model => model.Address)  
-         @Html.ValidationMessageFor(model => model.Address)
-    </div>
-        Date Of Birth:
-    <div class="editor-field">
-         @Html.EditorFor(model => model.DOB)  
-         @Html.ValidationMessageFor(model => model.DOB)
-    </div>
-      Salary:
-    <div class="editor-field">
-         @Html.EditorFor(model => model.salary)  
-         @Html.ValidationMessageFor(model => model.salary)
-    </div>
-        <p>
-          <button type="submit">Delete Employee</button>
-        </p>
-    </fieldset>
-    </div>
+    <div class="form">
+        <div class="login-form">
+            <fieldset style="font-family: Times New Roman;">
+                @Html.HiddenFor(model => model.EmployeeID)
+                Employee Name:
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.EmployeeName)
+                    @Html.ValidationMessageFor(model => model.EmployeeName)
+                </div>
+                Address:
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Address)
+                    @Html.ValidationMessageFor(model => model.Address)
+                </div>
+                Date Of Birth:
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.DOB)
+                    @Html.ValidationMessageFor(model => model.DOB)
+                </div>
+                Salary:
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.salary)
+                    @Html.ValidationMessageFor(model => model.salary)
+                </div>
+                <p>
+                    <button type="submit">
+                        Delete Employee</button>
+                </p>
+            </fieldset>
+        </div>
     </div>
 }

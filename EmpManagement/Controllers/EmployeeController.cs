@@ -18,7 +18,7 @@ namespace EmpManagement.Controllers
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger
   (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         BusinessLogic getEmployeeList = new BusinessLogic();
-        public ActionResult Index(string sortOrder, string searchString,int? page,string currentFilter)
+        public ActionResult Index(string sortOrder, string searchString, int? page, string currentFilter)
         {
             log.Info("Employee Index method start");
             //Sorting parameters
@@ -45,19 +45,24 @@ namespace EmpManagement.Controllers
 
             List<EmployeeDetails> empList = getEmployeeList.getEmployees();
             IQueryable<EmployeeDetails> emp = empList.AsQueryable();
-            
+
             var modEmplist = from s in emp
-                           select s;
+                             select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                modEmplist = modEmplist.Where(s => s.EmployeeName.ToUpper().Contains(searchString.ToUpper()));
+                int n;
+                bool isNumeric = int.TryParse(searchString, out n);
+                if (!isNumeric)
+                    modEmplist = modEmplist.Where(s => s.EmployeeName.ToUpper().Contains(searchString.ToUpper()) || s.Address.ToUpper().Contains(searchString.ToUpper()));
+                else
+                    modEmplist = modEmplist.Where(s => s.EmployeeID == Int32.Parse(searchString) || s.salary == Int32.Parse(searchString));
                 return View(modEmplist.ToPagedList(pageNumber, pageSize));
             }
             switch (sortOrder)
             {
                 case "Name":
                     modEmplist = modEmplist.OrderBy(s => s.EmployeeName);
-                  
+
                     break;
                 case "ID":
                     modEmplist = modEmplist.OrderBy(s => s.EmployeeID);
@@ -65,25 +70,28 @@ namespace EmpManagement.Controllers
                 case "Address":
                     modEmplist = modEmplist.OrderBy(s => s.Address);
                     break;
-                case "DOB" :
+                case "DOB":
                     modEmplist = modEmplist.OrderBy(s => s.DOB);
                     break;
-                case "Salary" :
+                case "Salary":
                     modEmplist = modEmplist.OrderBy(s => s.salary);
                     break;
             }
-            
-            if (modEmplist!= null){
+
+            if (modEmplist != null)
+            {
                 log.Info("Employee Index method stop");
                 return View(modEmplist.ToPagedList(pageNumber, pageSize));
-            }else{
+            }
+            else
+            {
                 log.Info("Employee Index method stop,the List of employees is empty");
-                return View(); 
+                return View();
             }
         }
 
         public ActionResult CreateEmployee()
-        { 
+        {
             return View();
         }
         [HttpPost]
@@ -107,7 +115,7 @@ namespace EmpManagement.Controllers
                         log.Info("Create Employee method stop,creating employee unsuccessful");
                         return RedirectToAction("Index", "Employee");
                     }
-                      
+
                 }
             }
             catch (DataException ex/* dex */)
@@ -121,7 +129,8 @@ namespace EmpManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditEmployee(EmployeeDetails editedEmp) {
+        public ActionResult EditEmployee(EmployeeDetails editedEmp)
+        {
             log.Info("Edit employee method start");
             try
             {
@@ -149,18 +158,18 @@ namespace EmpManagement.Controllers
 
             return View(editedEmp);
         }
-    
 
-        
+
+
 
         public ActionResult EditEmployee(int id)
         {
-            EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id);            
+            EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id);
             return View(singleEmp);
         }
 
-        
-        
+
+
         public ActionResult DeleteEmployee(int id)
         {
             EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id);
@@ -178,17 +187,19 @@ namespace EmpManagement.Controllers
                     log.Info("Delete employee method stop,successful execution!!");
                     return RedirectToAction("Index", "Employee");
                 }
-                else {
+                else
+                {
                     log.Info("Delete employee method stop,unsuccessful execution");
                     return RedirectToAction("Index", "Employee");
                 }
-             
+
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 log.Error("Error in deleting the employee, the error is : " + ex);
             }
             return RedirectToAction("Index", "Employee");
-           
+
         }
 
     }

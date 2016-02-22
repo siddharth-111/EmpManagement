@@ -24,12 +24,12 @@ namespace EmpManagement.Controllers
             return View();
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(LoginDetails login)
+        public ActionResult Index([Bind(Include = "username,password")] LoginDetails login)
         {
-            
+
             log.Info("Login Method Start");
             try
             {
@@ -37,12 +37,12 @@ namespace EmpManagement.Controllers
                 {
                     BusinessLogic callForValidation = new BusinessLogic();
                     bool isValid = callForValidation.isUserValid(login);
-                    
+
                     log.Info("Login Method Stop");
                     if (isValid)
                         return RedirectToAction("Index", "Employee");
                     else
-                        return RedirectToAction("Index", "Home");
+                        ModelState.AddModelError("", "Invalid username and/or password");
                 }
             }
             catch (DataException ex/* dex */)
@@ -51,7 +51,7 @@ namespace EmpManagement.Controllers
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-           
+
             return View(login);
 
         }

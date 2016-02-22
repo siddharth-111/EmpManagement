@@ -12,7 +12,7 @@ namespace EmpManagement.Data_Access_Layer
 {
     public class DBAccess
     {
-
+     
         public string[] getDataFromFiles(string path){
             List<string> myCollection = new List<string>();
             using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath(path))) {
@@ -53,20 +53,6 @@ namespace EmpManagement.Data_Access_Layer
         {
            
            string n = "";
-            //using (StreamReader sr = System.IO.File.OpenText(HttpContext.Current.Server.MapPath(path)))
-            //{
-
-            //    while ((old = sr.ReadLine()) != null)
-            //    {
-            //        if (!old.Contains(id))
-            //        {
-            //            n += old + Environment.NewLine;
-            //        }
-            //    }
-
-            //    return true;
-            //}
-
             var text = System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(path));
             foreach (var myString in text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
