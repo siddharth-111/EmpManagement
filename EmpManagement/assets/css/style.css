@@ -14,9 +14,14 @@
 /*=======================================
     GENERAL STYLES
 ==================================================*/
+html 
+{
+height:100%;    
+}
 body {
            font-family: 'Ruluko', sans-serif;
     font-size:14px;
+    min-height:100%;
 }
 
 .nav a {
@@ -37,7 +42,6 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
     line-height:120px;
-    text-transform:uppercase;
      color: #00A9DF;
      font-size:50px ;
     font-weight:900!important;
@@ -174,7 +178,6 @@ margin-bottom:20px;
 #footer {
     background-color:#000;
     color:#fff;
-    padding:20px 50px 20px 50px;
+    padding:0px 50px 20px 50px;
     text-align:right;
 }
-

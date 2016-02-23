@@ -9,6 +9,7 @@ using EmpManagement.Business_Layer;
 using System.Data;
 using log4net;
 using System.Diagnostics;
+using System.Web.Security;
 
 namespace EmpManagement.Controllers
 {
@@ -24,7 +25,7 @@ namespace EmpManagement.Controllers
             return View();
         }
 
-
+        // POST : /Home/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index([Bind(Include = "username,password")] LoginDetails login)
@@ -40,15 +41,18 @@ namespace EmpManagement.Controllers
 
                     log.Info("Login Method Stop");
                     if (isValid)
+                    {
+                        FormsAuthentication.RedirectFromLoginPage(login.username,false);
                         return RedirectToAction("Index", "Employee");
+                    }
                     else
                         ModelState.AddModelError("", "Invalid username and/or password");
                 }
             }
-            catch (DataException ex/* dex */)
+            catch (DataException ex)
             {
+                //Log the error 
                 log.Error("Error in logging in,the error is : " + ex);
-                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
 

@@ -2,48 +2,77 @@
 @{
     ViewBag.Title = "Delete Employee";
 }
-<link rel="stylesheet" href="@Url.Content("../../Content/reset.css")"/>
-<link rel="stylesheet" href="@Url.Content("../../Content/style.css")"/>
+@section css {
+    <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
+    <!-- FONTAWESOME STYLE CSS -->
+    <link href="@Url.Content("../../assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <!-- CUSTOM STYLE CSS -->
+    <link href="@Url.Content("../../assets/css/style.css")" rel="stylesheet" />
+    <link href="@Url.Content("../../Content/Login.css")" rel = "stylesheet" />
+    <!-- GOOGLE FONT -->
+    <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
+    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" />
+}
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
+                    class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+            <a class = "navbar-brand" href="@Url.Action("Index")"><i class="glyphicon glyphicon-circle-arrow-left">
+            </i></a><a class="navbar-brand">Employee Management System</a>
+        </div>
+        <!-- Collect the nav links for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="@Url.Action("Logout")"><strong>Logout</strong></a> </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
 <div class="container">
-    <div class="info">
+    <div class="row text-center">
         <h1>
-            Delete Employee?</h1>
+            Delete Employee ?</h1>
     </div>
 </div>
-@using (Html.BeginForm("DeleteUser", "Employee"))
+@using (Html.BeginForm())
 {
-    
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
-    <div class="form">
-        <div class="login-form">
-            <fieldset style="font-family: Times New Roman;">
-                @Html.HiddenFor(model => model.EmployeeID)
-                Employee Name:
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.EmployeeName)
-                    @Html.ValidationMessageFor(model => model.EmployeeName)
-                </div>
-                Address:
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.Address)
-                    @Html.ValidationMessageFor(model => model.Address)
-                </div>
-                Date Of Birth:
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.DOB)
-                    @Html.ValidationMessageFor(model => model.DOB)
-                </div>
-                Salary:
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.salary)
-                    @Html.ValidationMessageFor(model => model.salary)
-                </div>
-                <p>
-                    <button type="submit">
-                        Delete Employee</button>
-                </p>
-            </fieldset>
+    <div class="login" style="margin: 20px auto 90px;">
+        <div class="login-container">
+            @Html.HiddenFor(model => model.EmployeeID)
+            Employee Name:
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.EmployeeName, new { @readonly = true })
+                @Html.ValidationMessageFor(model => model.EmployeeName)
+            </div>
+            Address:
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Address, new { @readonly = true })
+                @Html.ValidationMessageFor(model => model.Address)
+            </div>
+            Date Of Birth:
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.DOB, new { @readonly = true })
+                @Html.ValidationMessageFor(model => model.DOB)
+            </div>
+            Salary:
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.salary, new { @readonly = true })
+                @Html.ValidationMessageFor(model => model.salary)
+            </div>
+            <p style="padding: 12px 0px 0px 0px;">
+                <input type="submit" style="width: 50%; display: inline-block; float: right;" value="Delete Employee" />
+                <input type = "button"  style = "width : 50%; display:inline" onclick = "location.href = '@Url.Action("Index")'" value="Cancel"/>
+            </p>
         </div>
     </div>
 }
+<div class="for-full-back" id="footer">
+    Copyright © 2016 www.leadsquared.com | All Rights Reserved
+</div>

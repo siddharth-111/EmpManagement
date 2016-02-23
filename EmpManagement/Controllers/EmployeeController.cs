@@ -11,6 +11,7 @@ using System.Data;
 
 namespace EmpManagement.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         //
@@ -50,19 +51,30 @@ namespace EmpManagement.Controllers
                              select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                int n;
-                bool isNumeric = int.TryParse(searchString, out n);
-                if (!isNumeric)
-                    modEmplist = modEmplist.Where(s => s.EmployeeName.ToUpper().Contains(searchString.ToUpper()) || s.Address.ToUpper().Contains(searchString.ToUpper()));
-                else
+                int checkForNumber;
+                DateTime checkForDate;
+                bool resultOfDateParse = DateTime.TryParse(searchString, out checkForDate);
+                bool isNumeric = int.TryParse(searchString, out checkForNumber);
+                if (resultOfDateParse)
+                {
+                    modEmplist = modEmplist.Where(s => s.DOB == searchString);
+
+                }
+                else if (isNumeric)
+                {
                     modEmplist = modEmplist.Where(s => s.EmployeeID == Int32.Parse(searchString) || s.salary == Int32.Parse(searchString));
+                }
+                else
+                {
+                    modEmplist = modEmplist.Where(s => s.EmployeeName.ToUpper().Contains(searchString.ToUpper()) || s.Address.ToUpper().Contains(searchString.ToUpper()));
+                }
+
                 return View(modEmplist.ToPagedList(pageNumber, pageSize));
             }
             switch (sortOrder)
             {
                 case "Name":
                     modEmplist = modEmplist.OrderBy(s => s.EmployeeName);
-
                     break;
                 case "ID":
                     modEmplist = modEmplist.OrderBy(s => s.EmployeeID);
@@ -85,15 +97,17 @@ namespace EmpManagement.Controllers
             }
             else
             {
-                log.Info("Employee Index method stop,the List of employees is empty");
+                log.Info("Employee Index method stop");
                 return View();
             }
         }
-
+        // GET : /Employee/CreateEmployee
         public ActionResult CreateEmployee()
         {
             return View();
         }
+
+        // POST : /Employee/CreateEmployee
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateEmployee(EmployeeDetails newEmployee)
@@ -113,21 +127,30 @@ namespace EmpManagement.Controllers
                     else
                     {
                         log.Info("Create Employee method stop,creating employee unsuccessful");
-                        return RedirectToAction("Index", "Employee");
+                        ModelState.AddModelError("", "An employee with the same employee ID exists");
                     }
 
                 }
             }
-            catch (DataException ex/* dex */)
+            catch (DataException ex)
             {
+                //Log the error
                 log.Error("Create Employee method error, the error is : " + ex);
-                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
 
             return View();
         }
 
+
+        // GET : /Employee/EditEmployee
+        public ActionResult EditEmployee(int id)
+        {
+            EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id);
+            return View(singleEmp);
+        }
+
+        // POST : /Employee/EditEmployee
         [HttpPost]
         public ActionResult EditEmployee(EmployeeDetails editedEmp)
         {
@@ -162,21 +185,16 @@ namespace EmpManagement.Controllers
 
 
 
-        public ActionResult EditEmployee(int id)
-        {
-            EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id);
-            return View(singleEmp);
-        }
-
-
-
+        // GET : /Employee/DeleteEmployee
         public ActionResult DeleteEmployee(int id)
         {
             EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id);
             return View(singleEmp);
         }
 
-        public ActionResult DeleteUser(EmployeeDetails emp)
+        //POST : /Employee/DeleteEmployee
+        [HttpPost]
+        public ActionResult DeleteEmployee(EmployeeDetails emp)
         {
             try
             {
@@ -190,7 +208,7 @@ namespace EmpManagement.Controllers
                 else
                 {
                     log.Info("Delete employee method stop,unsuccessful execution");
-                    return RedirectToAction("Index", "Employee");
+                    ModelState.AddModelError("", "Error in Deleting the Employee");
                 }
 
             }
@@ -200,6 +218,17 @@ namespace EmpManagement.Controllers
             }
             return RedirectToAction("Index", "Employee");
 
+        }
+
+        public ActionResult Logout()
+        {
+            if (Request.Cookies["formsCookie"] != null)
+            {
+                var c = new HttpCookie("formsCookie");
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
     }

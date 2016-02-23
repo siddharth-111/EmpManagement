@@ -2,22 +2,49 @@
 @{
     ViewBag.Title = "EditEmployee";
 }
-<link rel="stylesheet" href="@Url.Content("../../Content/reset.css")"/>
-<link rel="stylesheet" href="@Url.Content("../../Content/style.css")"/>
+@section css {
+    <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
+    <!-- FONTAWESOME STYLE CSS -->
+    <link href="@Url.Content("../../assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <!-- CUSTOM STYLE CSS -->
+    <link href="@Url.Content("../../assets/css/style.css")" rel="stylesheet" />
+    <link href="@Url.Content("../../Content/Login.css")" rel = "stylesheet" />
+    <!-- GOOGLE FONT -->
+    <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
+    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" />
+}
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
+                    class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+            <a class = "navbar-brand" href="@Url.Action("Index")"><i class="glyphicon glyphicon-circle-arrow-left">
+            </i></a><a class="navbar-brand">Employee Management System</a>
+        </div>
+        <!-- Collect the nav links for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="@Url.Action("Logout")"><strong>Logout</strong></a> </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
 <div class="container">
-    <div class="info">
+    <div class="row text-center">
         <h1>
             Edit Employee</h1>
     </div>
-</div>
-@using (Html.BeginForm())
-{
+    @using (Html.BeginForm())
+    {
     
-    @Html.ValidationSummary(true)
-    @Html.AntiForgeryToken()
-    <div class="form">
-        <div class="login-form">
-            <fieldset style="font-family: Times New Roman;">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        <div class="login" style="margin: 20px auto 90px;">
+            <div class="login-container">
                 @Html.HiddenFor(model => model.EmployeeID)
                 Employee Name:
                 <div class="editor-field">
@@ -39,11 +66,21 @@
                     @Html.EditorFor(model => model.salary)
                     @Html.ValidationMessageFor(model => model.salary, "Salary is required", new { style = "font-size:12px" })
                 </div>
-                <p>
-                    <button type="submit">
-                        Edit Employee</button>
+                <p style="padding: 12px 0px 0px 0px;">
+                    <input type="submit" value="Edit Employee" />
                 </p>
-            </fieldset>
+            </div>
         </div>
-    </div>
+    }
+</div>
+@section Scripts {
+    <script src = "@Url.Content("../../assets/plugins/jquery-1.10.2.js")"></script>
+    <!-- BOOTSTRAP CORE SCRIPT   -->
+    <script src="@Url.Content("../../assets/plugins/bootstrap.js")"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="@Url.Content("../../assets/js/custom.js")"></script>
+    @Scripts.Render("~/bundles/jqueryval")
 }
+<div class="for-full-back " id="footer">
+    Copyright © 2016 www.leadsquared.com | All Rights Reserved
+</div>

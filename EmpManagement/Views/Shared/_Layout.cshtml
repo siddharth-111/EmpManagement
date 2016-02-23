@@ -9,9 +9,20 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @RenderSection("css", false)
+    @RenderSection("css",false)
+    @section css {
+    <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
+    <!-- FONTAWESOME STYLE CSS -->
+    <link href="@Url.Content("../../assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <!-- CUSTOM STYLE CSS -->
+    <link href="@Url.Content("../../assets/css/style.css")" rel="stylesheet" />
+    <link href="@Url.Content("../../Content/Login.css")" rel = "stylesheet" />
+    <!-- GOOGLE FONT -->
+    <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
+    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" />
+}
 </head>
-<body>
+<body class = "color-white">
     @RenderBody()
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)

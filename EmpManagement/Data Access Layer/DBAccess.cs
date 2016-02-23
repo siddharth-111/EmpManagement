@@ -12,28 +12,34 @@ namespace EmpManagement.Data_Access_Layer
 {
     public class DBAccess
     {
-     
-        public string[] getDataFromFiles(string path){
+
+        public string[] getData(string path)
+        {
             List<string> myCollection = new List<string>();
-            using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath(path))) {
+            using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath(path)))
+            {
                 string line;
-                while ((line = sr.ReadLine()) != null) {
+                while ((line = sr.ReadLine()) != null)
+                {
                     myCollection.Add(line);
                 }
                 sr.Close();
                 return myCollection.ToArray();
-            }    
+            }
         }
 
-        public bool saveData(string path, string data) {            
-            using (StreamWriter sr = new StreamWriter(HttpContext.Current.Server.MapPath(path),true)) {
+        public bool saveData(string path, string data)
+        {
+            using (StreamWriter sr = new StreamWriter(HttpContext.Current.Server.MapPath(path), true))
+            {
                 sr.WriteLine(data);
                 sr.Close();
                 return true;
             }
         }
 
-        public bool updateData(string path, string data,string id) {
+        public bool updateData(string path, string data, string id)
+        {
             string n = "";
             var text = System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(path));
             foreach (var myString in text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
@@ -45,23 +51,23 @@ namespace EmpManagement.Data_Access_Layer
                 else
                     n += data + Environment.NewLine;
             }
-            System.IO.File.WriteAllText(HttpContext.Current.Server.MapPath(path), n); 
+            System.IO.File.WriteAllText(HttpContext.Current.Server.MapPath(path), n);
             return true;
         }
 
-        public bool DeleteEmployee(string id,string path)
+        public bool deleteData(string id, string path)
         {
-           
-           string n = "";
+
+            string n = "";
             var text = System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(path));
             foreach (var myString in text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
                 if (!myString.Contains(id))
-                { 
+                {
                     n += myString + Environment.NewLine;
                 }
             }
-            System.IO.File.WriteAllText(HttpContext.Current.Server.MapPath(path), n); 
+            System.IO.File.WriteAllText(HttpContext.Current.Server.MapPath(path), n);
             return true;
         }
     }

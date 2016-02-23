@@ -1,13 +1,11 @@
 ﻿@model PagedList.IPagedList<EmpManagement.Models.EmployeeDetails>
 @using PagedList;
-@using PagedList.Mvc; 
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
 }
 @section css {
- <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
-
+    <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
     <!-- FONTAWESOME STYLE CSS -->
     <link href="@Url.Content("../../assets/css/font-awesome.min.css")" rel="stylesheet" />
     <!-- CUSTOM STYLE CSS -->
@@ -15,114 +13,128 @@
     <link href="@Url.Content("../../Content/Login.css")" rel = "stylesheet" />
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
-    
+    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" />
 }
-  <nav class="navbar navbar-inverse" role="navigation">
+<div id="header">
+    <nav class="navbar navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
+                        class="icon-bar"></span><span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand">Employee Management System </a>
             </div>
             <!-- Collect the nav links for toggling -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="@Url.Action("Index", "Home")"><strong> Logout</strong></a>
-                    </li>
+                    <li><a href="@Url.Action("Logout")"><strong>Logout</strong></a> </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
     </nav>
-    <div class="container"> 
-  <button class="btn style-button pull-right common-button"  type="button" onclick="location.href='@Url.Action("CreateEmployee", "Employee")'">Create Employee</button>
-    <div class="row">
-    
-   @using (Html.BeginForm("Index","Employee",FormMethod.Get))
-         { 
-            <div class="input-group col-md-3 col-md-offset-4">      
-            <div class="input-group">
-           
-            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control",placeholder = "Search by name" })  
-            <span class="input-group-addon">
-            <a class="icon" onclick="document.forms[0].submit();return false;">
-        	<span class="glyphicon glyphicon glyphicon-search"></span>
-            </a>
-            </span>
+</div>
+<div class="container">
+    <div class="col-lg-12">
+        <button class = "btn pull-right" onclick = "location.href = '@Url.Action("CreateEmployee")'">
+            Create Employee</button>
+        @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+        { 
+            <div class="input-group col-md-3">
+                <div class="input-group">
+                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "Search..." })
+                    <span class="input-group-addon"><a class="icon" onclick="document.forms[0].submit();return false;">
+                        <span class="glyphicon glyphicon glyphicon-search"></span></a></span>
+                </div>
             </div>
-        </div>
-         }
-          
+        }
     </div>
-   
-  
-        <div class="col-lg-12" style="margin-top:50px">
-            <table class="table table-bordered table-hover table-striped" >
-                <thead>
-                    <tr>
-
-                        <th style = "text-align:center;">
-                             @Html.ActionLink("Employee ID", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
-                        </th>
-                       
-                         <th style = "text-align:center;">
-                             @Html.ActionLink("Employee Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
-                        </th>
-                        <th style = "text-align:center;">
-                             @Html.ActionLink("Address", "Index", new { sortOrder = ViewBag.AddressSortParm, currentFilter = ViewBag.CurrentFilter })
-                        </th>
-                        <th style = "text-align:center;" >
-                             @Html.ActionLink("Date of Birth", "Index", new { sortOrder = ViewBag.DOBSortParm, currentFilter = ViewBag.CurrentFilter})
-                        </th>
-                        <th style = "text-align:center;">
-                             @Html.ActionLink("Salary", "Index", new { sortOrder = ViewBag.SalarySortParm, currentFilter = ViewBag.CurrentFilter })
-                        </th>
-                        <th style="font-size:14px; text-align:center;">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
+    <div class="col-lg-12" style="margin-top: 50px">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th style="text-align: right;">
+                        @Html.ActionLink("Employee ID", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Employee Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Address", "Index", new { sortOrder = ViewBag.AddressSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Date of Birth", "Index", new { sortOrder = ViewBag.DOBSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th style="text-align: right;">
+                        @Html.ActionLink("Salary", "Index", new { sortOrder = ViewBag.SalarySortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th style="text-align: center;">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
                 @foreach (var item in Model)
-    {
+                {
                     <tr>
-                        <td style = "text-align:center; font-size:15px;font-family : sans serif;">@item.EmployeeID</td>
-                        <td style = "text-align:center; font-size:15px;font-family : sans serif;">@item.EmployeeName</td>
-                        <td style = "text-align:center; font-size:15px;font-family : sans serif;">@item.Address</td>
-                        <td style = "text-align:center; font-size:15px;font-family : sans serif;">@item.DOB</td>
-                        <td style = "text-align:center; font-size:15px;font-family : sans serif;">@item.salary</td>
-                        <td style = "text-align:center;">
-                         <div class="dropdown">
-                 <button class="btn btn-sm dropdown-toggle" style="border-radius:20px" type="button" data-toggle="dropdown"><span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Edit Employee", "EditEmployee", new { id = item.EmployeeID })</li>
-                        <li>@Html.ActionLink("Delete", "DeleteEmployee", new { id = item.EmployeeID})</li>
-                    </ul>
-            </div>
+                        <td style="text-align: right;">@item.EmployeeID
+                        </td>
+                        <td>@item.EmployeeName
+                        </td>
+                        <td>@item.Address
+                        </td>
+                        <td>@item.DOB
+                        </td>
+                        <td style="text-align: right;">@item.salary
+                        </td>
+                        <td style="text-align: center;">
+                            <div class="dropdown">
+                                <button class="btn btn-sm dropdown-toggle" style="border-radius: 20px" disabled
+                                    data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <li>@Html.ActionLink("Edit Employee", "EditEmployee", new { id = item.EmployeeID })</li>
+                                    <li><a data-toggle="modal" data-target="#myModal">Delete</a></li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
-            }
-                    
-                   
-                </tbody>
-            </table>
-        </div>
-                <div class="col-md-offset-5">
-                    <div class="col-sm-offset-1">
-                    <font size = "2" style = "right:35px;position: relative;">
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-12">
+        <font size="2">
                     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
                     </font>
-                    </div>
-                    
-                                   
-              @Html.PagedListPager( Model, page => Url.Action("Index","Employee", new { page, sortOrder = ViewBag.CurrentSort, currentFilter=ViewBag.CurrentFilter }) )
-                </div>
-         
-       </div>
-  
+        <div class="pull-right">
+            @Html.PagedListPager(Model, page => Url.Action("Index", "Employee", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+    </div>
+</div>
+<div class="for-full-back footer-emp">
+    Copyright © 2016 www.leadsquared.com | All Rights Reserved
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
     
-
-
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
