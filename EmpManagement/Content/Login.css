@@ -131,3 +131,9 @@
     display: block;
     margin-top: 0;
  }
+ 
+ .align-button 
+ {
+    width:50%;
+    float:left;    
+ }

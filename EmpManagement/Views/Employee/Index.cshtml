@@ -97,7 +97,7 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-left">
                                     <li>@Html.ActionLink("Edit Employee", "EditEmployee", new { id = item.EmployeeID })</li>
-                                    <li><a data-toggle="modal" data-target="#myModal">Delete</a></li>
+                                    <li><a data-toggle="modal" class = "check" data-target="#myModal" data-id="@item.EmployeeID">Delete</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -119,22 +119,22 @@
     Copyright © 2016 www.leadsquared.com | All Rights Reserved
 </div>
 <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
+    <div class="modal-dialog modal-sm">
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
-        </div>
-        <div class="modal-body">
-          <p>Some text in the modal.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
+          <h4 class="modal-title text-center">Are you sure?</h4>
+            <button style="width:50%;" class ="btn btn-default" id = "empId" value="" onclick="location.href='@Url.Action("DeleteEmployee")?id=' + $('#empId').val()">Delete</button>
+           <input type="button" class="btn btn-default align-button" data-dismiss="modal" value = "Cancel"/>
+        </div> 
+      </div> 
     </div>
   </div>
-  
+  @section Scripts {
+    <script type="text/javascript">
+   $(document).on("click", ".check", function () {
+       var empId = $(this).data('id');
+     $(".modal-header #empId").val( empId );
+    });
+    </script>
+}

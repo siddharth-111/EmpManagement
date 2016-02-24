@@ -49,12 +49,12 @@
                 Employee Name:
                 <div class="editor-field">
                     @Html.EditorFor(model => model.EmployeeName)
-                    @Html.ValidationMessageFor(model => model.EmployeeName, "Employee name is required", new { style = "font-size:12px" })
+                    @Html.ValidationMessageFor(model => model.EmployeeName,"", new { style = "font-size:12px" })
                 </div>
                 Address:
                 <div class="editor-field">
                     @Html.EditorFor(model => model.Address)
-                    @Html.ValidationMessageFor(model => model.Address, "Address is required", new { style = "font-size:12px" })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { style = "font-size:12px" })
                 </div>
                 Date Of Birth:
                 <div class="editor-field">

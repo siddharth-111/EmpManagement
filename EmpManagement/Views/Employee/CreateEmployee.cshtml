@@ -50,11 +50,11 @@
                 <p>
                     @Html.TextBoxFor(model => model.EmployeeName, new { placeholder = @Html.DisplayNameFor(m => m.EmployeeName) })
                 </p>
-                @Html.ValidationMessageFor(model => model.EmployeeName, "Employee name is required", new { @class = "validation-message" })
+                @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "validation-message" })
                 <p>
                     @Html.TextBoxFor(model => model.EmployeeID, new { type = "number" ,placeholder = @Html.DisplayNameFor(m => m.EmployeeID) })
                 </p>
-                @Html.ValidationMessageFor(model => model.EmployeeID, "Employee ID is required", new { @class = "validation-message" })
+                @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "validation-message" })
                 <p>
                     @Html.TextBoxFor(model => model.Address, new { placeholder = @Html.DisplayNameFor(m => m.Address) })
                 </p>

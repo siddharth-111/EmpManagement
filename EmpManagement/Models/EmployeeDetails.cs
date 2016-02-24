@@ -12,11 +12,14 @@ namespace EmpManagement.Models
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid integer number")]
         [Display(Name="Employee ID")]
         public int EmployeeID { get; set; }
-        [Required(ErrorMessage="Name is required")]
+
+        [Required(ErrorMessage="Employee Name is required")]
         [Display(Name="Employee Name")]
+        [StringLength(50)]
         public string EmployeeName { get; set; }
         [Required(ErrorMessage="Address is required")]
         [Display(Name="Address")]
+        [StringLength(100)]
         public string Address { get; set; }
         [Display(Name = "Date of birth")]
         [DataType(DataType.Date)]

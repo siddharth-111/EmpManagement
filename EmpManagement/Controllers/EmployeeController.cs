@@ -182,24 +182,13 @@ namespace EmpManagement.Controllers
             return View(editedEmp);
         }
 
-
-
-
-        // GET : /Employee/DeleteEmployee
         public ActionResult DeleteEmployee(int id)
-        {
-            EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id);
-            return View(singleEmp);
-        }
-
-        //POST : /Employee/DeleteEmployee
-        [HttpPost]
-        public ActionResult DeleteEmployee(EmployeeDetails emp)
-        {
+        {   
             try
             {
                 log.Info("Deleting employee method called");
-                bool val = getEmployeeList.DeleteEmployee(emp.EmployeeID);
+                EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id);
+                bool val = getEmployeeList.DeleteEmployee(singleEmp.EmployeeID);
                 if (val)
                 {
                     log.Info("Delete employee method stop,successful execution!!");
@@ -217,8 +206,8 @@ namespace EmpManagement.Controllers
                 log.Error("Error in deleting the employee, the error is : " + ex);
             }
             return RedirectToAction("Index", "Employee");
-
         }
+       
 
         public ActionResult Logout()
         {

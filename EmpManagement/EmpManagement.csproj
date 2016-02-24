@@ -135,6 +135,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\CurrentDateAttribute.cs" />
     <Compile Include="Business Layer\BusinessLogic.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -264,9 +265,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Employee\EditEmployee.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Employee\DeleteEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
