@@ -52,7 +52,7 @@
                 <p>
                     @Html.TextBoxFor(model => model.username, new { placeholder = @Html.DisplayNameFor(m => m.username) })
                 </p> 
-                @Html.ValidationMessageFor(model => model.username, "Please enter a username", new { style = "font-size:12px;padding-left:12px;" }) 
+                @Html.ValidationMessageFor(model => model.username, "", new { style = "font-size:12px;padding-left:12px;" }) 
                 <p>
                     @Html.TextBoxFor(model => model.password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.password) })
                 </p>  

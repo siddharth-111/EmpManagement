@@ -10,7 +10,8 @@ namespace EmpManagement.Models
     public class LoginDetails
     {
 
-        [Required]
+        [Required(ErrorMessage="Please enter an email")]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail is not valid")]
         public string username { get; set; }
         [Required]
         public string password { get; set; }

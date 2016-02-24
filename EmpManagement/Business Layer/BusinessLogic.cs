@@ -42,7 +42,7 @@ namespace EmpManagement.Business_Layer
             return null;
         }
 
-        public bool DeleteEmployee(int id)
+        public bool DeleteEmployee(Guid id)
         {
             bool val = dataLayerObj.deleteData(id.ToString(), "~/App_Data/Employees.txt");
             return val;
@@ -50,7 +50,7 @@ namespace EmpManagement.Business_Layer
 
         public bool EditSingleEmployee(EmployeeDetails empObject)
         {
-            string dataOfEmp = empObject.EmployeeID.ToString() + " " + empObject.EmployeeName + " " + empObject.Address + " " + empObject.DOB + " " + empObject.salary.ToString();
+            string dataOfEmp = empObject.EmployeeID.ToString() + "," + empObject.EmployeeName + "," + empObject.Address + "," + empObject.DOB + "," + empObject.salary.ToString();
             bool ret = dataLayerObj.updateData("~/App_Data/Employees.txt", dataOfEmp, empObject.EmployeeID.ToString());
             return ret;
         }
@@ -69,18 +69,18 @@ namespace EmpManagement.Business_Layer
         {
             List<EmployeeDetails> empList = new List<EmployeeDetails>();
             string[] empData = dataLayerObj.getData("~/App_Data/Employees.txt");
-            if (empData != null)
+            if (empData != null )
             {
                 foreach (string dataLine in empData)
                 {
-                    string[] dataItem = dataLine.Split(' ');
-
+                    string[] dataItem = dataLine.Split(',');
+                   
                     empList.Add(new EmployeeDetails
                     {
-                        EmployeeID = Int32.Parse(dataItem[0]),
+                        EmployeeID = Guid.Parse(dataItem[0]),
                         EmployeeName = dataItem[1],
                         Address = dataItem[2],
-                        DOB = dataItem[3],
+                        DOB= DateTime.Parse(dataItem[3]),
                         salary = Int32.Parse(dataItem[4])
                     });
                 }
@@ -89,7 +89,7 @@ namespace EmpManagement.Business_Layer
             return null;
         }
 
-        public EmployeeDetails getSingleEmployee(int id)
+        public EmployeeDetails getSingleEmployee(Guid id)
         {
             List<EmployeeDetails> empList = getAllEmployees();
             foreach (EmployeeDetails emp in empList)
@@ -101,15 +101,11 @@ namespace EmpManagement.Business_Layer
 
         }
 
-        public bool saveUser(EmployeeDetails newEmployee)
+        public bool saveUser(InsertViewModel newEmployee)
         {
-            List<EmployeeDetails> empList = getAllEmployees();
-            foreach (EmployeeDetails emp in empList)
-            {
-                if (emp.EmployeeID == newEmployee.EmployeeID)
-                    return false;
-            }
-            string dataOfEmp = newEmployee.EmployeeID.ToString() + " " + newEmployee.EmployeeName + " " + newEmployee.Address + " " + newEmployee.DOB + " " + newEmployee.salary.ToString();
+            string guid = Guid.NewGuid().ToString();
+            
+            string dataOfEmp = guid + "," + newEmployee.EmployeeName + "," + newEmployee.Address + "," + newEmployee.DOB.ToString() + "," + newEmployee.salary.ToString();
             bool ret = dataLayerObj.saveData("~/App_Data/Employees.txt", dataOfEmp);
             return ret;
         }

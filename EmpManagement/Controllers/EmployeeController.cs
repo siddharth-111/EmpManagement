@@ -45,6 +45,7 @@ namespace EmpManagement.Controllers
 
 
             List<EmployeeDetails> empList = getEmployeeList.getEmployees();
+         
             IQueryable<EmployeeDetails> emp = empList.AsQueryable();
 
             var modEmplist = from s in emp
@@ -57,12 +58,12 @@ namespace EmpManagement.Controllers
                 bool isNumeric = int.TryParse(searchString, out checkForNumber);
                 if (resultOfDateParse)
                 {
-                    modEmplist = modEmplist.Where(s => s.DOB == searchString);
+                    modEmplist = modEmplist.Where(s => s.DOB == DateTime.Parse(searchString));
 
                 }
                 else if (isNumeric)
                 {
-                    modEmplist = modEmplist.Where(s => s.EmployeeID == Int32.Parse(searchString) || s.salary == Int32.Parse(searchString));
+                    modEmplist = modEmplist.Where(s => s.salary == Int32.Parse(searchString));
                 }
                 else
                 {
@@ -110,7 +111,7 @@ namespace EmpManagement.Controllers
         // POST : /Employee/CreateEmployee
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateEmployee(EmployeeDetails newEmployee)
+        public ActionResult CreateEmployee(InsertViewModel newEmployee)
         {
             log.Info("Create Employee method start");
             try
@@ -144,7 +145,7 @@ namespace EmpManagement.Controllers
 
 
         // GET : /Employee/EditEmployee
-        public ActionResult EditEmployee(int id)
+        public ActionResult EditEmployee(Guid id)
         {
             EmployeeDetails singleEmp = getEmployeeList.getSingleEmployee(id);
             return View(singleEmp);
@@ -182,8 +183,8 @@ namespace EmpManagement.Controllers
             return View(editedEmp);
         }
 
-        public ActionResult DeleteEmployee(int id)
-        {   
+        public ActionResult DeleteEmployee(Guid id)
+        {
             try
             {
                 log.Info("Deleting employee method called");
@@ -207,7 +208,7 @@ namespace EmpManagement.Controllers
             }
             return RedirectToAction("Index", "Employee");
         }
-       
+
 
         public ActionResult Logout()
         {

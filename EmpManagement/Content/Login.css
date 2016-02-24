@@ -137,3 +137,34 @@
     width:50%;
     float:left;    
  }
+
+.dropdown-menu 
+{
+    float: right;
+    top: 23px;
+    left:3%;
+    min-width : 88px;
+}
+    
+.dropdown-menu:before {
+  position: absolute;
+  top: -7px;
+  right: 10px;
+  display: inline-block;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #ccc;
+  border-left: 7px solid transparent;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  content: '';
+}
+
+.dropdown-menu:after {
+  position: absolute;
+  top: -6px;
+  right: 10px;
+  display: inline-block;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #ffffff;
+  border-left: 6px solid transparent;
+  content: '';
+}

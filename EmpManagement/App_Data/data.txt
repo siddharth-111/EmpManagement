@@ -1,4 +1,4 @@
-﻿David Jones
-Sid abcd
-U1 U2 
-a a
+﻿David@gmail.com Jones
+Sid@gmail.com abcd
+U1@gmail.com U2 
+a@a.com a
