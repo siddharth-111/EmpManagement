@@ -78,10 +78,14 @@ namespace EmpManagement.Business_Layer
                     empList.Add(new EmployeeDetails
                     {
                         EmployeeID = Guid.Parse(dataItem[0]),
-                        EmployeeName = dataItem[1],
-                        Address = dataItem[2],
-                        DOB= DateTime.Parse(dataItem[3]),
-                        salary = Int32.Parse(dataItem[4])
+                        email = dataItem[1],
+                        EmployeeName = dataItem[2],
+                        Address = dataItem[3],
+                        Dept = dataItem[4],
+                        DOJ = DateTime.Parse(dataItem[5]),
+                        DOB= DateTime.Parse(dataItem[6]),
+                        contact = Int32.Parse(dataItem[7]),
+                        salary = Int32.Parse(dataItem[8])
                     });
                 }
                 return empList;
@@ -103,9 +107,8 @@ namespace EmpManagement.Business_Layer
 
         public bool saveUser(InsertViewModel newEmployee)
         {
-            string guid = Guid.NewGuid().ToString();
-            
-            string dataOfEmp = guid + "," + newEmployee.EmployeeName + "," + newEmployee.Address + "," + newEmployee.DOB.ToString() + "," + newEmployee.salary.ToString();
+            string guid = Guid.NewGuid().ToString();    
+            string dataOfEmp = guid + ","+newEmployee.email+","+ newEmployee.EmployeeName + "," + newEmployee.Address + "," +newEmployee.Dept +","+newEmployee.DOJ.ToString()+","+newEmployee.DOB.ToString() + ","+newEmployee.contact.ToString()+"," + newEmployee.salary.ToString();
             bool ret = dataLayerObj.saveData("~/App_Data/Employees.txt", dataOfEmp);
             return ret;
         }

@@ -140,16 +140,15 @@
 
 .dropdown-menu 
 {
-    float: right;
-    top: 23px;
-    left:3%;
+    top:94%;
+    left:-61%;
     min-width : 88px;
 }
     
 .dropdown-menu:before {
   position: absolute;
   top: -7px;
-  right: 10px;
+  right: 9px;
   display: inline-block;
   border-right: 7px solid transparent;
   border-bottom: 7px solid #ccc;

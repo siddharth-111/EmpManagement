@@ -47,6 +47,10 @@
             <div class="login-container">
                 @Html.ValidationSummary(true)
                 @Html.AntiForgeryToken()
+                 <p>
+                    @Html.TextBoxFor(model => model.email, new { placeholder = @Html.DisplayNameFor(m => m.email) })
+                </p>
+                   @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "validation-message" })
                 <p>
                     @Html.TextBoxFor(model => model.EmployeeName, new { placeholder = @Html.DisplayNameFor(m => m.EmployeeName) })
                 </p>
@@ -54,7 +58,14 @@
                 <p>
                     @Html.TextBoxFor(model => model.Address, new { placeholder = @Html.DisplayNameFor(m => m.Address) })
                 </p>
-                @Html.ValidationMessageFor(model => model.Address, "Address is required", new { @class = "validation-message" })
+                    @Html.ValidationMessageFor(model => model.Address, "Address is required", new { @class = "validation-message" })
+                <p>
+                    @Html.TextBoxFor(model => model.Dept, new { placeholder = @Html.DisplayNameFor(m => m.Dept) })
+                </p>
+                <p>
+                    @Html.TextBoxFor(model => model.DOJ, new { type = "text", placeholder = "Date of Joining", onfocus = "(this.type='date')" })
+                </p>
+                @Html.ValidationMessageFor(model => model.DOJ, "Date of Joining is required", new { @class = "validation-message" })
                 <p>
                     @Html.TextBoxFor(model => model.DOB, new { type = "text", placeholder = "Date of birth", onfocus = "(this.type='date')" })
                 </p>
@@ -63,6 +74,9 @@
                     @Html.TextBoxFor(model => model.salary, new { type = "number", placeholder = @Html.DisplayNameFor(m => m.salary) })
                 </p>
                 @Html.ValidationMessageFor(model => model.salary, "Salary is required", new { @class = "validation-message" })
+                <p>
+                    @Html.TextBoxFor(model => model.contact, new { placeholder = @Html.DisplayNameFor(m => m.contact) })
+                </p>
                 <p>
                     <input type="submit" value="Create Employee" />
                 </p>
