@@ -50,7 +50,7 @@
                  <p>
                     @Html.TextBoxFor(model => model.email, new { placeholder = @Html.DisplayNameFor(m => m.email) })
                 </p>
-                   @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "validation-message" })
+                   @Html.ValidationMessageFor(model => model.email, "", new { @class = "validation-message" })
                 <p>
                     @Html.TextBoxFor(model => model.EmployeeName, new { placeholder = @Html.DisplayNameFor(m => m.EmployeeName) })
                 </p>
@@ -75,8 +75,9 @@
                 </p>
                 @Html.ValidationMessageFor(model => model.salary, "Salary is required", new { @class = "validation-message" })
                 <p>
-                    @Html.TextBoxFor(model => model.contact, new { placeholder = @Html.DisplayNameFor(m => m.contact) })
+                    @Html.TextBoxFor(model => model.contact, new { type = "number", placeholder = @Html.DisplayNameFor(m => m.contact) })
                 </p>
+                     @Html.ValidationMessageFor(model => model.contact, "", new { @class = "validation-message" })
                 <p>
                     <input type="submit" value="Create Employee" />
                 </p>
@@ -88,10 +89,11 @@
     Copyright © 2016 www.leadsquared.com | All Rights Reserved
 </div>
 @section Scripts {
+  @Scripts.Render("~/bundles/jqueryval")
     <script src = "@Url.Content("../../assets/plugins/jquery-1.10.2.js")"></script>
     <!-- BOOTSTRAP CORE SCRIPT   -->
     <script src="@Url.Content("../../assets/plugins/bootstrap.js")"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="@Url.Content("../../assets/js/custom.js")"></script>
-    @Scripts.Render("~/bundles/jqueryval")
+  
 }

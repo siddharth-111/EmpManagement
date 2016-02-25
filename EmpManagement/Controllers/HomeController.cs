@@ -28,7 +28,7 @@ namespace EmpManagement.Controllers
         // POST : /Home/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index([Bind(Include = "username,password")] LoginDetails login)
+        public ActionResult Index(LoginDetails login)
         {
 
             log.Info("Login Method Start");

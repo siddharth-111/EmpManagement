@@ -1,6 +1,4 @@
-﻿@model PagedList.IPagedList<EmpManagement.Models.EmployeeDetails>
-@using PagedList;
-@using PagedList.Mvc;
+﻿@model IEnumerable<EmpManagement.Models.EmployeeDetails>
 @{
     ViewBag.Title = "Index";
 }
@@ -14,7 +12,6 @@
 
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
-    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" />
 }
 <div id="header">
     <nav class="navbar navbar-inverse" role="navigation">
@@ -37,6 +34,9 @@
         <!-- /.container -->
     </nav>
 </div>
+@{
+        EmpManagement.Models.EmployeeDetails info = ViewBag.PagingInfo;
+ }
 <div class="container">
     <div class ="col-lg-12">
     <button class = "btn pull-right" onclick = "location.href = '@Url.Action("CreateEmployee")'">
@@ -52,35 +52,54 @@
             </div>
         }
     </div>
+    
     <div class="col-lg-12" style="margin-top:25px">
-     
+   @using (Html.BeginForm("Index", "Employee", FormMethod.Post))
+   {  
+       @Html.Hidden("PageCount", info.PageCount)
+        @Html.Hidden("PageSize", info.PageSize)
+        @Html.Hidden("CurrentPageIndex", info.CurrentPageIndex)
+        @Html.Hidden("SortField", info.SortField)
+         @Html.Hidden("SortDirection", info.SortDirection)
         <table class="table table-bordered table-hover table-striped">
             <thead>
                 <tr>
                     <th>
-                        @Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    <a href="#" data-sortfield="Email"
+                         class="header">Email</a>
                     </th>
                     <th>
-                        @Html.ActionLink("Employee Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                     <a href="#" data-sortfield="Name"
+                         class="header">Employee Name</a>
                     </th>
                     <th>
-                        @Html.ActionLink("Address", "Index", new { sortOrder = ViewBag.AddressSortParm, currentFilter = ViewBag.CurrentFilter })
+                    <a href="#" data-sortfield="Address"
+                         class="header">Address</a>
                     </th>
                     <th>
-                        @Html.ActionLink("Department", "Index", new { sortOrder = ViewBag.AddressSortParm, currentFilter = ViewBag.CurrentFilter })
+                     <a href="#" data-sortfield="Department"
+                         class="header">Department</a>
+                  
                     </th>
                     <th>
-                        @Html.ActionLink("Date of Joining", "Index", new { sortOrder = ViewBag.DOBSortParm, currentFilter = ViewBag.CurrentFilter })
+                    <a href="#" data-sortfield="DOJ"
+                         class="header">Date of Joining</a>
+                       
                     </th>
                     <th>
-                        @Html.ActionLink("Date of Birth", "Index", new { sortOrder = ViewBag.DOBSortParm, currentFilter = ViewBag.CurrentFilter })
+                    <a href="#" data-sortfield="DOB"
+                         class="header">Date of Birth</a>
+                
                     </th>
                     <th>
-                        @Html.ActionLink("Contact", "Index", new { sortOrder = ViewBag.DOBSortParm, currentFilter = ViewBag.CurrentFilter })
+                    <a href="#" data-sortfield="Contact"
+                         class="header">Contact</a>
+                   
                     </th>
 
                     <th style="text-align: right;">
-                        @Html.ActionLink("Salary", "Index", new { sortOrder = ViewBag.SalarySortParm, currentFilter = ViewBag.CurrentFilter })
+                    <a href="#" data-sortfield="Salary"
+                         class="header">Salary</a>
                     </th>
                     <th style="text-align: center;">
                         Action
@@ -123,17 +142,67 @@
                         </td>
                     </tr>
                 }
+                
             </tbody>
+            
         </table>
+       
+       
+   }
+
+     @for (var i = 0; i < info.PageCount; i++)
+ {
+     if (i == info.CurrentPageIndex)
+     {
+                        <span class="pull-left"> Page @(i + 1) of @info.PageCount</span>
+         
+     }
+ }
+   
+
+   <ul class ="pagination pull-right">
+     @for (var i = 0; i < info.PageCount; i++)
+     {
+         if (i == info.CurrentPageIndex)
+         {
+             if ((i - 1) >= 0)
+             {  
+         <li><a href="#" data-pageindex="@(i - 1)"
+                          class="abc">&laquo;</a></li> 
+             }
+         }
+     }
+    @for (var i = 0; i < info.PageCount; i++)
+ {
+     if (i == info.CurrentPageIndex)
+     {
+                       
+         <li><a href="#" data-pageindex="@i"
+                          class="abc">@(i + 1)</a></li> 
+     }
+     else
+     {
+                      <li><a href="#" data-pageindex="@i"
+                           class="abc">@(i + 1)</a></li>  
+     }
+ }
+   @for (var i = 0; i < info.PageCount; i++)
+ {
+     if (i == info.CurrentPageIndex)
+     {
+         if ((i + 1) < info.PageCount)
+         {  
+         <li><a href="#" data-pageindex="@(i + 1)"
+                          class="abc">&raquo;</a></li> 
+         }
+     }
+     
+    
+ }
+   </ul>
+           
     </div>
-    <div class="col-lg-12">
-        <font size="2">
-                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-                    </font>
-        <div class="pull-right">
-            @Html.PagedListPager(Model, page => Url.Action("Index", "Employee", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-        </div>
-    </div>
+ 
 </div>
 <div class="for-full-back footer-emp">
     Copyright © 2016 www.leadsquared.com | All Rights Reserved
@@ -155,6 +224,29 @@
    $(document).on("click", ".check", function () {
        var empId = $(this).data('id');
      $(".modal-header #empId").val( empId );
- }); 
+ });
+ $(".header").click(function (evt) {
+     var sortfield = $(evt.target).data("sortfield");
+     if ($("#SortField").val() == sortfield) {
+         if ($("#SortDirection").val() == "ascending") {
+             $("#SortDirection").val("descending");
+         }
+         else {
+             $("#SortDirection").val("ascending");
+         }
+     }
+     else {
+         $("#SortField").val(sortfield);
+         $("#SortDirection").val("ascending");
+     }
+     evt.preventDefault();
+     $("form").submit();
+ });
+ $(".abc").click(function (evt) {
+     var pageindex = $(evt.target).data("pageindex");
+     $("#CurrentPageIndex").val(pageindex);
+     evt.preventDefault();
+     $("form").submit();
+ });
   </script>
 }

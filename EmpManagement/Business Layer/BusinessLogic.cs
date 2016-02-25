@@ -42,33 +42,39 @@ namespace EmpManagement.Business_Layer
             return null;
         }
 
+        public int getPageCount()
+        {
+            int pageCount = dataLayerObj.getPageCount("~/App_Data/Employees.txt");
+            return pageCount;
+        }
+
         public bool DeleteEmployee(Guid id)
         {
             bool val = dataLayerObj.deleteData(id.ToString(), "~/App_Data/Employees.txt");
             return val;
         }
 
-        public bool EditSingleEmployee(EmployeeDetails empObject)
+        public bool EditSingleEmployee(EmployeeDetails newEmployee)
         {
-            string dataOfEmp = empObject.EmployeeID.ToString() + "," + empObject.EmployeeName + "," + empObject.Address + "," + empObject.DOB + "," + empObject.salary.ToString();
-            bool ret = dataLayerObj.updateData("~/App_Data/Employees.txt", dataOfEmp, empObject.EmployeeID.ToString());
+            string dataOfEmp = newEmployee.EmployeeID.ToString() + "," + newEmployee.email + "," + newEmployee.EmployeeName + "," + newEmployee.Address + "," + ((newEmployee.Dept != null) ? newEmployee.Dept : "N/A") + "," + newEmployee.DOJ.ToString() + "," + newEmployee.DOB.ToString() + "," + (newEmployee.contact != null ? newEmployee.contact.ToString() : "N/A") + "," + newEmployee.salary.ToString();
+            bool ret = dataLayerObj.updateData("~/App_Data/Employees.txt", dataOfEmp, newEmployee.EmployeeID.ToString());
             return ret;
         }
 
-        public List<EmployeeDetails> getEmployees()
+        public List<EmployeeDetails> getEmployees(int pageSize , int currentPageIndex)
         {
 
-            List<EmployeeDetails> empList = getAllEmployees();
+            List<EmployeeDetails> empList = getAllEmployees(pageSize ,currentPageIndex);
             if (empList != null)
             {
                 return empList;
             }
             return null;
         }
-        public List<EmployeeDetails> getAllEmployees()
+        public List<EmployeeDetails> getAllEmployees(int pageSize , int currentPageIndex)
         {
             List<EmployeeDetails> empList = new List<EmployeeDetails>();
-            string[] empData = dataLayerObj.getData("~/App_Data/Employees.txt");
+            string[] empData = dataLayerObj.getEmpData("~/App_Data/Employees.txt",pageSize,currentPageIndex);
             if (empData != null )
             {
                 foreach (string dataLine in empData)
@@ -84,7 +90,7 @@ namespace EmpManagement.Business_Layer
                         Dept = dataItem[4],
                         DOJ = DateTime.Parse(dataItem[5]),
                         DOB= DateTime.Parse(dataItem[6]),
-                        contact = Int32.Parse(dataItem[7]),
+                        contact = dataItem[7],
                         salary = Int32.Parse(dataItem[8])
                     });
                 }
@@ -93,22 +99,22 @@ namespace EmpManagement.Business_Layer
             return null;
         }
 
-        public EmployeeDetails getSingleEmployee(Guid id)
-        {
-            List<EmployeeDetails> empList = getAllEmployees();
-            foreach (EmployeeDetails emp in empList)
-            {
-                if (emp.EmployeeID == id)
-                    return emp;
-            }
-            return null;
+        //public EmployeeDetails getSingleEmployee(Guid id)
+        //{
+        //    List<EmployeeDetails> empList = getAllEmployees();
+        //    foreach (EmployeeDetails emp in empList)
+        //    {
+        //        if (emp.EmployeeID == id)
+        //            return emp;
+        //    }
+        //    return null;
 
-        }
+        //}
 
         public bool saveUser(InsertViewModel newEmployee)
         {
-            string guid = Guid.NewGuid().ToString();    
-            string dataOfEmp = guid + ","+newEmployee.email+","+ newEmployee.EmployeeName + "," + newEmployee.Address + "," +newEmployee.Dept +","+newEmployee.DOJ.ToString()+","+newEmployee.DOB.ToString() + ","+newEmployee.contact.ToString()+"," + newEmployee.salary.ToString();
+            string guid = Guid.NewGuid().ToString();  
+            string dataOfEmp = guid + ","+newEmployee.email+","+ newEmployee.EmployeeName + "," + newEmployee.Address + "," +((newEmployee.Dept!=null)?newEmployee.Dept:"N/A") +","+newEmployee.DOJ.ToString()+","+newEmployee.DOB.ToString() + ","+(newEmployee.contact!=null?newEmployee.contact.ToString():"N/A")+"," + newEmployee.salary.ToString();
             bool ret = dataLayerObj.saveData("~/App_Data/Employees.txt", dataOfEmp);
             return ret;
         }

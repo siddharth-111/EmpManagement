@@ -46,6 +46,11 @@
         <div class="login" style="margin: 20px auto 90px;">
             <div class="login-container">
                 @Html.HiddenFor(model => model.EmployeeID)
+                 Email:
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.email)
+                    @Html.ValidationMessageFor(model => model.email,"", new { style = "font-size:12px" })
+                </div>
                 Employee Name:
                 <div class="editor-field">
                     @Html.EditorFor(model => model.EmployeeName)
@@ -56,7 +61,16 @@
                     @Html.EditorFor(model => model.Address)
                     @Html.ValidationMessageFor(model => model.Address, "", new { style = "font-size:12px" })
                 </div>
-                Date Of Birth:
+                Department:
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Dept)
+                </div>
+                Date of joining:
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.DOJ)
+                    @Html.ValidationMessageFor(model => model.DOJ, "Date of joining is required", new { style = "font-size:12px" })
+                </div>
+                Date of birth:
                 <div class="editor-field">
                     @Html.EditorFor(model => model.DOB)
                     @Html.ValidationMessageFor(model => model.DOB, "Date of birth is required", new { style = "font-size:12px" })
@@ -65,6 +79,11 @@
                 <div class="editor-field">
                     @Html.EditorFor(model => model.salary)
                     @Html.ValidationMessageFor(model => model.salary, "Salary is required", new { style = "font-size:12px" })
+                </div>
+                 Mobile:
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.contact)
+                    @Html.ValidationMessageFor(model => model.contact, "", new { placeholder = "Mobile" ,style = "font-size:12px" })
                 </div>
                 <p style="padding: 12px 0px 0px 0px;">
                     <input type="submit" value="Edit Employee" />
