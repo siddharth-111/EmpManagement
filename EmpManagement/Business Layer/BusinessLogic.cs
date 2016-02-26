@@ -61,7 +61,7 @@ namespace EmpManagement.Business_Layer
             return ret;
         }
 
-        public bool Register(LoginDetails register)
+        public bool Register(RegisterDetails register)
         {
             List<LoginDetails> userList = getUserList();
             foreach (LoginDetails user in userList)

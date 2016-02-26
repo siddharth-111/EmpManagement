@@ -1,4 +1,4 @@
-﻿@model EmpManagement.Models.LoginDetails
+﻿@model EmpManagement.Models.RegisterDetails
 @{
     ViewBag.Title = "Register";
 }
@@ -38,7 +38,7 @@
         <div class="login-triangle">
         </div>
         <h2 class="login-header">
-            Register</h2>
+            EMS Registration</h2>
         <div class="login-container">
             @using (Html.BeginForm("Register","Home"))
             {
@@ -53,6 +53,10 @@
                     @Html.TextBoxFor(model => model.password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.password) })
                 </p>  
                 @Html.ValidationMessageFor(model => model.password, "Please enter a password", new { style = "font-size:12px;padding-left:12px" })
+                 <p>
+                    @Html.TextBoxFor(model => model.ConfirmPassword, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.ConfirmPassword) })
+                </p>  
+                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { style = "font-size:12px;padding-left:12px" })
                 <p>
                     @Html.TextBoxFor(model => model.name, new { type = "text", placeholder = @Html.DisplayNameFor(m => m.name) })
                 </p>  
@@ -60,7 +64,7 @@
                    <p>
                     @Html.TextBoxFor(model => model.phone, new { type = "number", placeholder = @Html.DisplayNameFor(m => m.phone) })
                 </p>  
-                @Html.ValidationMessageFor(model => model.phone, "", new {  style = "font-size:12px;padding-left:12px" })
+                @Html.ValidationMessageFor(model => model.phone, "", new { style = "font-size:12px;padding-left:12px" })
                 <p>
                     <input type="submit" value="Register" /></p>
             }
@@ -73,6 +77,10 @@
 @section Scripts {
   @Scripts.Render("~/bundles/jqueryval")
     <script src = "@Url.Content("../../assets/plugins/jquery-1.10.2.js")"></script>
+      <script type="text/javascript">
+          $(document).ready(function () {
+              $(".for-full-back").hide().fadeIn(2000);
+          });</script> 
     <!-- BOOTSTRAP CORE SCRIPT   -->
     <script src="@Url.Content("../../assets/plugins/bootstrap.js")"></script>
     <!-- CUSTOM SCRIPTS -->

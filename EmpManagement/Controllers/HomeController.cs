@@ -67,7 +67,7 @@ namespace EmpManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(LoginDetails newUser)
+        public ActionResult Register(RegisterDetails newUser)
         {
             try
             {
