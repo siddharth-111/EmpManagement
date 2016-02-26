@@ -17,6 +17,7 @@ namespace EmpManagement.Controllers
     {
         //
         // GET: /Home/
+        BusinessLogic businessLayerObj = new BusinessLogic();
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -36,8 +37,8 @@ namespace EmpManagement.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    BusinessLogic callForValidation = new BusinessLogic();
-                    bool isValid = callForValidation.isUserValid(login);
+                    BusinessLogic businessLayerObj = new BusinessLogic();
+                    bool isValid = businessLayerObj.isUserValid(login);
 
                     log.Info("Login Method Stop");
                     if (isValid)
@@ -58,6 +59,39 @@ namespace EmpManagement.Controllers
 
             return View(login);
 
+        }
+
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(LoginDetails newUser)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    BusinessLogic businessLayerObj = new BusinessLogic();
+                    bool isValid = businessLayerObj.Register(newUser);
+                    if (isValid)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                        ModelState.AddModelError("", "Cannot register,Duplicate username/email");
+                }
+            }
+            catch (DataException ex)
+            {
+                //Log the error 
+                log.Error("Error in logging in,the error is : " + ex);
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
+
+            return View(newUser);
+                  
         }
 
     }

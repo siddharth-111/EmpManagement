@@ -28,31 +28,31 @@ namespace EmpManagement.Data_Access_Layer
             }
         }
 
-        public string[] getEmpData(string path,int count,int currentIndex)
+        public string[] getEmpData(string path, int count, int currentIndex)
         {
             List<string> myCollection = new List<string>();
-     
+
             var lines = File.ReadLines(HttpContext.Current.Server.MapPath(path)).Skip(currentIndex).Take(count);
             foreach (string line in lines)
             {
                 myCollection.Add(line);
             }
-            
-             return myCollection.ToArray();
-            
+
+            return myCollection.ToArray();
+
         }
         public int getPageCount(string path)
         {
             var lineCount = 0;
             using (StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath(path)))
             {
-                
+
                 while ((sr.ReadLine()) != null)
                 {
                     lineCount++;
                 }
                 sr.Close();
-                
+
             }
             return lineCount;
         }
@@ -82,6 +82,22 @@ namespace EmpManagement.Data_Access_Layer
             System.IO.File.WriteAllText(HttpContext.Current.Server.MapPath(path), n);
             return true;
         }
+
+        public string getSingleEmpData(string id, string path)
+        {
+            var text = System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(path));
+            string empData = "";
+            foreach (var myString in text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (myString.Contains(id))
+                {
+                    empData += myString + Environment.NewLine;
+                }
+
+            }
+            return empData;
+        }
+
 
         public bool deleteData(string id, string path)
         {

@@ -1,0 +1,84 @@
+﻿@model EmpManagement.Models.LoginDetails
+@{
+    ViewBag.Title = "Register";
+}
+@section css {
+    <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
+    <!-- FONTAWESOME STYLE CSS -->
+    <link href="@Url.Content("../../assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <!-- CUSTOM STYLE CSS -->
+    <link href="@Url.Content("../../assets/css/style.css")" rel="stylesheet" />
+    <link href="@Url.Content("../../Content/Login.css")" rel = "stylesheet" />
+    <!-- GOOGLE FONT -->
+    <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
+}
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
+                    class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+            <a class = "navbar-brand" href="@Url.Action("Index")"><i class="glyphicon glyphicon-circle-arrow-left">
+            </i></a>
+            <a class="navbar-brand">Employee Management System </a>
+        </div>
+        <!-- Collect the nav links for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+           
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<!--End Navigation -->
+<section class="for-full-back color-white" id="login">
+    <div class="login">
+        <div class="login-triangle">
+        </div>
+        <h2 class="login-header">
+            Register</h2>
+        <div class="login-container">
+            @using (Html.BeginForm("Register","Home"))
+            {
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+
+                <p>
+                    @Html.TextBoxFor(model => model.username, new { placeholder = @Html.DisplayNameFor(m => m.username) })
+                </p> 
+                @Html.ValidationMessageFor(model => model.username, "", new { style = "font-size:12px;padding-left:12px;" }) 
+                <p>
+                    @Html.TextBoxFor(model => model.password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.password) })
+                </p>  
+                @Html.ValidationMessageFor(model => model.password, "Please enter a password", new { style = "font-size:12px;padding-left:12px" })
+                <p>
+                    @Html.TextBoxFor(model => model.name, new { type = "text", placeholder = @Html.DisplayNameFor(m => m.name) })
+                </p>  
+                @Html.ValidationMessageFor(model => model.name, "", new { style = "font-size:12px;padding-left:12px" })
+                   <p>
+                    @Html.TextBoxFor(model => model.phone, new { type = "number", placeholder = @Html.DisplayNameFor(m => m.phone) })
+                </p>  
+                @Html.ValidationMessageFor(model => model.phone, "", new {  style = "font-size:12px;padding-left:12px" })
+                <p>
+                    <input type="submit" value="Register" /></p>
+            }
+        </div>
+    </div>
+     
+ 
+  
+</section>
+@section Scripts {
+  @Scripts.Render("~/bundles/jqueryval")
+    <script src = "@Url.Content("../../assets/plugins/jquery-1.10.2.js")"></script>
+    <!-- BOOTSTRAP CORE SCRIPT   -->
+    <script src="@Url.Content("../../assets/plugins/bootstrap.js")"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="@Url.Content("../../assets/js/custom.js")"></script>
+  
+}
+<div class="for-full-back " id="footer">
+    Copyright © 2016 www.leadsquared.com | All Rights Reserved
+</div>
