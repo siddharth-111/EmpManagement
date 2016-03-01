@@ -14,25 +14,22 @@
     <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" />
 }
 <nav class="navbar navbar-inverse" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
-                    class="icon-bar"></span><span class="icon-bar"></span>
-            </button>
-            <a class = "navbar-brand" href="@Url.Action("Index")">
-             <i class="glyphicon glyphicon-circle-arrow-left"></i>
-            </a>
-            <a class="navbar-brand">Employee Management System</a>
-        </div>
-        <!-- Collect the nav links for toggling -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="@Url.Action("Logout")"><strong>Logout</strong></a> </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
+    <div class="navbar-header">
+     <a class ="pull-left" ><img src="../../Content/images.png" style="height:50px;border-radius:30px;"></a>   
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
+                class="icon-bar"></span><span class="icon-bar"></span>
+        </button>
+        <a class = "navbar-brand" href="@Url.Action("Index")" style="padding:15px;"><i class="glyphicon glyphicon-circle-arrow-left">
+        </i></a><a class="navbar-brand">Employee Management System</a>
     </div>
+    <!-- Collect the nav links for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="@Url.Action("Logout")"><strong>Logout</strong></a> </li>
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
     <!-- /.container -->
 </nav>
 <div class="container fade-in">
@@ -41,63 +38,95 @@
             Create New Employee
         </h1>
     </div>
-    @using (Html.BeginForm())
+      @if (TempData["Success"] != null)
     {
-        <div class="login" style="margin: 20px auto 90px;">
+        <div class="row text-center">
+            <div class="col-md-4 col-md-offset-4">
+                <h6 class="alert alert-success text-center"><span class="glyphicon glyphicon glyphicon-ok"></span>&nbsp;&nbsp;@TempData["Success"]</h6>
+            </div>
+        </div>
+    }
+        @if (TempData["Fail"] != null)
+    {
+        <div class="row text-center">
+            <div class="col-md-4 col-md-offset-4">
+                <h6 class="alert alert-danger text-center"><span class="glyphicon glyphicon glyphicon-remove"></span>&nbsp;&nbsp;@TempData["Fail"]</h6>
+            </div>
+        </div>
+    }
+    @using (Html.BeginForm("CreateEmployee", "Employee", FormMethod.Post, new { id = "formId" }))
+    {
+        <div class="login" style="margin: 0px auto 90px;">
             <div class="login-container">
                 @Html.ValidationSummary(true)
                 @Html.AntiForgeryToken()
-                 <p>
+                <p>
                     @Html.TextBoxFor(model => model.email, new { placeholder = @Html.DisplayNameFor(m => m.email) })
                 </p>
-                   @Html.ValidationMessageFor(model => model.email, "", new { @class = "validation-message" })
+                <div id="validateEmail" class="validation-message hd">
+                      @Html.ValidationMessageFor(model => model.email, "Please enter email", new { @class = "pad-left" })
+                </div>
                 <p>
                     @Html.TextBoxFor(model => model.EmployeeName, new { placeholder = @Html.DisplayNameFor(m => m.EmployeeName) })
                 </p>
-                    @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "validation-message" })
+                <div id="validateName" class="validation-message hd">
+                @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "pad-left" })
+                </div>
+                
                 <p>
                     @Html.TextBoxFor(model => model.Address, new { placeholder = @Html.DisplayNameFor(m => m.Address) })
                 </p>
-                    @Html.ValidationMessageFor(model => model.Address, "Address is required", new { @class = "validation-message" })
+                <div id="validateAddress" class="validation-message hd">
+                @Html.ValidationMessageFor(model => model.Address, "Address is required", new { @class = "pad-left" })
+                </div>
+                
                 <p>
                     @Html.TextBoxFor(model => model.Dept, new { placeholder = @Html.DisplayNameFor(m => m.Dept) })
                 </p>
+                <div id="validateDept" class="validation-message hd"></div>
                 <p>
                     @Html.TextBoxFor(model => model.DOJ, new { type = "text", placeholder = "Date of Joining", onfocus = "(this.type='date')" })
                 </p>
-                @Html.ValidationMessageFor(model => model.DOJ, "Date of Joining is required", new { @class = "validation-message" })
+                <div id="validateDOJ" class="validation-message hd">
+                @Html.ValidationMessageFor(model => model.DOJ, "", new { @class = "pad-left" })
+                </div>
+                
                 <p>
                     @Html.TextBoxFor(model => model.DOB, new { type = "text", placeholder = "Date of birth", onfocus = "(this.type='date')" })
                 </p>
-                @Html.ValidationMessageFor(model => model.DOB, "Date of birth is required", new { @class = "validation-message" })
+                <div id="validateDOB" class="validation-message hd">
+                @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "pad-left" })
+                </div>
+                
                 <p>
                     @Html.TextBoxFor(model => model.salary, new { type = "number", placeholder = @Html.DisplayNameFor(m => m.salary) })
                 </p>
-                @Html.ValidationMessageFor(model => model.salary, "Salary is required", new { @class = "validation-message" })
+                <div id="validateSalary" class="validation-message hd">
+                @Html.ValidationMessageFor(model => model.salary, "Salary is required", new { @class = "pad-left" })
+                </div>
+                
                 <p>
-                    @Html.TextBoxFor(model => model.contact, new { type = "number", placeholder = @Html.DisplayNameFor(m => m.contact) })
+                    @Html.TextBoxFor(model => model.contact, new { placeholder = @Html.DisplayNameFor(m => m.contact) })
                 </p>
-                     @Html.ValidationMessageFor(model => model.contact, "", new { @class = "validation-message" })
+                <div id="validateContact" class="validation-message hd">
+                @Html.ValidationMessageFor(model => model.contact, "", new { @class = "pad-left" })
+                </div>
                 <p>
-                    <input type="submit" value="Create Employee" />
+                    <input type="button" value="Create Employee" id = "formLogin"/>
                 </p>
             </div>
         </div>
     }
 </div>
-<div class="for-full-back " id="footer">
+<div class="for-full-back footer-emp">
     Copyright © 2016 www.leadsquared.com | All Rights Reserved
 </div>
 @section Scripts {
-  @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
     <script src = "@Url.Content("../../assets/plugins/jquery-1.10.2.js")"></script>
-     <script type="text/javascript">
-         $(document).ready(function () {
-             $(".fade-in").hide().fadeIn(2000);
-         });</script> 
     <!-- BOOTSTRAP CORE SCRIPT   -->
+    <script src="@Url.Content("../../assets/js/CreateEmployee.js")"></script>
     <script src="@Url.Content("../../assets/plugins/bootstrap.js")"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="@Url.Content("../../assets/js/custom.js")"></script>
-  
 }

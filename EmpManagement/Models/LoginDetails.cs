@@ -12,11 +12,12 @@ namespace EmpManagement.Models
     {
 
         [Display(Name = "Email")]
-        [Required(ErrorMessage="Please enter an email")]
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail is not valid")]
+        [Required(ErrorMessage="Please enter your Email")]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Email is not valid")]
         public string username { get; set; }
-        [Required]
         [Display(Name="Password")]
+        [Required(ErrorMessage = "Please enter a password")]
+        [RegularExpression(@"^.{6,}$", ErrorMessage = "Password should be a minimum of 6 characters")]
         public string password { get; set; }
        
     }
@@ -24,11 +25,12 @@ namespace EmpManagement.Models
     public class RegisterDetails {
 
         [Display(Name = "Email")]
-        [Required(ErrorMessage = "Please enter an email")]
+        [Required(ErrorMessage = "Please enter your Email")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail is not valid")]
         public string username { get; set; }
         [Required]
         [Display(Name = "Password")]
+        [RegularExpression(@"^.{6,}$", ErrorMessage = "Password should be a minimum of 6 characters")]
         public string password { get; set; }
         [Display(Name = "Username")]
         public string name { get; set; }

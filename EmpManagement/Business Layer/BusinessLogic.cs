@@ -10,6 +10,7 @@ namespace EmpManagement.Business_Layer
     public class BusinessLogic
     {
         DBAccess dataLayerObj = new DBAccess();
+        //Check if the Login user is valid
         public bool isUserValid(LoginDetails login)
         {
             List<LoginDetails> newList = getUserList();
@@ -21,6 +22,7 @@ namespace EmpManagement.Business_Layer
             return false;
         }
 
+        //Get the list of users from file
         public List<LoginDetails> getUserList()
         {
             string[] userData = dataLayerObj.getData("~/App_Data/data.txt");
@@ -42,18 +44,21 @@ namespace EmpManagement.Business_Layer
             return null;
         }
 
+        //Return the page count
         public int getPageCount()
         {
             int pageCount = dataLayerObj.getPageCount("~/App_Data/Employees.txt");
             return pageCount;
         }
 
+        //Delete an employee from the file
         public bool DeleteEmployee(Guid id)
         {
             bool val = dataLayerObj.deleteData(id.ToString(), "~/App_Data/Employees.txt");
             return val;
         }
 
+        //Update single employee data
         public bool EditSingleEmployee(EmployeeDetails newEmployee)
         {
             string dataOfEmp = newEmployee.EmployeeID.ToString() + "," + newEmployee.email + "," + newEmployee.EmployeeName + "," + newEmployee.Address + "," + ((newEmployee.Dept != null) ? newEmployee.Dept : "") + "," + newEmployee.DOJ.ToString() + "," + newEmployee.DOB.ToString() + "," + (newEmployee.contact != null ? newEmployee.contact.ToString() : "") + "," + newEmployee.salary.ToString();
@@ -61,6 +66,7 @@ namespace EmpManagement.Business_Layer
             return ret;
         }
 
+        //Register new user
         public bool Register(RegisterDetails register)
         {
             List<LoginDetails> userList = getUserList();
@@ -74,6 +80,7 @@ namespace EmpManagement.Business_Layer
             return registeredUser;
         }
 
+        //Get the entire list of employees
         public List<EmployeeDetails> getEmployees(int pageSize, int currentPageIndex)
         {
 
@@ -85,7 +92,7 @@ namespace EmpManagement.Business_Layer
             return null;
         }
 
-
+        //Common method to get data from files to be used by getEmployees() and EditSingleEmployee()
         public List<EmployeeDetails> getAllEmployees(int pageSize, int currentPageIndex)
         {
             List<EmployeeDetails> empList = new List<EmployeeDetails>();
@@ -114,6 +121,7 @@ namespace EmpManagement.Business_Layer
             return null;
         }
 
+        //Get individual employee data
         public EmployeeDetails getSingleEmployee(Guid id)
         {
             string empData = dataLayerObj.getSingleEmpData(id.ToString(), "~/App_Data/Employees.txt");
@@ -138,6 +146,7 @@ namespace EmpManagement.Business_Layer
             return null;
         }
 
+        //Registering a new user
         public bool saveUser(InsertViewModel newEmployee)
         {
             string guid = Guid.NewGuid().ToString();

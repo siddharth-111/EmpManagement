@@ -140,6 +140,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data Access Layer\DBAccess.cs" />
+    <Compile Include="Data Access Layer\JSONDBAccess.cs" />
     <Compile Include="Data Access Layer\SQLDBAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -156,12 +157,15 @@
     <Content Include="assets\css\style.css" />
     <Content Include="assets\fonts\fontawesome-webfontba72.svg" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assets\js\CreateEmployee.js" />
     <Content Include="assets\js\custom.js" />
+    <Content Include="assets\js\Employee.js" />
+    <Content Include="assets\js\Home.js" />
     <Content Include="assets\plugins\bootstrap.js" />
     <Content Include="assets\plugins\jquery-1.10.2.js" />
+    <Content Include="Content\images.jpg" />
+    <Content Include="Content\images.png" />
     <Content Include="Content\Login.css" />
-    <Content Include="Content\PagedList.css" />
-    <Content Include="Content\reset.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />

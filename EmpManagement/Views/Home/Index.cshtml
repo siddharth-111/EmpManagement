@@ -1,6 +1,6 @@
 ﻿@model EmpManagement.Models.LoginDetails
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Home";
 }
 @section css {
     <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
@@ -14,147 +14,156 @@
 }
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
-                    class="icon-bar"></span><span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand">Employee Management System </a>
-        </div>
-        <!-- Collect the nav links for toggling -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#login">Login</a> </li>
-                <li><a href="#home">Project</a> </li>
-                <li><a href="#about">Company</a> </li>
-                <li><a target="_blank" href="http://www.leadsquared.com/"><strong>Visit LeadSquared</strong>
-                </a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
+    <div class="navbar-header">
+        <a class="pull-left">
+            <img src="../../Content/images.png" style="height: 50px; border-radius: 30px;"></a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
+                class="icon-bar"></span><span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand">Employee Management System </a>
     </div>
+    <!-- Collect the nav links for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#login">Login</a> </li>
+            <li><a href="#home">Project</a> </li>
+            <li><a href="#about">Company</a> </li>
+            <li><a target="_blank" href="http://www.leadsquared.com/"><strong>Visit LeadSquared</strong>
+            </a></li>
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
     <!-- /.container -->
 </nav>
-<div class = "fade-in">
-<!--End Navigation -->
-<section class="for-full-back color-white" id="login">
-    <div class="login">
-        <div class="login-triangle">
-        </div>
-        <h2 class="login-header">
-            EMS Login</h2>
-        <div class="login-container">
-            @using (Html.BeginForm())
-            {
-                @Html.ValidationSummary(true)
-                @Html.AntiForgeryToken()
+<div class="container">
+    <!--End Navigation -->
+    <section class="for-full-back color-white" id="login">
+        <div class="login">
+            <div class="login-triangle">
+            </div>
+            <h2 class="login-header">
+                EMS Login</h2>
+            <div class="login-container">
+                @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "formId"}))
+                {
+                    <div style="font-size: 12px; padding-left: 12px;">
+                        @Html.ValidationSummary(true)
+                    </div>
+                    @Html.AntiForgeryToken()
 
-                <p>
-                    @Html.TextBoxFor(model => model.username, new { placeholder = @Html.DisplayNameFor(m => m.username) })
-                </p> 
-                @Html.ValidationMessageFor(model => model.username, "", new { style = "font-size:12px;padding-left:12px;" }) 
-                <p>
-                    @Html.TextBoxFor(model => model.password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.password) })
-                </p>  
-                @Html.ValidationMessageFor(model => model.password, "Please enter a password", new { style = "font-size:12px;padding-left:12px" })
-                <p>
-                    <input type="submit" value="Login" /></p>
-            }
-        </div>
-    </div>
-    <div class = "row text-center">
-       <h4>
-                    <strong>Please feel free to register <a href="@Url.Action("Register")" style="font-size:18px !important"><strong>here.</strong></a> </strong>
-                </h4>
-    </div>
-  
-</section>
-<!--Header section  -->
-<section class="for-full-back color-light " id="home">
-    <div class="container">
-        <div class="row text-center ">
-            <div class="col-md-8 col-md-offset-2">
-                <h1>
-                    Employee Management System</h1>
-                <h4>
-                    <strong>Employee management system(EMS) manages details of the subordinates in the organization.These
-                        details include Employee name,Employee ID,Address etc. </strong>
-                </h4>
+                    <p>
+                        @Html.TextBoxFor(model => model.username, new { placeholder = @Html.DisplayNameFor(m => m.username) })
+                    </p> 
+                    <div id="validateUser" class="validation-message" style="font-size: 12px; padding-left: 12px;">
+                   
+                             @Html.ValidationMessageFor(model => model.username) 
+                    </div>
+                
+                    <p>
+                        @Html.TextBoxFor(model => model.password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.password) })
+                    </p>  
+                    <div class="validation-message" id="validatePassword" style="font-size: 12px; padding-left: 12px;">
+                  
+                    @Html.ValidationMessageFor(model => model.password)
+                    </div>
+                        
+                  
+              
+                    <p>
+                        <input type="button" value="Login" id = "formLogin"/></p>
+                }
             </div>
         </div>
         <div class="row text-center">
-            <div class="col-md-12">
-                <h2>
-                    Key features of this project are as follows:</h2>
-                <p>
-                    1.Ability to edit employee details and delete an employee on the fly.
-                    <br />
-                    2.Searching an employee based on their name.
-                    <br />
-                    3.Pagination.
-                    <br />
-                    4.Allowing data to be stored in different repositories i.e. File,SQL or JSON.
-                    <br />
-                </p>
+            <h4>
+                <strong>Register <a href="@Url.Action("Register")" style="font-size:18px !important">
+                    <strong>here.</strong></a> </strong>
+            </h4>
+        </div>
+    </section>
+    <!--Header section  -->
+    <section class="for-full-back color-light " id="home">
+        <div class="container">
+            <div class="row text-center ">
+                <div class="col-md-8 col-md-offset-2">
+                    <h1>
+                        Employee Management System</h1>
+                    <h4>
+                        <strong>Employee management system(EMS) manages details of the subordinates in the organization.These
+                            details include Employee name,Employee ID,Address etc. </strong>
+                    </h4>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h2>
+                        Key features of this project are as follows:</h2>
+                    <p>
+                        1.Ability to edit employee details and delete an employee on the fly.
+                        <br />
+                        2.Searching an employee based on their name.
+                        <br />
+                        3.Pagination.
+                        <br />
+                        4.Allowing data to be stored in different repositories i.e. File,SQL or JSON.
+                        <br />
+                    </p>
+                </div>
+            </div>
+    </section>
+    <!--End Header section  -->
+    <!--About Section-->
+    <section class="for-full-back color-light " id="about">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-8 col-md-offset-2">
+                    <h1>
+                        LeadSquared</h1>
+                    <h4>
+                        <strong>LeadSquared is marketing and CRM software for small and medium businesses. It
+                            is robust, affordable and easy to use! </strong>
+                    </h4>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h2>
+                        With LeadSquared you can:</h2>
+                    <p>
+                        1. Create powerful landing pages to capture more leads from your marketing campaigns
+                        (PPC, social and organic media)
+                        <br />
+                        2. Make your website conversion optimized by creating beautiful lead capture forms
+                        and CTAs
+                        <br />
+                        3. Integrate all the apps you love, to bring all the leads from chats, web comments,
+                        and webinars into one system.
+                        <br />
+                        4. Set email and SMS auto-responders to promptly follow leads as soon as they sign
+                        up
+                        <br />
+                        5. Analyse the effectiveness of all your marketing campaigns,make improvements and
+                        many more.
+                        <br />
+                    </p>
+                </div>
             </div>
         </div>
-</section>
-<!--End Header section  -->
-<!--About Section-->
-<section class="for-full-back color-light " id="about">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-md-8 col-md-offset-2">
-                <h1>
-                    LeadSquared</h1>
-                <h4>
-                    <strong>LeadSquared is marketing and CRM software for small and medium businesses. It
-                        is robust, affordable and easy to use! </strong>
-                </h4>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col-md-12">
-                <h2>
-                    With LeadSquared you can:</h2>
-                <p>
-                    1. Create powerful landing pages to capture more leads from your marketing campaigns
-                    (PPC, social and organic media)
-                    <br />
-                    2. Make your website conversion optimized by creating beautiful lead capture forms
-                    and CTAs
-                    <br />
-                    3. Integrate all the apps you love, to bring all the leads from chats, web comments,
-                    and webinars into one system.
-                    <br />
-                    4. Set email and SMS auto-responders to promptly follow leads as soon as they sign
-                    up
-                    <br />
-                    5. Analyse the effectiveness of all your marketing campaigns,make improvements and
-                    many more.
-                    <br />
-                </p>
-            </div>
-        </div>
-</section>
+    </section>
 </div>
 <!--End Contact Section -->
 <!--footer Section -->
-<div class="for-full-back " id="footer">
+<div class="for-full-back footer-emp">
     Copyright © 2016 www.leadsquared.com | All Rights Reserved
 </div>
 @section Scripts {
     <script src = "@Url.Content("../../assets/plugins/jquery-1.10.2.js")"></script>
     <!-- BOOTSTRAP CORE SCRIPT   -->
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".fade-in").hide().fadeIn(2000);
-        });</script> 
+   
     <script src="@Url.Content("../../assets/plugins/bootstrap.js")"></script>
     <!-- CUSTOM SCRIPTS -->
-    
+    <script src ="@Url.Content("../../assets/js/Home.js")"></script>
     <script src="@Url.Content("../../assets/js/custom.js")"></script>
     @Scripts.Render("~/bundles/jqueryval")
-    
 }

@@ -1,10 +1,5 @@
-2c56d1e3-3304-402f-bcfc-ff89c43da99e,sid.111@rediffmail.com,sidasdsadasasdas,Bangalore,IT,2/4/2016 12:00:00 AM,2/12/2016 12:00:00 AM,5646555454,55555
-c9a45e1b-38b7-4de6-9b61-7366fe0d10ec,sid.111@rediffmail.com,sdfsdfdsf,sdfsdfsdfdsf,sfsdsd,2/3/2016 12:00:00 AM,2/1/2016 12:00:00 AM,435345353454,5555
-50f000ce-d4f5-4750-ac5e-31e86c8a1bcf,sid.111@rediffmail.com,sadasd,sad,asdasd,2/11/2016 12:00:00 AM,2/1/2016 12:00:00 AM,4353534556,454545
-86079329-a52d-467f-baff-ca5826958a3a,siddharth.kumar111@gmail.com,ssf,sdfsdf,sdfsd,2/2/2016 12:00:00 AM,2/3/2016 12:00:00 AM,23423555346,5555
-c074afe2-92bd-4a18-bac6-01d52e2f26f2,sid.111@rediffmail.com,asdas,sfsd,,2/9/2016 12:00:00 AM,2/11/2016 12:00:00 AM,,5555
-edf7b9ea-be7f-45e5-bff9-731068ef0fc1,a@a.com,aasda,asdas,asdsadas,2/2/2016 12:00:00 AM,2/2/2016 12:00:00 AM,,66666
-6490ed0c-929c-4f1a-96ec-5b24b77d533e,d@d.com,sadas,asda,a,2/12/2016 12:00:00 AM,2/3/2016 12:00:00 AM,,6666
-d27f21f0-4c15-4188-975a-ba552ead2222,b@b.com,sadas,sada,asdas,2/3/2016 12:00:00 AM,2/3/2016 12:00:00 AM,,6666
-eeaa5d34-d1e8-4e2f-b173-b17bd5db7788,sid.111@rediffmail.com,sda,asdasd,,2/10/2016 12:00:00 AM,2/4/2016 12:00:00 AM,,1545
-b226f9fd-83df-4804-bb31-92d907100266,sid.111@rediffmail.com,sid,fds,,2/11/2016 12:00:00 AM,2/2/2016 12:00:00 AM,,6666
+2369840a-383f-4e1e-a1c5-42f9db00aaf1,vik.111@gmail.com,Vikram,Agara,IT,2/29/2016 12:00:00 AM,2/12/1996 12:00:00 AM,9887503192,60000
+edb7c18d-613e-4b7c-952d-79cd69a672d5,anup.p@gmail.com,Anup,Koramangala,IT,2/25/2016 12:00:00 AM,2/4/1997 12:00:00 AM,8769045125,55000
+ad5a6225-1596-4a5c-b2cb-62eb4e6bdd1f,anuj.456@gmail.com,Anujeet,Kengeri,HR,2/25/2016 12:00:00 AM,7/20/1996 12:00:00 AM,8696754504,80000
+560be034-e110-4ee5-a9f1-ff8a94bd14ba,akash.u@gmail.com,Akash,Yelahanka,Networks,8/13/2013 12:00:00 AM,6/16/1997 12:00:00 AM,9765402654,75000
+b108a359-d8a6-456f-8156-f40ea867e7b8,Vish@gmail.com,Vish,Vijaynagar,Marketing,3/1/2016 12:00:00 AM,7/16/1996 12:00:00 AM,9767950329,65000

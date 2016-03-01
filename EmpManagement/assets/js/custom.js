@@ -34,7 +34,7 @@
                 }
             });
           
-
+            
           
             /*====================================
                WRITE YOUR SCRIPTS BELOW 
@@ -55,6 +55,7 @@
     $(document).ready(function () {
         mainApp.main_fun();
     });
+   
 
 }(jQuery));
 

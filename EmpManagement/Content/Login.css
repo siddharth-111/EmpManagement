@@ -27,7 +27,7 @@
 .login-header
 {
     background: -webkit-linear-gradient(top,#5B74A8 0%,#101010 100%);
-    padding: 25px;
+    padding: 15px;
     font-size: 1.4em;
     font-weight: normal;
     text-align: center;
@@ -45,7 +45,10 @@
 {
     padding: 12px 12px 0px 12px;
 }
-
+.pad-left 
+{
+    padding-left:12px;    
+}
 .login input
 {
     box-sizing: border-box;
@@ -84,9 +87,9 @@
 
 .login input[type="button"]
 {
-    background: -moz-linear-gradient(top,#5B74A8 0%,#5B74A8 100%);
+     background: -moz-linear-gradient(top,#5B74A8 0%,#5B74A8 100%);
     background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#5B74A8), color-stop(100%,#5B74A8));
-    background: -webkit-linear-gradient(top,rgba(255, 255, 255, 0) 0%,#101010 100%);
+    background: -webkit-linear-gradient(top,#5B74A8 0%,#101010 100%);
     background: -o-linear-gradient(top,#5B74A8 0%,#5B74A8 100%);
     background: -ms-linear-gradient(top,#5B74A8 0%,#5B74A8 100%);
     background: linear-gradient(top,#5B74A8 0%,#5B74A8 100%);
@@ -112,7 +115,10 @@
 .validation-message 
 {
     font-size:12px;
-    padding-left:12px;
+    color: #f00;
+}
+div .validation-message::before{
+   content: "\200B";
 }
 
 .footer-emp 
@@ -123,7 +129,7 @@
     padding: 0px 50px 20px 50px;
     text-align: right;
     bottom: 0;
-    position: absolute;    
+    position: fixed;    
 }
 
 .dropdown:hover .dropdown-menu {

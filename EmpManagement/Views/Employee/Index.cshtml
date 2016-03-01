@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<EmpManagement.Models.EmployeeDetails>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Employee";
 }
 @section css {
     <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
@@ -14,22 +14,21 @@
 }
 <div id="header">
     <nav class="navbar navbar-inverse" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
-                        class="icon-bar"></span><span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand">Employee Management System </a>
-            </div>
-            <!-- Collect the nav links for toggling -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="@Url.Action("Logout")"><strong>Logout</strong></a> </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+        <div class="navbar-header">
+        <a class ="pull-left" ><img src="../../Content/images.png" style="height:50px;border-radius:30px;"></a>  
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
+                    class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">Employee Management System </a>
         </div>
+        <!-- Collect the nav links for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="@Url.Action("Logout")"><strong>Logout</strong></a> </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
         <!-- /.container -->
     </nav>
 </div>
@@ -37,17 +36,10 @@
     EmpManagement.Models.EmployeeDetails info = ViewBag.PagingInfo;
 }
 <div class="container">
-    
-  
-        @using (Html.BeginForm("Index", "Employee", FormMethod.Post))
-        {  
-            @Html.Hidden("PageCount", info.PageCount)
-            @Html.Hidden("PageSize", info.PageSize)
-            @Html.Hidden("CurrentPageIndex", info.CurrentPageIndex)
-            @Html.Hidden("SortField", info.SortField)
-            @Html.Hidden("SortDirection", info.SortDirection)
-            <div class="col-lg-12">
-        <input type="button" class = "btn pull-right" onclick = "location.href = '@Url.Action("CreateEmployee")'" value="Create employee"/>
+    <div class="col-lg-12">
+        <input type="button" class = "btn btn-primary pull-right" onclick = "location.href = '@Url.Action("CreateEmployee")'" value="Create Employee"/>
+        @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+        {
             <div class="input-group col-md-3">
                 <div class="input-group">
                     <input type = "text" class = "form-control clear-inp" placeholder = "Search..." name = "SearchString"
@@ -57,34 +49,75 @@
                 </div>
             </div>
         
+        }
     </div>
-              <div class="col-lg-12" style="margin-top: 25px">
+    @using (Html.BeginForm("Index", "Employee", FormMethod.Post))
+    {  
+        @Html.Hidden("PageCount", info.PageCount)
+        @Html.Hidden("PageSize", info.PageSize)
+        @Html.Hidden("CurrentPageIndex", info.CurrentPageIndex)
+        @Html.Hidden("SortField", info.SortField)
+        @Html.Hidden("SortDirection", info.SortDirection)
+        
+        <div class="col-lg-12" style="margin-top: 25px">
             <table class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
                         <th>
-                            <a href="#" data-sortfield="Email" class="header">Email</a>
+                       <a href="#" data-sortfield="Email" class="header"> Email</a> 
+                       @if (info.SortField == "Email")
+                       {
+                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                       }
                         </th>
                         <th>
-                            <a href="#" data-sortfield="Name" class="header">Employee Name</a>
+                       <a href="#" data-sortfield="Name" class="header"> Employee name</a>
+                       @if (info.SortField == "Name")
+                       {
+                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                       }
                         </th>
                         <th>
-                            <a href="#" data-sortfield="Address" class="header">Address</a>
+                         <a href="#" data-sortfield="Address" class="header">Address</a>
+                         @if (info.SortField == "Address")
+                       {
+                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                       }
                         </th>
                         <th>
-                            <a href="#" data-sortfield="Department" class="header">Department</a>
+                         <a href="#" data-sortfield="Department" class="header">Department</a>
+                         @if (info.SortField == "Department")
+                       {
+                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                       }
                         </th>
                         <th>
-                            <a href="#" data-sortfield="DOJ" class="header">Date of Joining</a>
+                         <a href="#" data-sortfield="DOJ" class="header">Date of Joining</a>
+                         @if (info.SortField == "DOJ")
+                       {
+                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                       }
                         </th>
                         <th>
-                            <a href="#" data-sortfield="DOB" class="header">Date of Birth</a>
+                        <a href="#" data-sortfield="DOB" class="header">Date of Birth</a>
+                        @if (info.SortField == "DOB")
+                       {
+                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                       }
                         </th>
                         <th>
-                            <a href="#" data-sortfield="Contact" class="header">Contact</a>
+                        <a href="#" data-sortfield="Contact" class="header">Contact</a>
+                        @if (info.SortField == "Contact")
+                       {
+                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                       }
                         </th>
                         <th style="text-align: right;">
-                            <a href="#" data-sortfield="Salary" class="header">Salary</a>
+                          <a href="#" data-sortfield="Salary" class="header">Salary  </a>
+                            @if (info.SortField == "Salary")
+                       {
+                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                       }
                         </th>
                         <th style="text-align: center;">
                             Action
@@ -130,61 +163,66 @@
                     }
                 </tbody>
             </table>
-       
-       
-        @for (var i = 0; i < info.PageCount; i++)
-        {
-            if (i == info.CurrentPageIndex)
+                 @if (ViewBag.EmptyResult != null)
+    {
+        <div class="row text-center">
+            <div class="col-md-4 col-md-offset-4">
+                <h6 class="alert alert-danger text-center">@ViewBag.EmptyResult</h6>
+            </div>
+        </div>
+    }
+            @for (var i = 0; i < info.PageCount; i++)
             {
-            <span class="pull-left">Page @(i + 1)
-                of @info.PageCount</span>
+                if (i == info.CurrentPageIndex)
+                {
+                <span class="pull-left">Page @(i + 1)
+                    of @info.PageCount</span>
          
+                }
             }
-        }
-        <ul class="pagination pull-right">
-            @for (var i = 0; i < info.PageCount; i++)
-            {
-                if (i == info.CurrentPageIndex)
+            <ul class="pagination pull-right">
+                @for (var i = 0; i < info.PageCount; i++)
                 {
-                    if ((i - 1) >= 0)
-                    {  
-                <li><a href="#" data-pageindex="@(i - 1)"
+                    if (i == info.CurrentPageIndex)
+                    {
+                        if ((i - 1) >= 0)
+                        {  
+                    <li><a href="#" data-pageindex="@(i - 1)"
                           class="abc">&laquo;</a></li> 
+                        }
                     }
                 }
-            }
-            @for (var i = 0; i < info.PageCount; i++)
-            {
-                if (i == info.CurrentPageIndex)
+                @for (var i = 0; i < info.PageCount; i++)
                 {
+                    if (i == info.CurrentPageIndex)
+                    {
                        
-                <li class="active"><a href="#" data-pageindex="@i"
+                    <li class="active"><a href="#" data-pageindex="@i"
                           class="abc">@(i + 1)</a></li> 
-                }
-                else
-                {
-                <li><a href="#" data-pageindex="@i"
+                    }
+                    else
+                    {
+                    <li><a href="#" data-pageindex="@i"
                            class="abc">@(i + 1)</a></li>  
-                }
-            }
-            @for (var i = 0; i < info.PageCount; i++)
-            {
-                if (i == info.CurrentPageIndex)
-                {
-                    if ((i + 1) < info.PageCount)
-                    {  
-                <li><a href="#" data-pageindex="@(i + 1)"
-                          class="abc">&raquo;</a></li> 
                     }
                 }
+                @for (var i = 0; i < info.PageCount; i++)
+                {
+                    if (i == info.CurrentPageIndex)
+                    {
+                        if ((i + 1) < info.PageCount)
+                        {  
+                    <li><a href="#" data-pageindex="@(i + 1)"
+                          class="abc">&raquo;</a></li> 
+                        }
+                    }
 
 
-            }
-        </ul>
-    </div>
-        }
+                }
+            </ul>
+        </div>
+    }
 </div>
-
 <div class="for-full-back footer-emp">
     Copyright © 2016 www.leadsquared.com | All Rights Reserved
 </div>
@@ -194,45 +232,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title text-center">
-                    Are you sure?</h4>
+                    Are you sure you want to delete employee?</h4>
                 <button style="width:50%;" class ="btn btn-default" id = "empId" value="" onclick="location.href='@Url.Action("DeleteEmployee")?id=' + $('#empId').val()">
-                    Delete</button>
-                <input type="button" class="btn btn-default align-button" data-dismiss="modal" value="Cancel" />
+                    Yes</button>
+                <input type="button" class="btn btn-default align-button" data-dismiss="modal" value="No" />
             </div>
         </div>
     </div>
 </div>
 @section Scripts {
-    <script type="text/javascript">
-       
-
-        $(document).on("click", ".check", function () {
-            var empId = $(this).data('id');
-            $(".modal-header #empId").val(empId);
-        });
-        $(".header").click(function (evt) {
-            var sortfield = $(evt.target).data("sortfield");
-            if ($("#SortField").val() == sortfield) {
-                if ($("#SortDirection").val() == "ascending") {
-                    $("#SortDirection").val("descending");
-                }
-                else {
-                    $("#SortDirection").val("ascending");
-                }
-            }
-            else {
-                $("#SortField").val(sortfield);
-                $("#SortDirection").val("ascending");
-            }
-            evt.preventDefault();
-            $("form").submit();
-        });
-        $(".abc").click(function (evt) {
-            var pageindex = $(evt.target).data("pageindex");
-            $("#CurrentPageIndex").val(pageindex);
-            evt.preventDefault();
-            $('.clear-inp').val('');
-            $("form").submit();
-        });
-    </script>
+    <script src = "@Url.Content("../../assets/plugins/jquery-1.10.2.js")"></script>
+    <!-- BOOTSTRAP CORE SCRIPT   -->
+    <script src="@Url.Content("../../assets/js/Employee.js")"></script>
+    <script src="@Url.Content("../../assets/plugins/bootstrap.js")"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="@Url.Content("../../assets/js/custom.js")"></script>
+    @Scripts.Render("~/bundles/jqueryval")
 }
