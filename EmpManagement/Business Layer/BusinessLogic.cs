@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using EmpManagement.Models;
 using EmpManagement.Data_Access_Layer;
+using System.Text;
 
 namespace EmpManagement.Business_Layer
 {
@@ -25,13 +26,13 @@ namespace EmpManagement.Business_Layer
         //Get the list of users from file
         public List<LoginDetails> getUserList()
         {
-            string[] userData = dataLayerObj.getData("~/App_Data/data.txt");
+            string[] userData = dataLayerObj.getData("~/App_Data/Users.txt");
             List<LoginDetails> userList = new List<LoginDetails>();
             if (userData != null)
             {
                 foreach (string dataLine in userData)
                 {
-                    string[] dataItem = dataLine.Split(',');
+                    string[] dataItem = dataLine.Split('|');
 
                     userList.Add(new LoginDetails
                     {
@@ -61,8 +62,9 @@ namespace EmpManagement.Business_Layer
         //Update single employee data
         public bool EditSingleEmployee(EmployeeDetails newEmployee)
         {
-            string dataOfEmp = newEmployee.EmployeeID.ToString() + "," + newEmployee.email + "," + newEmployee.EmployeeName + "," + newEmployee.Address + "," + ((newEmployee.Dept != null) ? newEmployee.Dept : "") + "," + newEmployee.DOJ.ToString() + "," + newEmployee.DOB.ToString() + "," + (newEmployee.contact != null ? newEmployee.contact.ToString() : "") + "," + newEmployee.salary.ToString();
-            bool ret = dataLayerObj.updateData("~/App_Data/Employees.txt", dataOfEmp, newEmployee.EmployeeID.ToString());
+            StringBuilder dataOfEmp = new StringBuilder();
+            dataOfEmp.Append(newEmployee.EmployeeID.ToString()).Append("|").Append(newEmployee.email).Append("|").Append(newEmployee.EmployeeName).Append("|").Append(newEmployee.Address).Append("|").Append((newEmployee.Dept != null) ? newEmployee.Dept : "").Append("|").Append(newEmployee.DOJ.ToString()).Append("|").Append(newEmployee.DOB.ToString()).Append("|").Append(newEmployee.contact != null ? newEmployee.contact.ToString() : "").Append("|").Append(newEmployee.salary.ToString());
+            bool ret = dataLayerObj.updateData("~/App_Data/Employees.txt", dataOfEmp.ToString(), newEmployee.EmployeeID.ToString());
             return ret;
         }
 
@@ -71,12 +73,13 @@ namespace EmpManagement.Business_Layer
         {
             List<LoginDetails> userList = getUserList();
             foreach (LoginDetails user in userList)
-            { 
-                    if(user.username.Equals(register.username))
-                     return false;
+            {
+                if (user.username.Equals(register.username))
+                    return false;
             }
-            string dataOfUser = register.username + "," + register.password+","+ ((register.name != null) ? register.name : "") + ","+((register.phone !=null) ? register.phone : "");
-            bool registeredUser = dataLayerObj.saveData("~/App_Data/data.txt",dataOfUser);
+            StringBuilder dataOfUser = new StringBuilder();
+            dataOfUser.Append(register.username).Append("|").Append(register.password).Append("|").Append((register.name != null) ? register.name : "").Append("|").Append((register.phone != null) ? register.phone : "");
+            bool registeredUser = dataLayerObj.saveData("~/App_Data/Users.txt", dataOfUser.ToString());
             return registeredUser;
         }
 
@@ -101,7 +104,7 @@ namespace EmpManagement.Business_Layer
             {
                 foreach (string dataLine in empData)
                 {
-                    string[] dataItem = dataLine.Split(',');
+                    string[] dataItem = dataLine.Split('|');
 
                     empList.Add(new EmployeeDetails
                     {
@@ -128,7 +131,7 @@ namespace EmpManagement.Business_Layer
             if (empData != null)
             {
 
-                string[] dataItem = empData.Split(',');
+                string[] dataItem = empData.Split('|');
 
                 return new EmployeeDetails
                      {
@@ -150,8 +153,9 @@ namespace EmpManagement.Business_Layer
         public bool saveUser(InsertViewModel newEmployee)
         {
             string guid = Guid.NewGuid().ToString();
-            string dataOfEmp = guid + "," + newEmployee.email + "," + newEmployee.EmployeeName + "," + newEmployee.Address + "," + ((newEmployee.Dept != null) ? newEmployee.Dept : "") + "," + newEmployee.DOJ.ToString() + "," + newEmployee.DOB.ToString() + "," + (newEmployee.contact != null ? newEmployee.contact.ToString() : "") + "," + newEmployee.salary.ToString();
-            bool ret = dataLayerObj.saveData("~/App_Data/Employees.txt", dataOfEmp);
+            StringBuilder dataOfEmp = new StringBuilder();
+            dataOfEmp.Append(guid).Append("|").Append(newEmployee.email).Append("|").Append(newEmployee.EmployeeName).Append("|").Append(newEmployee.Address).Append("|").Append((newEmployee.Dept != null) ? newEmployee.Dept : "").Append("|").Append(newEmployee.DOJ.ToString()).Append("|").Append(newEmployee.DOB.ToString()).Append("|").Append(newEmployee.contact != null ? newEmployee.contact.ToString() : "").Append("|").Append(newEmployee.salary.ToString());
+            bool ret = dataLayerObj.saveData("~/App_Data/Employees.txt", dataOfEmp.ToString());
             return ret;
         }
     }

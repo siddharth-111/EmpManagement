@@ -58,10 +58,12 @@
                 required: "Address is required"
             },
             "DOJ" : {
-                required : "Date of Joining is mandatory"
+                required : "Date of Joining is mandatory",
+                date : "Invalid date format"
             },
             "DOB" : {
-                required : "Date of Birth is mandatory"
+                required : "Date of Birth is mandatory",
+                date : "Invalid date format"
             },
             "salary" : {
                 required : "Salary is required"
@@ -77,9 +79,7 @@
                 $(this).removeClass("error");
             });
             $(".errors").html("");
-            if (errorList.length) {
-          //      $(".errors").html(errorList[0]['message']);
-                
+            if (errorList.length) {                
                 $(errorList[0]['element']).addClass("error");
                 var elem = $(errorList[0]['element']).next();
                 elem.html(errorList[0]['message']);

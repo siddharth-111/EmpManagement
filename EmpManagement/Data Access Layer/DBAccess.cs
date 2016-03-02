@@ -12,7 +12,7 @@ namespace EmpManagement.Data_Access_Layer
 {
     public class DBAccess
     {
-
+        //Get userdata from user file
         public string[] getData(string path)
         {
             List<string> myCollection = new List<string>();
@@ -28,6 +28,7 @@ namespace EmpManagement.Data_Access_Layer
             }
         }
 
+        //Get employee date from employee file
         public string[] getEmpData(string path, int count, int currentIndex)
         {
             List<string> myCollection = new List<string>();
@@ -41,6 +42,8 @@ namespace EmpManagement.Data_Access_Layer
             return myCollection.ToArray();
 
         }
+
+        //Get the total number of rows in file
         public int getPageCount(string path)
         {
             var lineCount = 0;
@@ -56,6 +59,8 @@ namespace EmpManagement.Data_Access_Layer
             }
             return lineCount;
         }
+
+        //Save Data in file
         public bool saveData(string path, string data)
         {
             using (StreamWriter sr = new StreamWriter(HttpContext.Current.Server.MapPath(path), true))
@@ -65,7 +70,7 @@ namespace EmpManagement.Data_Access_Layer
                 return true;
             }
         }
-
+        //Update data in file
         public bool updateData(string path, string data, string id)
         {
             string n = "";
@@ -83,6 +88,7 @@ namespace EmpManagement.Data_Access_Layer
             return true;
         }
 
+        //Get single employee data
         public string getSingleEmpData(string id, string path)
         {
             var text = System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(path));
@@ -99,6 +105,7 @@ namespace EmpManagement.Data_Access_Layer
         }
 
 
+        //Delete data from file
         public bool deleteData(string id, string path)
         {
 

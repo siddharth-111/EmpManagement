@@ -1,5 +1,6 @@
-2369840a-383f-4e1e-a1c5-42f9db00aaf1,vik.111@gmail.com,Vikram,Agara,IT,2/29/2016 12:00:00 AM,2/12/1996 12:00:00 AM,9887503192,60000
-edb7c18d-613e-4b7c-952d-79cd69a672d5,anup.p@gmail.com,Anup,Koramangala,IT,2/25/2016 12:00:00 AM,2/4/1997 12:00:00 AM,8769045125,55000
-ad5a6225-1596-4a5c-b2cb-62eb4e6bdd1f,anuj.456@gmail.com,Anujeet,Kengeri,HR,2/25/2016 12:00:00 AM,7/20/1996 12:00:00 AM,8696754504,80000
-560be034-e110-4ee5-a9f1-ff8a94bd14ba,akash.u@gmail.com,Akash,Yelahanka,Networks,8/13/2013 12:00:00 AM,6/16/1997 12:00:00 AM,9765402654,75000
-b108a359-d8a6-456f-8156-f40ea867e7b8,Vish@gmail.com,Vish,Vijaynagar,Marketing,3/1/2016 12:00:00 AM,7/16/1996 12:00:00 AM,9767950329,65000
+2369840a-383f-4e1e-a1c5-42f9db00aaf1|vik.111@gmail.com|Vikram|Agara|IT|2/29/2016 12:00:00 AM|2/12/1996 12:00:00 AM|9887503192|60000
+edb7c18d-613e-4b7c-952d-79cd69a672d5|anup.p@gmail.com|Anup|Koramangala|IT|2/25/2016 12:00:00 AM|2/4/1997 12:00:00 AM|8769045125|55000
+ad5a6225-1596-4a5c-b2cb-62eb4e6bdd1f|anuj.456@gmail.com|Anujeet|Mysore Road|HR|3/1/2016 12:00:00 AM|6/20/1996 12:00:00 AM|8696754504|80000
+560be034-e110-4ee5-a9f1-ff8a94bd14ba|akash.u@gmail.com|Akash|Yelahanka|Networks|8/13/2013 12:00:00 AM|6/16/1997 12:00:00 AM|9765402654|70000
+b108a359-d8a6-456f-8156-f40ea867e7b8|Vish@gmail.com|Vish|Vijaynagar|Marketing|3/1/2016 12:00:00 AM|7/16/1996 12:00:00 AM|9767950329|65000
+a1a1ad79-20cf-4be3-853d-d20ecd5de1c4|Jones@gmail.com|David|Manhattan|HR|3/1/2016 12:00:00 AM|2/13/1996 12:00:00 AM|9734123456|77000

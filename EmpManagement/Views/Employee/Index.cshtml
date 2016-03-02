@@ -15,7 +15,8 @@
 <div id="header">
     <nav class="navbar navbar-inverse" role="navigation">
         <div class="navbar-header">
-        <a class ="pull-left" ><img src="../../Content/images.png" style="height:50px;border-radius:30px;"></a>  
+            <a class="pull-left">
+                <img src="../../Content/empSystem.jpg" style="height: 50px; border-radius: 30px;"></a>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                 <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
                     class="icon-bar"></span><span class="icon-bar"></span>
@@ -64,60 +65,60 @@
                 <thead>
                     <tr>
                         <th>
-                       <a href="#" data-sortfield="Email" class="header"> Email</a> 
-                       @if (info.SortField == "Email")
-                       {
-                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                       }
+                            <a href="#" data-sortfield="Email" class="header">Email</a>
+                            @if (info.SortField == "Email")
+                            {
+                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                            }
                         </th>
                         <th>
-                       <a href="#" data-sortfield="Name" class="header"> Employee name</a>
-                       @if (info.SortField == "Name")
-                       {
-                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                       }
+                            <a href="#" data-sortfield="Name" class="header">Employee name</a>
+                            @if (info.SortField == "Name")
+                            {
+                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                            }
                         </th>
                         <th>
-                         <a href="#" data-sortfield="Address" class="header">Address</a>
-                         @if (info.SortField == "Address")
-                       {
-                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                       }
+                            <a href="#" data-sortfield="Address" class="header">Address</a>
+                            @if (info.SortField == "Address")
+                            {
+                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                            }
                         </th>
                         <th>
-                         <a href="#" data-sortfield="Department" class="header">Department</a>
-                         @if (info.SortField == "Department")
-                       {
-                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                       }
+                            <a href="#" data-sortfield="Department" class="header">Department</a>
+                            @if (info.SortField == "Department")
+                            {
+                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                            }
                         </th>
                         <th>
-                         <a href="#" data-sortfield="DOJ" class="header">Date of Joining</a>
-                         @if (info.SortField == "DOJ")
-                       {
-                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                       }
+                            <a href="#" data-sortfield="DOJ" class="header">Date of Joining</a>
+                            @if (info.SortField == "DOJ")
+                            {
+                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                            }
                         </th>
                         <th>
-                        <a href="#" data-sortfield="DOB" class="header">Date of Birth</a>
-                        @if (info.SortField == "DOB")
-                       {
-                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                       }
+                            <a href="#" data-sortfield="DOB" class="header">Date of Birth</a>
+                            @if (info.SortField == "DOB")
+                            {
+                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                            }
                         </th>
                         <th>
-                        <a href="#" data-sortfield="Contact" class="header">Contact</a>
-                        @if (info.SortField == "Contact")
-                       {
-                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                       }
+                            <a href="#" data-sortfield="Contact" class="header">Contact</a>
+                            @if (info.SortField == "Contact")
+                            {
+                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                            }
                         </th>
                         <th style="text-align: right;">
-                          <a href="#" data-sortfield="Salary" class="header">Salary  </a>
+                            <a href="#" data-sortfield="Salary" class="header">Salary </a>
                             @if (info.SortField == "Salary")
-                       {
-                       <span class ="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                       }
+                            {
+                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                            }
                         </th>
                         <th style="text-align: center;">
                             Action
@@ -163,14 +164,30 @@
                     }
                 </tbody>
             </table>
-                 @if (ViewBag.EmptyResult != null)
-    {
-        <div class="row text-center">
-            <div class="col-md-4 col-md-offset-4">
-                <h6 class="alert alert-danger text-center">@ViewBag.EmptyResult</h6>
-            </div>
-        </div>
-    }
+            @if (ViewBag.EmptyResult != null)
+            {
+                <div class="row text-center">
+                    <div class="col-md-4 col-md-offset-4">
+                        <h6 class="alert alert-danger text-center">@ViewBag.EmptyResult</h6>
+                    </div>
+                </div>
+            }
+            @if (TempData["Delete"] != null)
+            {
+                <div class="row text-center">
+                    <div class="col-md-4 col-md-offset-4">
+                        <h6 class="alert alert-success text-center">@TempData["Delete"]</h6>
+                    </div>
+                </div>
+            }
+              @if (TempData["DeleteFail"] != null)
+            {
+                <div class="row text-center">
+                    <div class="col-md-4 col-md-offset-4">
+                        <h6 class="alert alert-danger text-center">@TempData["Delete"]</h6>
+                    </div>
+                </div>
+            }
             @for (var i = 0; i < info.PageCount; i++)
             {
                 if (i == info.CurrentPageIndex)
@@ -241,11 +258,11 @@
     </div>
 </div>
 @section Scripts {
-    <script src = "@Url.Content("../../assets/plugins/jquery-1.10.2.js")"></script>
+    <script src = "@Url.Content("../../Content/assets/plugins/jquery-1.10.2.js")"></script>
     <!-- BOOTSTRAP CORE SCRIPT   -->
-    <script src="@Url.Content("../../assets/js/Employee.js")"></script>
-    <script src="@Url.Content("../../assets/plugins/bootstrap.js")"></script>
+    <script src="@Url.Content("../../Content/assets/js/Employee.js")"></script>
+    <script src="@Url.Content("../../Content/assets/plugins/bootstrap.js")"></script>
     <!-- CUSTOM SCRIPTS -->
-    <script src="@Url.Content("../../assets/js/custom.js")"></script>
+    <script src="@Url.Content("../../Content/assets/js/custom.js")"></script>
     @Scripts.Render("~/bundles/jqueryval")
 }

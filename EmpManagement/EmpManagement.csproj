@@ -150,23 +150,24 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\data.txt" />
+    <Content Include="App_Data\Users.txt" />
     <Content Include="App_Data\Employees.txt" />
-    <Content Include="assets\css\bootstrap.css" />
-    <Content Include="assets\css\font-awesome.min.css" />
-    <Content Include="assets\css\style.css" />
-    <Content Include="assets\fonts\fontawesome-webfontba72.svg" />
-    <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="assets\js\CreateEmployee.js" />
-    <Content Include="assets\js\custom.js" />
-    <Content Include="assets\js\Employee.js" />
-    <Content Include="assets\js\Home.js" />
-    <Content Include="assets\plugins\bootstrap.js" />
-    <Content Include="assets\plugins\jquery-1.10.2.js" />
+    <Content Include="Content\assets\css\bootstrap.css" />
+    <Content Include="Content\assets\css\font-awesome.min.css" />
+    <Content Include="Content\assets\css\style.css" />
+    <Content Include="Content\assets\fonts\fontawesome-webfontba72.svg" />
+    <Content Include="Content\assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\assets\js\CreateEmployee.js" />
+    <Content Include="Content\assets\js\custom.js" />
+    <Content Include="Content\assets\js\Employee.js" />
+    <Content Include="Content\assets\js\Home.js" />
+    <Content Include="Content\assets\js\Register.js" />
+    <Content Include="Content\assets\plugins\bootstrap.js" />
+    <Content Include="Content\assets\plugins\jquery-1.10.2.js" />
+    <Content Include="Content\empSystem.jpg" />
     <Content Include="Content\images.jpg" />
     <Content Include="Content\images.png" />
     <Content Include="Content\Login.css" />
-    <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -254,6 +255,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
+    <Folder Include="REST\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -274,15 +276,15 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\fonts\fontawesome-webfontba72.eot" />
-    <None Include="assets\fonts\fontawesome-webfontba72.ttf" />
-    <None Include="assets\fonts\fontawesome-webfontba72.woff" />
-    <None Include="assets\fonts\fontawesome-webfontd41d.eot" />
-    <None Include="assets\fonts\glyphicons-halflings-regular.eot" />
-    <None Include="assets\fonts\glyphicons-halflings-regular.ttf" />
-    <None Include="assets\fonts\glyphicons-halflings-regular.woff" />
-    <None Include="assets\fonts\glyphicons-halflings-regulard41d.eot" />
     <Content Include="Views\Home\Register.cshtml" />
+    <None Include="Content\assets\fonts\fontawesome-webfontba72.eot" />
+    <None Include="Content\assets\fonts\fontawesome-webfontba72.ttf" />
+    <None Include="Content\assets\fonts\fontawesome-webfontba72.woff" />
+    <None Include="Content\assets\fonts\fontawesome-webfontd41d.eot" />
+    <None Include="Content\assets\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Content\assets\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="Content\assets\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Content\assets\fonts\glyphicons-halflings-regulard41d.eot" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

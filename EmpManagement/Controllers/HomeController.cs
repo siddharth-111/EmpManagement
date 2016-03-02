@@ -43,7 +43,7 @@ namespace EmpManagement.Controllers
                     log.Info("Login Method Stop");
                     if (isValid)
                     {
-                        FormsAuthentication.RedirectFromLoginPage(login.username,false);
+                        FormsAuthentication.RedirectFromLoginPage(login.username, false);
                         return RedirectToAction("Index", "Employee");
                     }
                     else
@@ -77,7 +77,8 @@ namespace EmpManagement.Controllers
                     bool isValid = businessLayerObj.Register(newUser);
                     if (isValid)
                     {
-                        return RedirectToAction("Index");
+                        TempData["Success"] = "User Registered successfully!!";
+                        return View(newUser);
                     }
                     else
                         ModelState.AddModelError("", "Cannot register,Duplicate username/email");
@@ -91,7 +92,7 @@ namespace EmpManagement.Controllers
             }
 
             return View(newUser);
-                  
+
         }
 
     }

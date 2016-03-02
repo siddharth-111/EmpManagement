@@ -24,13 +24,33 @@ namespace EmpManagement.Controllers
             log.Info("Employee Index method start");
             //Sorting parameters       
             EmployeeDetails info = new EmployeeDetails();
-
             info.SortField = "Name";
             info.SortDirection = "ascending";
             ViewBag.PagingInfo = info;      
             info.CurrentPageIndex = 0;
-            List<EmployeeDetails> empList = getEmployeesInSets(info);
+            var modEmplist = getEmployeesInSets(info, searchString);
+            TempData["search"] = searchString;
+            if (modEmplist != null)
+            {
+                log.Info("Employee Index method stop");
+                return View(modEmplist);
+            }
+            else
+            {
+                log.Info("Employee Index method stop");
 
+                return View();
+            }
+        }
+
+        //Common method for returning Employee list
+        public IQueryable<EmployeeDetails> getEmployeesInSets(EmployeeDetails info , string searchString)
+        {
+
+            long count = businessLayerObj.getPageCount();
+            info.PageSize = 3;
+            info.PageCount = Convert.ToInt32(Math.Ceiling((double)((count + info.PageSize - 1) / info.PageSize)));
+            List<EmployeeDetails> empList = businessLayerObj.getEmployees(info.PageSize, info.CurrentPageIndex * info.PageSize);
             IQueryable<EmployeeDetails> emp = empList.AsQueryable();
             var modEmplist = from s in emp
                              select s;
@@ -84,39 +104,18 @@ namespace EmpManagement.Controllers
                     modEmplist = modEmplist.OrderBy(s => s.contact);
                     break;
             }
-            TempData["search"] = searchString;
             if (modEmplist != null)
             {
-                if (modEmplist.Any())
+                if (!modEmplist.Any())
                 {
-                    log.Info("Employee Index method stop");
-                    return View(modEmplist);
-                }
-                else
-                {
-                    log.Info("Employee Index method stop");
                     ViewBag.EmptyResult = "There are no employees in this grid";
-                    return View(modEmplist);
                 }
-               
             }
             else
             {
-                log.Info("Employee Index method stop");
-            
-                return View();
+                ViewBag.EmptyResult = "There are no employees in this grid";
             }
-        }
-
-        public List<EmployeeDetails> getEmployeesInSets(EmployeeDetails info)
-        {
-
-            long count = businessLayerObj.getPageCount();
-            info.PageSize = 3;
-            info.PageCount = Convert.ToInt32(Math.Ceiling((double)((count + info.PageSize - 1) / info.PageSize)));
-            List<EmployeeDetails> empList = businessLayerObj.getEmployees(info.PageSize, info.CurrentPageIndex * info.PageSize);
-            IQueryable<EmployeeDetails> emp = empList.AsQueryable();
-            return empList;
+            return modEmplist;
         }
 
         [HttpPost]
@@ -125,86 +124,21 @@ namespace EmpManagement.Controllers
         {
             ViewBag.PagingInfo = info;
             ViewBag.SearchString = TempData["search"];
-            List<EmployeeDetails> empList = getEmployeesInSets(info);
+
             searchString = ViewBag.SearchString;
-
-            IQueryable<EmployeeDetails> emp = empList.AsQueryable();
-
-            var modEmplist = from s in emp
-                             select s;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-               
-              int checkForNumber;
-              DateTime checkForDate;
-              bool resultOfDateParse = DateTime.TryParse(searchString, out checkForDate);
-              bool isNumeric = int.TryParse(searchString, out checkForNumber);
-              
-              if (resultOfDateParse)
-              {
-                  modEmplist = modEmplist.Where(s => DateTime.Compare(s.DOB, checkForDate) == 0 || DateTime.Compare(s.DOJ, checkForDate) == 0);
-
-              }
-              else if (isNumeric)
-              {
-                  modEmplist = modEmplist.Where(s => s.salary == Int32.Parse(searchString) || s.contact.ToUpper().Contains(searchString.ToUpper()));
-              }
-              else
-              {
-                  modEmplist = modEmplist.Where(s => s.EmployeeName.ToUpper().Contains(searchString.ToUpper()) || s.Address.ToUpper().Contains(searchString.ToUpper()) || s.contact.ToUpper().Equals(searchString.ToUpper()) || s.Dept.ToUpper().Equals(searchString.ToUpper()) || s.email.ToUpper().Contains(searchString.ToUpper()));
-              }
-
-            }
-            switch (info.SortField)
-            {
-                case "Email":
-                    modEmplist = modEmplist.OrderBy(s => s.email);
-                    break;
-                case "Name":
-                    modEmplist = modEmplist.OrderBy(s => s.EmployeeName);
-                    break;
-                case "Address":
-                    modEmplist = modEmplist.OrderBy(s => s.Address);
-                    break;
-                case "Department":
-                    modEmplist = modEmplist.OrderBy(s => s.Dept);
-                    break;
-                case "DOJ":
-                    modEmplist = modEmplist.OrderBy(s => s.DOJ);
-                    break;
-                case "DOB":
-                    modEmplist = modEmplist.OrderBy(s => s.DOB);
-                    break;
-                case "Salary":
-                    modEmplist = modEmplist.OrderBy(s => s.salary);
-                    break;
-                case "Contact":
-                    modEmplist = modEmplist.OrderBy(s => s.contact);
-                    break;
-            }
+            var modEmplist = getEmployeesInSets(info, searchString);
             TempData["search"] = ViewBag.SearchString;
             if (modEmplist != null)
             {
-
-                if (modEmplist.Any())
-                {
-                    log.Info("Employee Index method stop");
+                log.Info("Employee Index method stop");
                     return View(modEmplist);
-                }
-                else
-                {
-                    log.Info("Employee Index method stop");
-                    ViewBag.EmptyResult = "There are no employees in this grid";
-                    return View(modEmplist);
-                }
             }
             else
             {
                 log.Info("Employee Index method stop");
-                ViewBag.EmptyResult = "There is no matching employee.";
+             
                 return View();
             }
-
 
         }
 
@@ -302,11 +236,13 @@ namespace EmpManagement.Controllers
                 bool val = businessLayerObj.DeleteEmployee(singleEmp.EmployeeID);
                 if (val)
                 {
+                    TempData["Delete"] = "Deleted the employee successfully!!";
                     log.Info("Delete employee method stop,successful execution!!");
                     return RedirectToAction("Index", "Employee");
                 }
                 else
                 {
+                    TempData["DeleteFail"] = "Couldn't Delete the Employee";
                     log.Info("Delete employee method stop,unsuccessful execution");
                     ModelState.AddModelError("", "Error in Deleting the Employee");
                 }

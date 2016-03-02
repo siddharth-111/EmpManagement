@@ -15,7 +15,8 @@
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="navbar-header">
-     <a class ="pull-left" ><img src="../../Content/images.png" style="height:50px;border-radius:30px;"></a>   
+        <a class="pull-left">
+            <img src="../../Content/empSystem.jpg" style="height: 50px; border-radius: 30px;"></a>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
             <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
                 class="icon-bar"></span><span class="icon-bar"></span>
@@ -32,11 +33,51 @@
 <!--End Navigation -->
 <section class="fade-in color-white" id="login">
     <div class="login">
+        @if (TempData["Success"] != null)
+        {
+            <div class="row text-center color-white">
+                <div class="col-md-10 col-md-offset-1">
+                    <h6 class="alert alert-success text-center">
+                        <span class="glyphicon glyphicon glyphicon-ok"></span>&nbsp;&nbsp;@TempData["Success"]</h6>
+                </div>
+            </div>
+        }
         <div class="login-triangle">
         </div>
         <h2 class="login-header">
             EMS Registration</h2>
         <div class="login-container">
+            @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { id = "createForm" }))
+            {
+                <div style="font-size: 12px; padding-left: 12px;">
+                    @Html.ValidationSummary(true)
+                </div>
+                @Html.AntiForgeryToken()
+                <p style="padding: 12px 12px 0px 12px;">
+                    @Html.TextBoxFor(model => model.username, new { placeholder = @Html.DisplayNameFor(m => m.username) })
+                    <span class=" validation-message errors" style="font-size: 12px;"></span>
+                </p>       
+                <p>
+                    @Html.TextBoxFor(model => model.password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.password) })
+                    <span class=" validation-message errors" style="font-size: 12px;"></span>
+                </p>  
+                <p>
+                    @Html.TextBoxFor(model => model.ConfirmPassword, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.ConfirmPassword) })
+                    <span class=" validation-message errors" style="font-size: 12px;"></span>
+                </p>  
+                <p>
+                    @Html.TextBoxFor(model => model.name, new { type = "text", placeholder = @Html.DisplayNameFor(m => m.name) })
+                    <span class=" validation-message errors" style="font-size: 12px;"></span>
+                </p>  
+                <p>
+                    @Html.TextBoxFor(model => model.phone, new { type = "number", placeholder = @Html.DisplayNameFor(m => m.phone) })
+                    <span class=" validation-message errors" style="font-size: 12px;"></span>
+                </p>  
+                <p>
+                    <input type="submit" value="Register" id="formLogin" /></p>
+            }
+        </div>
+        @* <div class="login-container">
             @using (Html.BeginForm("Register", "Home"))
             {
                 @Html.ValidationSummary(true)
@@ -65,17 +106,19 @@
                 <p>
                     <input type="submit" value="Register" /></p>
             }
-        </div>
+        </div>*@
     </div>
 </section>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src = "@Url.Content("../../assets/plugins/jquery-1.10.2.js")"></script>
+    <script src = "@Url.Content("../../Content/assets/plugins/jquery-1.10.2.js")"></script>
     <!-- BOOTSTRAP CORE SCRIPT   -->
-    <script src="@Url.Content("../../assets/plugins/bootstrap.js")"></script>
+    <script src="@Url.Content("../../Content/assets/plugins/bootstrap.js")"></script>
     <!-- CUSTOM SCRIPTS -->
-    <script src="@Url.Content("../../assets/js/custom.js")"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.9.0/jquery.validate.min.js"></script>
+    <script src ="@Url.Content("../../Content/assets/js/Register.js")"></script>
+    <script src="@Url.Content("../../Content/assets/js/custom.js")"></script>
 }
-<div class="for-full-back " id="footer">
+<div class="for-full-back footer-emp">
     Copyright © 2016 www.leadsquared.com | All Rights Reserved
 </div>
