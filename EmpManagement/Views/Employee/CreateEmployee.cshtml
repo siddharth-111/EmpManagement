@@ -36,7 +36,7 @@
 <div class="container fade-in">
     <div class="row text-center">
         <h1>
-            Create New Employee
+            Create Employee
         </h1>
     </div>
     @if (TempData["Success"] != null)
@@ -57,6 +57,35 @@
             </div>
         </div>
     }
+    <style type="text/css">
+  @("@")-moz-document url-prefix() {
+    .moz-padding
+    {
+    padding : 0px 12px 0px !important; 
+    }
+    .test1::before{
+    content: "\200B";
+    }
+    }
+    </style>
+   
+
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script> 
+<script src="http://cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+<script>
+    webshims.setOptions('forms-ext', { types: 'date' });
+    webshims.polyfill('forms forms-ext');
+    $.webshims.formcfg = {
+        en: {
+            dFormat: '/',
+            dateSigns: '/',
+            patterns: {
+                d: "mm/dd/yy"
+            }
+        }
+    };
+</script>
     @using (Html.BeginForm("CreateEmployee", "Employee", FormMethod.Post, new { id = "createForm" }))
     { 
         <div class="login" style="margin: 0px auto 90px;">
@@ -67,55 +96,71 @@
                     @Html.ValidationSummary(true)
                 </div>
                 @Html.AntiForgeryToken()
-                <p style="padding: 12px 12px 0px 12px;">
-                    @Html.TextBoxFor(model => model.email, new { placeholder = @Html.DisplayNameFor(m => m.email) })
+                <p>
+                    Email:
+                    @Html.TextBoxFor(model => model.email)
                     <span class=" validation-message errors" style="font-size: 12px;"></span>
                 </p>
                 <p>
-                    @Html.TextBoxFor(model => model.EmployeeName, new { placeholder = @Html.DisplayNameFor(m => m.EmployeeName) })
+                    Employee Name:
+                    @Html.TextBoxFor(model => model.EmployeeName)
                     <span class=" validation-message errors" style="font-size: 12px;"></span>
                 </p>
                 <p>
-                    @Html.TextBoxFor(model => model.Address, new { placeholder = @Html.DisplayNameFor(m => m.Address) })
+                    Address:
+                    @Html.TextBoxFor(model => model.Address)
                     <span class=" validation-message errors" style="font-size: 12px;"></span>
                 </p>
                 <p>
-                    @Html.TextBoxFor(model => model.Dept, new { placeholder = @Html.DisplayNameFor(m => m.Dept) })
+                    Department:
+                    @Html.TextBoxFor(model => model.Dept)
+                    <span class=" validation-message errors" style="font-size: 12px;"></span>
+                </p>
+                <p class ="moz-padding">
+                 Date of joining:
+                <!--<input class="dateLowerThanToday user-success error input-validation-error" data-val="true" data-val-date="The field DOJ must be a date." data-val-required="Date of Joining is required" id="DOJ" name="DOJ" placeholder="DOJ" type="date" value="" required>-->
+                @Html.TextBoxFor(model => model.DOJ, new { type = "date", @class = "requireDOJ dateLowerThanToday" })
+                    <span class=" test1 validation-message errors" style="font-size: 12px;display:block;"></span>
+                    
+                </p>
+               <p class ="moz-padding">
+                Date of birth:
+                @Html.TextBoxFor(model => model.DOB, new { type = "date", @class = "requireDOB dateofBirth"})
+                    <span class=" test1 validation-message errors" style="font-size: 12px; display:block;"></span>
+                </p>
+
+                <p>
+                    Salary:
+                    @Html.TextBoxFor(model => model.salary, new { @class = "isNumber" })
                     <span class=" validation-message errors" style="font-size: 12px;"></span>
                 </p>
                 <p>
-                    @Html.TextBoxFor(model => model.DOJ, new { type = "text", @class = "dateLowerThanToday", placeholder = "Date of Joining", onfocus = "(this.type='date')" })
+                    Mobile:
+                    @Html.TextBoxFor(model => model.contact)
                     <span class=" validation-message errors" style="font-size: 12px;"></span>
                 </p>
-                <p>
-                    @Html.TextBoxFor(model => model.DOB, new { type = "text", @class = "dateofBirth", placeholder = "Date of birth", onfocus = "(this.type='date')" })
-                    <span class=" validation-message errors" style="font-size: 12px;"></span>
-                </p>
-                <p>
-                    @Html.TextBoxFor(model => model.salary, new { type = "number", placeholder = @Html.DisplayNameFor(m => m.salary) })
-                    <span class=" validation-message errors" style="font-size: 12px;"></span>
-                </p>
-                <p>
-                    @Html.TextBoxFor(model => model.contact, new { placeholder = @Html.DisplayNameFor(m => m.contact) })
-                    <span class=" validation-message errors" style="font-size: 12px;"></span>
-                </p>
-                <p>
+                <p class="index" style="padding: 5px 12px 0px 12px;">
                     <input type="submit" style="padding: 12px;" class="btn btn-primary" value="Create Employee" />
                 </p>
             </div>
         </div>                    
     }
 </div>
+
+
 <div class="for-full-back footer-emp">
     Copyright © 2016 www.leadsquared.com | All Rights Reserved
 </div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src = "@Url.Content("../../Content/assets/plugins/jquery-1.10.2.js")"></script>
     <!-- BOOTSTRAP CORE SCRIPT   -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.9.0/jquery.validate.min.js"></script>
+
     <script src="@Url.Content("../../Content/assets/js/CreateEmployee.js")"></script>
     <script src="@Url.Content("../../Content/assets/plugins/bootstrap.js")"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="@Url.Content("../../Content/assets/js/custom.js")"></script>
+
 }

@@ -51,15 +51,15 @@
                         @Html.ValidationSummary(true)
                     </div>
                     @Html.AntiForgeryToken()
-                    <p style="padding: 12px 12px 0px 12px;">
+                    <p style="padding: 12px 12px 0px 12px;" class="index">
                         @Html.TextBoxFor(model => model.username, new { placeholder = @Html.DisplayNameFor(m => m.username) })
                         <span class=" validation-message errors" style="font-size: 12px;"></span>
                     </p>       
-                    <p>
+                    <p class="index">
                         @Html.TextBoxFor(model => model.password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.password) })
                         <span class=" validation-message errors" style="font-size: 12px;"></span>
                     </p>  
-                    <p>
+                    <p class="index">
                         <input type="submit" value="Login" id="formLogin" /></p>
                 }
             </div>

@@ -48,7 +48,7 @@ namespace EmpManagement.Controllers
         {
 
             long count = businessLayerObj.getPageCount();
-            info.PageSize = 3;
+            info.PageSize = 9;
             info.PageCount = Convert.ToInt32(Math.Ceiling((double)((count + info.PageSize - 1) / info.PageSize)));
             List<EmployeeDetails> empList = businessLayerObj.getEmployees(info.PageSize, info.CurrentPageIndex * info.PageSize);
             IQueryable<EmployeeDetails> emp = empList.AsQueryable();
@@ -77,32 +77,65 @@ namespace EmpManagement.Controllers
                 }
 
             }
-            switch (info.SortField)
+            if (info.SortDirection == "ascending")
             {
-                case "Email":
-                    modEmplist = modEmplist.OrderBy(s => s.email);
-                    break;
-                case "Name":
-                    modEmplist = modEmplist.OrderBy(s => s.EmployeeName);
-                    break;
-                case "Address":
-                    modEmplist = modEmplist.OrderBy(s => s.Address);
-                    break;
-                case "Department":
-                    modEmplist = modEmplist.OrderBy(s => s.Dept);
-                    break;
-                case "DOJ":
-                    modEmplist = modEmplist.OrderBy(s => s.DOJ);
-                    break;
-                case "DOB":
-                    modEmplist = modEmplist.OrderBy(s => s.DOB);
-                    break;
-                case "Salary":
-                    modEmplist = modEmplist.OrderBy(s => s.salary);
-                    break;
-                case "Contact":
-                    modEmplist = modEmplist.OrderBy(s => s.contact);
-                    break;
+                switch (info.SortField)
+                {
+                    case "Email":
+                        modEmplist = modEmplist.OrderBy(s => s.email);
+                        break;
+                    case "Name":
+                        modEmplist = modEmplist.OrderBy(s => s.EmployeeName);
+                        break;
+                    case "Address":
+                        modEmplist = modEmplist.OrderBy(s => s.Address);
+                        break;
+                    case "Department":
+                        modEmplist = modEmplist.OrderBy(s => s.Dept);
+                        break;
+                    case "DOJ":
+                        modEmplist = modEmplist.OrderBy(s => s.DOJ);
+                        break;
+                    case "DOB":
+                        modEmplist = modEmplist.OrderBy(s => s.DOB);
+                        break;
+                    case "Salary":
+                        modEmplist = modEmplist.OrderBy(s => s.salary);
+                        break;
+                    case "Contact":
+                        modEmplist = modEmplist.OrderBy(s => s.contact);
+                        break;
+                }
+            }
+            else
+            {
+                switch (info.SortField)
+                {
+                    case "Email":
+                        modEmplist = modEmplist.OrderByDescending(s => s.email);
+                        break;
+                    case "Name":
+                        modEmplist = modEmplist.OrderByDescending(s => s.EmployeeName);
+                        break;
+                    case "Address":
+                        modEmplist = modEmplist.OrderByDescending(s => s.Address);
+                        break;
+                    case "Department":
+                        modEmplist = modEmplist.OrderByDescending(s => s.Dept);
+                        break;
+                    case "DOJ":
+                        modEmplist = modEmplist.OrderByDescending(s => s.DOJ);
+                        break;
+                    case "DOB":
+                        modEmplist = modEmplist.OrderByDescending(s => s.DOB);
+                        break;
+                    case "Salary":
+                        modEmplist = modEmplist.OrderByDescending(s => s.salary);
+                        break;
+                    case "Contact":
+                        modEmplist = modEmplist.OrderByDescending(s => s.contact);
+                        break;
+                }
             }
             if (modEmplist != null)
             {
