@@ -77,36 +77,6 @@
                     <input type="submit" value="Register" id="formLogin" /></p>
             }
         </div>
-        @* <div class="login-container">
-            @using (Html.BeginForm("Register", "Home"))
-            {
-                @Html.ValidationSummary(true)
-                @Html.AntiForgeryToken()
-
-                <p>
-                    @Html.TextBoxFor(model => model.username, new { placeholder = @Html.DisplayNameFor(m => m.username) })
-                </p> 
-                @Html.ValidationMessageFor(model => model.username, "", new { style = "font-size:12px;padding-left:12px;" }) 
-                <p>
-                    @Html.TextBoxFor(model => model.password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.password) })
-                </p>  
-                @Html.ValidationMessageFor(model => model.password, "Please enter a password", new { style = "font-size:12px;padding-left:12px" })
-                <p>
-                    @Html.TextBoxFor(model => model.ConfirmPassword, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.ConfirmPassword) })
-                </p>  
-                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { style = "font-size:12px;padding-left:12px" })
-                <p>
-                    @Html.TextBoxFor(model => model.name, new { type = "text", placeholder = @Html.DisplayNameFor(m => m.name) })
-                </p>  
-                @Html.ValidationMessageFor(model => model.name, "", new { style = "font-size:12px;padding-left:12px" })
-                <p>
-                    @Html.TextBoxFor(model => model.phone, new { type = "number", placeholder = @Html.DisplayNameFor(m => m.phone) })
-                </p>  
-                @Html.ValidationMessageFor(model => model.phone, "", new { style = "font-size:12px;padding-left:12px" })
-                <p>
-                    <input type="submit" value="Register" /></p>
-            }
-        </div>*@
     </div>
 </section>
 @section Scripts {

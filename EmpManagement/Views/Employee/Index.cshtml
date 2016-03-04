@@ -39,263 +39,50 @@
 <div class="container">
     <div class="col-lg-12">
         <input type="button" class = "btn btn-primary pull-right" onclick = "location.href = '@Url.Action("CreateEmployee")'" value="Create Employee"/>
-        @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
-        {
-            <div class="input-group col-md-3">
-                <div class="input-group">
-                    <input type = "text" class = "form-control clear-inp" placeholder = "Search..." name = "SearchString"
-                    value="@ViewBag.SearchString"/>
-                    <span class="input-group-addon"><a class="icon" onclick="document.forms[0].submit();return false;">
-                        <span class="glyphicon glyphicon glyphicon-search"></span></a></span>
-                </div>
-            </div>
-        
-        }
-    </div>
-    @using (Html.BeginForm("Index", "Employee", FormMethod.Post))
-    {  
-        @Html.Hidden("PageCount", info.PageCount)
-        @Html.Hidden("PageSize", info.PageSize)
-        @Html.Hidden("CurrentPageIndex", info.CurrentPageIndex)
-        @Html.Hidden("SortField", info.SortField)
-        @Html.Hidden("SortDirection", info.SortDirection)
-        
+        <div class="input-group col-md-2">
+            <input type="text" class="form-control col-md-offset-1" id="search" placeholder="Search..."
+                style="border-radius: 5px;" />
+        </div>
         <div class="col-lg-12" style="margin-top: 25px">
-            <table class="table table-bordered table-hover table-striped">
+            <table class="table table-bordered table-hover table-striped" id="employeeTable">
                 <thead>
                     <tr>
                         <th>
-                            <a href="#" data-sortfield="Email" class="header">Email</a>
-                            @if (info.SortField == "Email")
-                            {
-                                if (info.SortDirection == "ascending")
-                                { 
-                                  <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                                }
-                                else
-                                { 
-                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-down"></i></span>
-                                }
-
-                            }
+                            <a href="#">Email</a>
                         </th>
                         <th>
-                            <a href="#" data-sortfield="Name" class="header">Employee name</a>
-                            @if (info.SortField == "Name")
-                            {
-                                if (info.SortDirection == "ascending")
-                                { 
-                                  <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                                }
-                                else
-                                { 
-                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-down"></i></span>
-                                }
-                            }
+                            <a href="#">Employee name</a>
                         </th>
                         <th>
-                            <a href="#" data-sortfield="Address" class="header">Address</a>
-                            @if (info.SortField == "Address")
-                            {
-                                 if (info.SortDirection == "ascending")
-                                { 
-                                  <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                                }
-                                 else
-                                 { 
-                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-down"></i></span>
-                                 }
-                            }
+                            <a href="#">Address</a>
                         </th>
                         <th>
-                            <a href="#" data-sortfield="Department" class="header">Department</a>
-                            @if (info.SortField == "Department")
-                            {
-                                 if (info.SortDirection == "ascending")
-                                { 
-                                  <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                                }
-                                 else
-                                 { 
-                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-down"></i></span>
-                                 }
-                            }
+                            <a href="#">Department</a>
                         </th>
                         <th>
-                            <a href="#" data-sortfield="DOJ" class="header">Date of Joining</a>
-                            @if (info.SortField == "DOJ")
-                            {
-                                 if (info.SortDirection == "ascending")
-                                { 
-                                  <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                                }
-                                 else
-                                 { 
-                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-down"></i></span>
-                                 }
-                            }
+                            <a href="#">Date of Joining</a>
                         </th>
                         <th>
-                            <a href="#" data-sortfield="DOB" class="header">Date of Birth</a>
-                            @if (info.SortField == "DOB")
-                            {
-                                if (info.SortDirection == "ascending")
-                                { 
-                                  <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                                }
-                                else
-                                { 
-                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-down"></i></span>
-                                }
-                            }
+                            <a href="#">Date of Birth</a>
                         </th>
                         <th>
-                            <a href="#" data-sortfield="Contact" class="header">Contact</a>
-                            @if (info.SortField == "Contact")
-                            {
-                                if (info.SortDirection == "ascending")
-                                { 
-                                  <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                                }
-                                else
-                                { 
-                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-down"></i></span>
-                                }
-                            }
+                            <a href="#">Contact</a>
                         </th>
                         <th>
-                            <a href="#" data-sortfield="Salary" class="header">Salary </a>
-                            @if (info.SortField == "Salary")
-                            {
-                                 if (info.SortDirection == "ascending")
-                                { 
-                                  <span class="pull-right"><i class="glyphicon glyphicon-chevron-up"></i></span>
-                                }
-                                 else
-                                 { 
-                                <span class="pull-right"><i class="glyphicon glyphicon-chevron-down"></i></span>
-                                 }
-                            }
+                            <a href="#">Salary</a>
                         </th>
                         <th style="text-align: center;">
                             Action
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            @Html.HiddenFor(model => item.EmployeeID)
-                            <td>@item.email
-                            </td>
-                            <td>@item.EmployeeName
-                            </td>
-                            <td>@item.Address
-                            </td>
-                            <td>@item.Dept
-                            </td>
-                            <td>@item.DOJ.ToShortDateString()
-                            </td>
-                            <td>@item.DOB.ToShortDateString()
-                            </td>
-                            <td>@item.contact
-                            </td>
-                            <td style="text-align: right;">@item.salary
-                            </td>
-                            <td style="text-align: center;">
-                                <div class="dropdown">
-                                    <!--
-                                <button class="btn btn-sm dropdown-toggle" style="border-radius: 20px" disabled
-                                    data-toggle="dropdown"></button> -->
-                                    <a data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog">
-                                    </span></a>
-                                    <ul class="dropdown-menu">
-                                        <li>@Html.ActionLink("Edit", "EditEmployee", new { id = item.EmployeeID })</li>
-                                        <li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="@item.EmployeeID">
-                                            Delete</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
             </table>
-            @if (ViewBag.EmptyResult != null)
-            {
-                <div class="row text-center">
-                    <div class="col-md-4 col-md-offset-4">
-                        <h6 class="alert alert-danger text-center">@ViewBag.EmptyResult</h6>
-                    </div>
-                </div>
-            }
-            @if (TempData["Delete"] != null)
-            {
-                <div class="row text-center">
-                    <div class="col-md-4 col-md-offset-4">
-                        <h6 class="alert alert-success text-center">@TempData["Delete"]</h6>
-                    </div>
-                </div>
-            }
-              @if (TempData["DeleteFail"] != null)
-              {
-                <div class="row text-center">
-                    <div class="col-md-4 col-md-offset-4">
-                        <h6 class="alert alert-danger text-center">@TempData["Delete"]</h6>
-                    </div>
-                </div>
-              }
-            @for (var i = 0; i < info.PageCount; i++)
-            {
-                if (i == info.CurrentPageIndex)
-                {
-                <span class="pull-left">Page @(i + 1)
-                    of @info.PageCount</span>
-         
-                }
-            }
-            <ul class="pagination pull-right">
-                @for (var i = 0; i < info.PageCount; i++)
-                {
-                    if (i == info.CurrentPageIndex)
-                    {
-                        if ((i - 1) >= 0)
-                        {  
-                    <li><a href="#" data-pageindex="@(i - 1)"
-                          class="abc">&laquo;</a></li> 
-                        }
-                    }
-                }
-                @for (var i = 0; i < info.PageCount; i++)
-                {
-                    if (i == info.CurrentPageIndex)
-                    {
-                       
-                    <li class="active"><a href="#" data-pageindex="@i"
-                          class="abc">@(i + 1)</a></li> 
-                    }
-                    else
-                    {
-                    <li><a href="#" data-pageindex="@i"
-                           class="abc">@(i + 1)</a></li>  
-                    }
-                }
-                @for (var i = 0; i < info.PageCount; i++)
-                {
-                    if (i == info.CurrentPageIndex)
-                    {
-                        if ((i + 1) < info.PageCount)
-                        {  
-                    <li><a href="#" data-pageindex="@(i + 1)"
-                          class="abc">&raquo;</a></li> 
-                        }
-                    }
-
-
-                }
-            </ul>
+            <div id="emptyRows">
+            </div>
+            <div id="paginationDiv">
+            </div>
         </div>
-    }
+    </div>
 </div>
 <div class="for-full-back footer-emp">
     Copyright © 2016 www.leadsquared.com | All Rights Reserved
@@ -307,7 +94,7 @@
             <div class="modal-header">
                 <h4 class="modal-title text-center">
                     Are you sure you want to delete employee?</h4>
-                <button style="width:50%;" class ="btn btn-default" id = "empId" value="" onclick="location.href='@Url.Action("DeleteEmployee")?id=' + $('#empId').val()">
+                <button style="width:50%;float:left;" class ="btn btn-default" id = "empId" value="" onclick="location.href='@Url.Action("DeleteEmployee")?id=' + $('#empId').val()">
                     Yes</button>
                 <input type="button" class="btn btn-default align-button" data-dismiss="modal" value="No" />
             </div>

@@ -13,12 +13,12 @@
 {
     margin-top: 0;
     margin-bottom: -10px;
-    font-size:16px;
+    font-size: 16px;
 }
 
-.index 
+.index
 {
-    margin-bottom:0 !important;
+    margin-bottom: 0 !important;
 }
 
 /* The triangle form is achieved by a CSS hack */
@@ -51,7 +51,7 @@
 
 .login p
 {
-    -moz-padding : 12px 12px 0px 12px;
+    -moz-padding: 12px 12px 0px 12px;
     padding: 0px 12px 0px 12px;
 }
 .pad-left
@@ -59,6 +59,11 @@
     padding-left: 12px;
 }
 
+
+.create
+{
+    padding: 4px !important;
+}
 .login input
 {
     box-sizing: border-box;

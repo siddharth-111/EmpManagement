@@ -56,145 +56,72 @@
             </div>
         </div>
     }
-@*    @using (Html.BeginForm())
-    {
-    
-        @Html.ValidationSummary(true)
-        @Html.AntiForgeryToken()
-        <div class="login" style="margin: 20px auto 90px;">
-            <div class="login-container">
-                @Html.HiddenFor(model => model.EmployeeID)
-                <p style="padding: 12px 12px 0px 12px;" class="index">
-                    Email:
-                    @Html.EditorFor(model => model.email)
-                </p>
-                <div class="validation-message pad-left">
-                    @Html.ValidationMessageFor(model => model.email, "", new { style = "font-size:12px" })
-                </div>
-                <p class="index">
-                    Employee Name:
-                    @Html.EditorFor(model => model.EmployeeName)
-                </p>
-                <div class="validation-message pad-left">
-                    @Html.ValidationMessageFor(model => model.EmployeeName, "", new { style = "font-size:12px" })
-                </div>
-                <p class="index">
-                    Address:
-                    @Html.EditorFor(model => model.Address)
-                </p>
-                <div class="validation-message pad-left" >
-                    @Html.ValidationMessageFor(model => model.Address, "", new { style = "font-size:12px" })
-                </div>
-                <p class="index">
-                    Department:
-                    @Html.EditorFor(model => model.Dept)
-                </p>
-                <div class="validation-message pad-left">
-                </div>
-                <p class="index">
-                    Date of joining:
-                    @Html.EditorFor(model => model.DOJ)
-                </p>
-                <div class="validation-message pad-left">
-                    @Html.ValidationMessageFor(model => model.DOJ, "", new { style = "font-size:12px" })
-                </div>
-                <p class="index">
-                    Date of birth:
-                    @Html.EditorFor(model => model.DOB)
-                </p>
-                <div class="validation-message pad-left">
-                    @Html.ValidationMessageFor(model => model.DOB, "", new { style = "font-size:12px" })
-                </div>
-                <p class="index">
-                    Salary:
-                   @Html.TextBoxFor(model => model.salary, new { @class = "isNumber", placeholder = @Html.DisplayNameFor(m => m.salary) })
-                </p>
-                <div class="validation-message pad-left">
-                    @Html.ValidationMessageFor(model => model.salary, "Salary is required", new { style = "font-size:12px" })
-                </div>
-                <p class="index">
-                    Mobile:
-                    @Html.EditorFor(model => model.contact)
-                </p>
-                <div class="validation-message pad-left">
-                    @Html.ValidationMessageFor(model => model.contact, "", new { placeholder = "Mobile", style = "font-size:12px" })
-                </div>
-                <p class="index" style="padding: 5px 12px 0px 12px;">
-                    <input type="submit" value="Edit Employee" />
-                </p>
-            </div>
-        </div>
-    }
-*@
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script> 
-<script src="http://cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
-<script>
-    webshims.setOptions('forms-ext', { types: 'date' });
-    webshims.polyfill('forms forms-ext');
-    $.webshims.formcfg = {
-        en: {
-            dFormat: '/',
-            dateSigns: '/',
-            patterns: {
-                d: "mm/dd/yy"
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+    <script>
+        webshims.setOptions('forms-ext', { types: 'date' });
+        webshims.polyfill('forms forms-ext');
+        $.webshims.formcfg = {
+            en: {
+                dFormat: '/',
+                dateSigns: '/',
+                patterns: {
+                    d: "mm/dd/yy"
+                }
             }
-        }
-    };
-</script>
+        };
+    </script>
     @using (Html.BeginForm("EditEmployee", "Employee", FormMethod.Post, new { id = "createForm" }))
     { 
         <div class="login" style="margin: 0px auto 90px;">
             <div class="login-container">
                 <div class="validation-message" id="errors">
                 </div>
-                <div style="font-size: 12px; padding-left: 12px;">
+                <div style="font-size: 11px; padding-left: 12px;">
                     @Html.ValidationSummary(true)
                 </div>
                 @Html.AntiForgeryToken()
-                <p>
+                <p style="font-size: 14px; line-height: 25px;">
                     Email:
-                    @Html.TextBoxFor(model => model.email)
-                    <span class=" validation-message errors" style="font-size: 12px;"></span>
+                    @Html.TextBoxFor(model => model.email, new { @class = "create" })
+                    <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
-                <p>
+                <p style="font-size: 14px; line-height: 25px;">
                     Employee Name:
-                    @Html.TextBoxFor(model => model.EmployeeName)
-                    <span class=" validation-message errors" style="font-size: 12px;"></span>
+                    @Html.TextBoxFor(model => model.EmployeeName, new { @class = "create" })
+                    <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
-                <p>
+                <p style="font-size: 14px; line-height: 25px;">
                     Address:
-                    @Html.TextBoxFor(model => model.Address)
-                    <span class=" validation-message errors" style="font-size: 12px;"></span>
+                    @Html.TextBoxFor(model => model.Address, new { @class = "create" })
+                    <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
-                <p>
+                <p style="font-size: 14px; line-height: 25px;">
                     Department:
-                    @Html.TextBoxFor(model => model.Dept)
-                    <span class=" validation-message errors" style="font-size: 12px;"></span>
+                    @Html.TextBoxFor(model => model.Dept, new { @class = "create" })
+                    <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
-                <p class ="moz-padding">
-                 Date of joining:
-                <!--<input class="dateLowerThanToday user-success error input-validation-error" data-val="true" data-val-date="The field DOJ must be a date." data-val-required="Date of Joining is required" id="DOJ" name="DOJ" placeholder="DOJ" type="date" value="" required>-->
-      @*          @Html.TextBoxFor(model => model.DOJ, new { type = "date", @class = "requireDOJ dateLowerThanToday" })*@
-                  @Html.EditorFor(model => model.DOJ,new { htmlAttributes = new { @class = "requireDOJ dateLowerThanToday" } })
-                    <span class=" test1 validation-message errors" style="font-size: 12px;display:block;"></span>
-                    
+                <p class="moz-padding" style="font-size: 14px; line-height: 25px;">
+                    Date of joining:
+                    @Html.EditorFor(model => model.DOJ, new { htmlAttributes = new { @class = "requireDOJ dateLowerThanToday create" } })
+                    <span class=" test1 validation-message errors" style="font-size: 11px; display: block;">
+                    </span>
                 </p>
-               <p class ="moz-padding">
-                Date of birth:
-             @*   @Html.TextBoxFor(model => model.DOB, new { type = "date", @class = "requireDOB dateofBirth"})*@
-                  @Html.EditorFor(model => model.DOB, new { @class = "requireDOJ dateLowerThanToday" })
-                    <span class=" test1 validation-message errors" style="font-size: 12px; display:block;"></span>
+                <p class="moz-padding" style="font-size: 14px; line-height: 25px;">
+                    Date of birth:
+                    @Html.EditorFor(model => model.DOB, new { @class = "requireDOJ dateLowerThanToday create" })
+                    <span class=" test1 validation-message errors" style="font-size: 11px; display: block;">
+                    </span>
                 </p>
-
-                <p>
+                <p style="font-size: 14px; line-height: 25px;">
                     Salary:
-                    @Html.TextBoxFor(model => model.salary, new { @class = "isNumber" })
-                    <span class=" validation-message errors" style="font-size: 12px;"></span>
+                    @Html.TextBoxFor(model => model.salary, new { @class = "isNumber create" })
+                    <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
-                <p>
+                <p style="font-size: 14px; line-height: 25px;">
                     Mobile:
-                    @Html.TextBoxFor(model => model.contact)
-                    <span class=" validation-message errors" style="font-size: 12px;"></span>
+                    @Html.TextBoxFor(model => model.contact, new { @class = "create" })
+                    <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
                 <p class="index" style="padding: 5px 12px 0px 12px;">
                     <input type="submit" style="padding: 12px;" class="btn btn-primary" value="Create Employee" />
@@ -202,8 +129,6 @@
             </div>
         </div>                    
     }
-
-
 </div>
 @section Scripts {
     <script src = "@Url.Content("../../assets/plugins/jquery-1.10.2.js")"></script>

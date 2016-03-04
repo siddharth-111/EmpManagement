@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
-    $('#DOJ').addClass('requireDOJ dateLowerThanToday');
-    $('#DOB').addClass('requireDOB dateofBirth');
+    $('#DOJ').addClass('requireDOJ dateLowerThanToday create');
+    $('#DOB').addClass('requireDOB dateofBirth create');
     //validation rules
     $.validator.addMethod("dateLowerThanToday", function(value, element) {
          var myDate = value;

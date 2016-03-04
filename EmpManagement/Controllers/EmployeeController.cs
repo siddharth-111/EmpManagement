@@ -19,162 +19,41 @@ namespace EmpManagement.Controllers
         BusinessLogic businessLayerObj = new BusinessLogic();
         public ActionResult Index(string currentFilter, string searchString)
         {
-           
-            ViewBag.SearchString = searchString;
-            log.Info("Employee Index method start");
-            //Sorting parameters       
-            EmployeeDetails info = new EmployeeDetails();
-            info.SortField = "Name";
-            info.SortDirection = "ascending";
-            ViewBag.PagingInfo = info;      
-            info.CurrentPageIndex = 0;
-            var modEmplist = getEmployeesInSets(info, searchString);
-            TempData["search"] = searchString;
-            if (modEmplist != null)
-            {
-                log.Info("Employee Index method stop");
-                return View(modEmplist);
-            }
-            else
-            {
-                log.Info("Employee Index method stop");
-
-                return View();
-            }
+            log.Info("Employee Index method stop");
+            return View();
         }
 
-        //Common method for returning Employee list
-        public IQueryable<EmployeeDetails> getEmployeesInSets(EmployeeDetails info , string searchString)
+        //Get the Result of employee object
+        public JsonResult ReturnEmp(PaginationInfo pagingInfo)
         {
-
             long count = businessLayerObj.getPageCount();
-            info.PageSize = 9;
-            info.PageCount = Convert.ToInt32(Math.Ceiling((double)((count + info.PageSize - 1) / info.PageSize)));
-            List<EmployeeDetails> empList = businessLayerObj.getEmployees(info.PageSize, info.CurrentPageIndex * info.PageSize);
-            IQueryable<EmployeeDetails> emp = empList.AsQueryable();
-            var modEmplist = from s in emp
-                             select s;
-            if (!String.IsNullOrEmpty(searchString))
+            var PageCount = Convert.ToInt32(Math.Ceiling((double)((count + pagingInfo.pageSize - 1) / pagingInfo.pageSize)));
+            List<EmployeeDetails> empList = businessLayerObj.getEmployees(pagingInfo.pageSize, pagingInfo.currPage * pagingInfo.pageSize);
+            var returnList = new List<dynamic>();
+            foreach (EmployeeDetails temp in empList)
             {
+                returnList.Add(
+                    new
+                    {
+                        EmployeeID = temp.EmployeeID,
+                        email = temp.email,
+                        EmployeeName = temp.EmployeeName,
+                        Address = temp.Address,
+                        DOB = temp.DOB.Date.ToString("d"),
+                        DOJ = temp.DOJ.Date.ToString("d"),
+                        Dept = temp.Dept,
+                        salary = temp.salary,
+                        contact = temp.contact,
 
-                int checkForNumber;
-                DateTime checkForDate;
-                bool resultOfDateParse = DateTime.TryParse(searchString, out checkForDate);
-                bool isNumeric = int.TryParse(searchString, out checkForNumber);
+                    }
+                    );
+            }
+            returnList.Add(new { Pagecount = PageCount ,
+                            TotalRecords = count
+            });
 
-                if (resultOfDateParse)
-                {
-                    modEmplist = modEmplist.Where(s => DateTime.Compare(s.DOB, checkForDate) == 0 || DateTime.Compare(s.DOJ, checkForDate) == 0);
-
-                }
-                else if (isNumeric)
-                {
-                    modEmplist = modEmplist.Where(s => s.salary == Int32.Parse(searchString) || s.contact.ToUpper().Contains(searchString.ToUpper()));
-                }
-                else
-                {
-                    modEmplist = modEmplist.Where(s => s.EmployeeName.ToUpper().Contains(searchString.ToUpper()) || s.Address.ToUpper().Contains(searchString.ToUpper()) || s.contact.ToUpper().Equals(searchString.ToUpper()) || s.Dept.ToUpper().Equals(searchString.ToUpper()) || s.email.ToUpper().Contains(searchString.ToUpper()));
-                }
-
-            }
-            if (info.SortDirection == "ascending")
-            {
-                switch (info.SortField)
-                {
-                    case "Email":
-                        modEmplist = modEmplist.OrderBy(s => s.email);
-                        break;
-                    case "Name":
-                        modEmplist = modEmplist.OrderBy(s => s.EmployeeName);
-                        break;
-                    case "Address":
-                        modEmplist = modEmplist.OrderBy(s => s.Address);
-                        break;
-                    case "Department":
-                        modEmplist = modEmplist.OrderBy(s => s.Dept);
-                        break;
-                    case "DOJ":
-                        modEmplist = modEmplist.OrderBy(s => s.DOJ);
-                        break;
-                    case "DOB":
-                        modEmplist = modEmplist.OrderBy(s => s.DOB);
-                        break;
-                    case "Salary":
-                        modEmplist = modEmplist.OrderBy(s => s.salary);
-                        break;
-                    case "Contact":
-                        modEmplist = modEmplist.OrderBy(s => s.contact);
-                        break;
-                }
-            }
-            else
-            {
-                switch (info.SortField)
-                {
-                    case "Email":
-                        modEmplist = modEmplist.OrderByDescending(s => s.email);
-                        break;
-                    case "Name":
-                        modEmplist = modEmplist.OrderByDescending(s => s.EmployeeName);
-                        break;
-                    case "Address":
-                        modEmplist = modEmplist.OrderByDescending(s => s.Address);
-                        break;
-                    case "Department":
-                        modEmplist = modEmplist.OrderByDescending(s => s.Dept);
-                        break;
-                    case "DOJ":
-                        modEmplist = modEmplist.OrderByDescending(s => s.DOJ);
-                        break;
-                    case "DOB":
-                        modEmplist = modEmplist.OrderByDescending(s => s.DOB);
-                        break;
-                    case "Salary":
-                        modEmplist = modEmplist.OrderByDescending(s => s.salary);
-                        break;
-                    case "Contact":
-                        modEmplist = modEmplist.OrderByDescending(s => s.contact);
-                        break;
-                }
-            }
-            if (modEmplist != null)
-            {
-                if (!modEmplist.Any())
-                {
-                    ViewBag.EmptyResult = "There are no employees in this grid";
-                }
-            }
-            else
-            {
-                ViewBag.EmptyResult = "There are no employees in this grid";
-            }
-            return modEmplist;
+            return Json(returnList, JsonRequestBehavior.AllowGet);
         }
-
-        [HttpPost]
-        //POST : /Employee
-        public ActionResult Index(EmployeeDetails info, string searchString)
-        {
-            ViewBag.PagingInfo = info;
-            ViewBag.SearchString = TempData["search"];
-
-            searchString = ViewBag.SearchString;
-            var modEmplist = getEmployeesInSets(info, searchString);
-            TempData["search"] = ViewBag.SearchString;
-            if (modEmplist != null)
-            {
-                log.Info("Employee Index method stop");
-                    return View(modEmplist);
-            }
-            else
-            {
-                log.Info("Employee Index method stop");
-             
-                return View();
-            }
-
-        }
-
 
         // GET : /Employee/CreateEmployee
         public ActionResult CreateEmployee()

@@ -94,6 +94,11 @@ namespace EmpManagement.Models
 
     
     }
+ 
+    public class PaginationInfo {
+        public int pageSize { get; set; }
+        public int currPage { get; set; }
+    }
 
     public class ValidJoinDate : ValidationAttribute
     {
