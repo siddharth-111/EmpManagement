@@ -82,7 +82,7 @@ namespace EmpManagement.Controllers
                     else
                     {
                         log.Info("Create Employee method stop,creating employee unsuccessful");
-                        ModelState.AddModelError("", "An employee with the same employee ID exists");
+                        ModelState.AddModelError("", "An employee with the same email ID exists");
                     }
 
                 }
@@ -139,6 +139,7 @@ namespace EmpManagement.Controllers
             return View(editedEmp);
         }
 
+        // POST : /Employee/DeleteEmployee
         public ActionResult DeleteEmployee(Guid id)
         {
             try
@@ -167,7 +168,7 @@ namespace EmpManagement.Controllers
             return RedirectToAction("Index", "Employee");
         }
 
-
+        //Logout
         public ActionResult Logout()
         {
             if (Request.Cookies["formsCookie"] != null)

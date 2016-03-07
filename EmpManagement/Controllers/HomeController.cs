@@ -61,11 +61,14 @@ namespace EmpManagement.Controllers
 
         }
 
+        //  GET: /Register
         public ActionResult Register()
         {
             return View();
         }
 
+
+        // POST : /Register
         [HttpPost]
         public ActionResult Register(RegisterDetails newUser)
         {

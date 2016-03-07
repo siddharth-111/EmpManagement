@@ -8,6 +8,8 @@ using System.Web.Mvc;
 
 namespace EmpManagement.Models
 {
+
+    //Model for login
     public class LoginDetails
     {
 
@@ -22,6 +24,7 @@ namespace EmpManagement.Models
        
     }
 
+    //Model for registration
     public class RegisterDetails {
 
         [Display(Name = "Email")]

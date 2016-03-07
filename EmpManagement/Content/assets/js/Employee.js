@@ -17,7 +17,7 @@
                 if (!employee.Pagecount) {
                     trHTML += '<tr><td>' + employee.email + '</td><td>' + employee.EmployeeName + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
                 '</td><td style="text-align: center;">' +
-                  '<div class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
+                  '<div class="dropdown"><a href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
                 else {
                     var pageCount = employee.Pagecount;
@@ -72,7 +72,7 @@ $(document).ready(function () {
     });
 
     pagingInfo = {};
-    pagingInfo.pageSize = 9;
+    pagingInfo.pageSize = 4;
     pagingInfo.currPage = 0;
     $.ajax({
         url: "/Employee/ReturnEmp",
@@ -89,7 +89,7 @@ $(document).ready(function () {
                 if (!employee.Pagecount) {
                     trHTML += '<tr><td>' + employee.email + '</td><td>' + employee.EmployeeName + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
                 '</td><td style="text-align: center;">' +
-                  '<div class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
+                  '<div class="dropdown"><a  href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
                 else {
                     var pageCount = employee.Pagecount;
@@ -107,7 +107,7 @@ $(document).ready(function () {
                         if (i == (pagingInfo.currPage + 1)) {
                             pages += '<li class="active"><a href = "#" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
                         } else {
-                            pages += '<li><a href = "#" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                            pages += '<li><a href = "#" onclick ="getPage(' + (i-1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
                         }
 
                     }

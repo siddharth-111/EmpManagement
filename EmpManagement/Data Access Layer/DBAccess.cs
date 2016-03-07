@@ -61,14 +61,24 @@ namespace EmpManagement.Data_Access_Layer
         }
 
         //Save Data in file
-        public bool saveData(string path, string data)
+        public bool saveData(string path, string data , string email)
         {
+           
+            var text = System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(path));
+            foreach (var myString in text.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (myString.Contains(email))
+                {
+                    return false;
+                }
+                 
+            }
             using (StreamWriter sr = new StreamWriter(HttpContext.Current.Server.MapPath(path), true))
             {
                 sr.WriteLine(data);
                 sr.Close();
                 return true;
-            }
+            }     
         }
         //Update data in file
         public bool updateData(string path, string data, string id)

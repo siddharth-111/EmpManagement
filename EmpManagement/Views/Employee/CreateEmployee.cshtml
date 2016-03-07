@@ -8,7 +8,7 @@
     <link href="@Url.Content("../../assets/css/font-awesome.min.css")" rel="stylesheet" />
     <!-- CUSTOM STYLE CSS -->
     <link href="@Url.Content("../../assets/css/style.css")" rel="stylesheet" />
-    <link href="@Url.Content("../../Content/Login.css")" rel = "stylesheet" />
+    <link href="@Url.Content("../../Content/assets/css/Login.css")" rel = "stylesheet" />
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
     <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" />
@@ -27,7 +27,7 @@
     <!-- Collect the nav links for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="@Url.Action("Logout")"><strong>Logout</strong></a> </li>
+            <li><a href="@Url.Action("Logout")">Logout</a> </li>
         </ul>
     </div>
     <!-- /.navbar-collapse -->
@@ -35,13 +35,13 @@
 </nav>
 <div class="container fade-in">
     <div class="row text-center">
-        <h1>
+        <h1 style="line-height:1;">
             Create Employee
         </h1>
     </div>
     @if (TempData["Success"] != null)
     {
-        <div class="row text-center">
+        <div class="row text-center prompt-reload">
             <div class="col-md-4 col-md-offset-4">
                 <h6 class="alert alert-success text-center">
                     <span class="glyphicon glyphicon glyphicon-ok"></span>&nbsp;&nbsp;@TempData["Success"]</h6>
@@ -50,7 +50,7 @@
     }
     @if (TempData["Fail"] != null)
     {
-        <div class="row text-center">
+        <div class="row text-center prompt-reload">
             <div class="col-md-4 col-md-offset-4">
                 <h6 class="alert alert-danger text-center">
                     <span class="glyphicon glyphicon glyphicon-remove"></span>&nbsp;&nbsp;@TempData["Fail"]</h6>
@@ -68,73 +68,68 @@
     }
     }
     </style>
-   
-
-
-<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script> 
-<script src="http://cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
-<script>
-    webshims.setOptions('forms-ext', { types: 'date' });
-    webshims.polyfill('forms forms-ext');
-    $.webshims.formcfg = {
-        en: {
-            dFormat: '/',
-            dateSigns: '/',
-            patterns: {
-                d: "mm/dd/yy"
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+    <script>
+        webshims.setOptions('forms-ext', { types: 'date' });
+        webshims.polyfill('forms forms-ext');
+        $.webshims.formcfg = {
+            en: {
+                dFormat: '/',
+                dateSigns: '/',
+                patterns: {
+                    d: "mm/dd/yy"
+                }
             }
-        }
-    };
-</script>
+        };
+    </script>
     @using (Html.BeginForm("CreateEmployee", "Employee", FormMethod.Post, new { id = "createForm" }))
     { 
-        <div class="login" style="margin: 0px auto 90px;">
+        <div class="login" style="margin: 0px auto 0px;">
             <div class="login-container">
-                <div class="validation-message" id="errors">
-                </div>
-                <div style="font-size: 11px; padding-left: 12px;">
-                    @Html.ValidationSummary(true)
-                </div>
+                <div style="font-size: 12px; padding-left: 12px;" class = "help-blocked ">
+                        @Html.ValidationSummary(true, "", new { @class = "validation-message" })
+                    </div>
                 @Html.AntiForgeryToken()
-                <p style="font-size: 14px;line-height:25px;">
+                <p style="font-size: 14px; line-height: 25px;">
                     Email:
                     @Html.TextBoxFor(model => model.email, new { @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
-                <p style="font-size: 14px;line-height:25px;">
+                <p style="font-size: 14px; line-height: 25px;">
                     Employee Name:
                     @Html.TextBoxFor(model => model.EmployeeName, new { @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
-                <p style="font-size: 14px;line-height:25px;">
+                <p style="font-size: 14px; line-height: 25px;">
                     Address:
                     @Html.TextBoxFor(model => model.Address, new { @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
-                <p style="font-size: 14px;line-height:25px;">
+                <p style="font-size: 14px; line-height: 25px;">
                     Department:
-                    @Html.TextBoxFor(model => model.Dept,new { @class = "create" })
+                    @Html.TextBoxFor(model => model.Dept, new { @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
-                <p class ="moz-padding" style="font-size: 14px;line-height:25px;">
-                 Date of joining:
-                <!--<input class="dateLowerThanToday user-success error input-validation-error" data-val="true" data-val-date="The field DOJ must be a date." data-val-required="Date of Joining is required" id="DOJ" name="DOJ" placeholder="DOJ" type="date" value="" required>-->
-                @Html.TextBoxFor(model => model.DOJ, new { type = "date", @class = "requireDOJ dateLowerThanToday  create" })
-                    <span class=" test1 validation-message errors" style="font-size: 11px;display:block;"></span>
-                    
+                <p class="moz-padding" style="font-size: 14px; line-height: 25px;">
+                    Date of joining:
+                    <!--<input class="dateLowerThanToday user-success error input-validation-error" data-val="true" data-val-date="The field DOJ must be a date." data-val-required="Date of Joining is required" id="DOJ" name="DOJ" placeholder="DOJ" type="date" value="" required>-->
+                    @Html.TextBoxFor(model => model.DOJ, new { type = "date", @class = "requireDOJ dateLowerThanToday  create" })
+                    <span class=" test1 validation-message errors" style="font-size: 11px; display: block;">
+                    </span>
                 </p>
-               <p class ="moz-padding" style="font-size: 14px;line-height:25px;">
-                Date of birth:
-                @Html.TextBoxFor(model => model.DOB, new { type = "date", @class = "requireDOB dateofBirth  create" })
-                    <span class=" test1 validation-message errors" style="font-size: 11px; display:block;"></span>
+                <p class="moz-padding" style="font-size: 14px; line-height: 25px;">
+                    Date of birth:
+                    @Html.TextBoxFor(model => model.DOB, new { type = "date", @class = "requireDOB dateofBirth  create" })
+                    <span class=" test1 validation-message errors" style="font-size: 11px; display: block;">
+                    </span>
                 </p>
-
-                <p style="font-size: 14px;line-height:25px;">
+                <p style="font-size: 14px; line-height: 25px;">
                     Salary:
                     @Html.TextBoxFor(model => model.salary, new { @class = "isNumber  create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
-                <p style="font-size: 14px;line-height:25px;">
+                <p style="font-size: 14px; line-height: 25px;">
                     Mobile:
                     @Html.TextBoxFor(model => model.contact, new { @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
@@ -146,21 +141,16 @@
         </div>                    
     }
 </div>
-
-
 <div class="for-full-back footer-emp">
     Copyright © 2016 www.leadsquared.com | All Rights Reserved
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src = "@Url.Content("../../Content/assets/plugins/jquery-1.10.2.js")"></script>
     <!-- BOOTSTRAP CORE SCRIPT   -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.9.0/jquery.validate.min.js"></script>
-
     <script src="@Url.Content("../../Content/assets/js/CreateEmployee.js")"></script>
     <script src="@Url.Content("../../Content/assets/plugins/bootstrap.js")"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="@Url.Content("../../Content/assets/js/custom.js")"></script>
-
 }

@@ -1,7 +1,4 @@
-﻿a 
-{
-    font-size: 14px !important;    
-}
+﻿
 .login
 {
     width: 400px;
@@ -79,13 +76,12 @@
     font-size: 0.95em;
 }
 
-.login input[type="email"], .login input[type="password"]
-{
-    background: #fff;
-    border-color: #bbb;
-    color: #555;
+.help-blocked ul {
+    list-style-type: none;
 }
-
+.help-blocked ul, .help-block li {
+    margin: 0; padding: 0;
+}
 .login input[type="submit"]
 {
     background: -moz-linear-gradient(top,#5B74A8 0%,#5B74A8 100%);

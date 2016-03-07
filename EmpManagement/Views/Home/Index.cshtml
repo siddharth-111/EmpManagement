@@ -8,7 +8,7 @@
     <link href="@Url.Content("../../assets/css/font-awesome.min.css")" rel="stylesheet" />
     <!-- CUSTOM STYLE CSS -->
     <link href="@Url.Content("../../assets/css/style.css")" rel="stylesheet" />
-    <link href="@Url.Content("../../Content/Login.css")" rel = "stylesheet" />
+    <link href="@Url.Content("../../Content/assets/css/Login.css")" rel = "stylesheet" />
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
 }
@@ -29,7 +29,7 @@
             <li><a href="#login">Login</a> </li>
             <li><a href="#home">Project</a> </li>
             <li><a href="#about">Company</a> </li>
-            <li><a target="_blank" href="http://www.leadsquared.com/"><strong>Visit LeadSquared</strong>
+            <li><a target="_blank" href="http://www.leadsquared.com/">Visit LeadSquared
             </a></li>
         </ul>
     </div>
@@ -47,19 +47,19 @@
             <div class="login-container">
                 @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "createForm" }))
                 {
-                    <div style="font-size: 12px; padding-left: 12px;">
-                        @Html.ValidationSummary(true)
+                    <div style="font-size: 12px; padding-left: 12px;" class = "help-blocked ">
+                        @Html.ValidationSummary(true, "", new { @class = "validation-message" })
                     </div>
                     @Html.AntiForgeryToken()
                     <p style="padding: 12px 12px 0px 12px;" class="index">
                         @Html.TextBoxFor(model => model.username, new { placeholder = @Html.DisplayNameFor(m => m.username) })
-                        <span class=" validation-message errors" style="font-size: 12px;"></span>
+                        <span class=" validation-message errors" style="font-size: 12px;display: block;line-height: 18px;"></span>
                     </p>       
-                    <p class="index">
+                    <p class="index"  style="padding: 12px 12px 0px 12px;">
                         @Html.TextBoxFor(model => model.password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.password) })
-                        <span class=" validation-message errors" style="font-size: 12px;"></span>
+                        <span class=" validation-message errors" style="font-size: 12px;display: block;line-height: 18px;"></span>
                     </p>  
-                    <p class="index">
+                    <p class="index" style="padding: 12px 12px 0px 12px;">
                         <input type="submit" value="Login" id="formLogin" /></p>
                 }
             </div>

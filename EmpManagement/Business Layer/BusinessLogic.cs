@@ -79,7 +79,7 @@ namespace EmpManagement.Business_Layer
             }
             StringBuilder dataOfUser = new StringBuilder();
             dataOfUser.Append(register.username).Append("|").Append(register.password).Append("|").Append((register.name != null) ? register.name : "").Append("|").Append((register.phone != null) ? register.phone : "");
-            bool registeredUser = dataLayerObj.saveData("~/App_Data/Users.txt", dataOfUser.ToString());
+            bool registeredUser = dataLayerObj.saveData("~/App_Data/Users.txt", dataOfUser.ToString() , register.username.ToString());
             return registeredUser;
         }
 
@@ -155,7 +155,7 @@ namespace EmpManagement.Business_Layer
             string guid = Guid.NewGuid().ToString();
             StringBuilder dataOfEmp = new StringBuilder();
             dataOfEmp.Append(guid).Append("|").Append(newEmployee.email).Append("|").Append(newEmployee.EmployeeName).Append("|").Append(newEmployee.Address).Append("|").Append((newEmployee.Dept != null) ? newEmployee.Dept : "").Append("|").Append(newEmployee.DOJ.ToString()).Append("|").Append(newEmployee.DOB.ToString()).Append("|").Append(newEmployee.contact != null ? newEmployee.contact.ToString() : "").Append("|").Append(newEmployee.salary.ToString());
-            bool ret = dataLayerObj.saveData("~/App_Data/Employees.txt", dataOfEmp.ToString());
+            bool ret = dataLayerObj.saveData("~/App_Data/Employees.txt", dataOfEmp.ToString() , newEmployee.email.ToString());
             return ret;
         }
     }

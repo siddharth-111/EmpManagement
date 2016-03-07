@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace EmpManagement.Models
 {
-
+    //Employee Details 
     public class EmployeeDetails
     {
         [Required]
@@ -53,7 +53,7 @@ namespace EmpManagement.Models
         public string SortDirection { get; set; }
     }
 
-
+    // View Model for Employee Details
     public class InsertViewModel
     {
         [Required(ErrorMessage = "Employee Name is required")]
@@ -94,12 +94,14 @@ namespace EmpManagement.Models
 
     
     }
- 
+    
+    // Pagination Model
     public class PaginationInfo {
         public int pageSize { get; set; }
         public int currPage { get; set; }
     }
 
+    //Validate joining date
     public class ValidJoinDate : ValidationAttribute
     {
         protected override ValidationResult
@@ -118,6 +120,7 @@ namespace EmpManagement.Models
         }
     }
 
+    //validate date of birth
     public class ValidBirthDate : ValidationAttribute
     {
         protected override ValidationResult
