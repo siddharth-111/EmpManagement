@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using EmpManagement.Models;
-using EmpManagement.Business_Layer;
 using System.Data;
 using log4net;
+using BLL;
 using System.Diagnostics;
 using System.Web.Security;
 
@@ -15,11 +15,10 @@ namespace EmpManagement.Controllers
 {
     public class HomeController : Controller
     {
-        //
+        
         // GET: /Home/
-        BusinessLogic businessLayerObj = new BusinessLogic();
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger
-    (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        BusinessLogic BusinessLayerObj = new BusinessLogic();
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ActionResult Index()
         {
@@ -29,7 +28,7 @@ namespace EmpManagement.Controllers
         // POST : /Home/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(LoginDetails login)
+        public ActionResult Index(Login login)
         {
 
             log.Info("Login Method Start");
@@ -37,20 +36,22 @@ namespace EmpManagement.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    BusinessLogic businessLayerObj = new BusinessLogic();
-                    bool isValid = businessLayerObj.isUserValid(login);
+                    dynamic LoginDetails = login;
+                    bool IsValid = BusinessLayerObj.IsUserValid(LoginDetails);
 
                     log.Info("Login Method Stop");
-                    if (isValid)
+                    if (IsValid)
                     {
+                        log.Info("Login Method Stop successful,The details are :" +login);
                         FormsAuthentication.RedirectFromLoginPage(login.username, false);
                         return RedirectToAction("Index", "Employee");
                     }
                     else
+                        log.Info("Login Method Stop, Invalid login details,The details are :" + login);
                         ModelState.AddModelError("", "Invalid username and/or password");
                 }
             }
-            catch (DataException ex)
+            catch (Exception ex)
             {
                 //Log the error 
                 log.Error("Error in logging in,the error is : " + ex);
@@ -64,30 +65,34 @@ namespace EmpManagement.Controllers
         //  GET: /Register
         public ActionResult Register()
         {
+            log.Info("Get Register called ");
             return View();
         }
 
 
         // POST : /Register
         [HttpPost]
-        public ActionResult Register(RegisterDetails newUser)
+        public ActionResult Register(Register newUser)
         {
+            log.Info("Post Register called , the data is :"+newUser);
             try
             {
                 if (ModelState.IsValid)
                 {
-                    BusinessLogic businessLayerObj = new BusinessLogic();
-                    bool isValid = businessLayerObj.Register(newUser);
-                    if (isValid)
+                    dynamic RegisterUser = newUser;
+                    bool IsValid = BusinessLayerObj.RegisterUser(RegisterUser);
+                    if (IsValid)
                     {
+                        log.Info("Post Register method successful stop,the data is :" + newUser);
                         TempData["Success"] = "User Registered successfully!!";
                         return View(newUser);
                     }
                     else
+                        log.Error("Post Register unsuccessful call, the data is : "+newUser);
                         ModelState.AddModelError("", "Cannot register,Duplicate username/email");
                 }
             }
-            catch (DataException ex)
+            catch (Exception ex)
             {
                 //Log the error 
                 log.Error("Error in logging in,the error is : " + ex);

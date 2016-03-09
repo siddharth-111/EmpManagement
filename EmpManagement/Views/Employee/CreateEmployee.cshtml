@@ -1,4 +1,4 @@
-﻿@model EmpManagement.Models.InsertViewModel
+﻿@model EmpManagement.Models.EmpDetails
 @{
     ViewBag.Title = "Create Employee";
 }
@@ -83,8 +83,42 @@
             }
         };
     </script>
+      @{
+   List<SelectListItem> listItems= new List<SelectListItem>();
+   listItems.Add(new SelectListItem
+        {
+          Text = "HR",
+          Value = "HR"
+        });
+   listItems.Add(new SelectListItem
+        {
+            Text = "IT",
+            Value = "IT",
+        });
+   listItems.Add(new SelectListItem
+        {
+            Text = "Networks",
+            Value = "Networks"
+        });
+   listItems.Add(new SelectListItem
+   {
+       Text = "Business Intelligence",
+       Value = "Business Intelligence"
+   });
+   listItems.Add(new SelectListItem
+   {
+       Text = "System Admin",
+       Value = "System Admin"
+   });
+   listItems.Add(new SelectListItem
+   {
+       Text = "QA",
+       Value = "QA"
+   });
+}
     @using (Html.BeginForm("CreateEmployee", "Employee", FormMethod.Post, new { id = "createForm" }))
     { 
+        
         <div class="login" style="margin: 0px auto 0px;">
             <div class="login-container">
                 <div style="font-size: 12px; padding-left: 12px;" class = "help-blocked ">
@@ -108,7 +142,7 @@
                 </p>
                 <p style="font-size: 14px; line-height: 25px;">
                     Department:
-                    @Html.TextBoxFor(model => model.Dept, new { @class = "create" })
+                    @Html.DropDownListFor(model => model.Dept, listItems, "-- Select Department --")
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
                 <p class="moz-padding" style="font-size: 14px; line-height: 25px;">

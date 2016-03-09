@@ -39,37 +39,45 @@
 <div class="container">
     <div class="col-lg-12">
         <input type="button" class = "btn btn-primary pull-right" onclick = "location.href = '@Url.Action("CreateEmployee")'" value="Create Employee"/>
-        <div class="input-group col-md-2">
-            <input type="text" class="form-control col-md-offset-1" id="search" placeholder="Search..."
-                style="border-radius: 5px;" />
-        </div>
+          <div class="input-group col-md-2">
+    	    <div class="input-group">
+            <input type = "text" class = "form-control clear-inp" id="search" placeholder = "Search..." />	                    
+               <span class="input-group-addon"><a class="icon getSearchValue"><span class="glyphicon glyphicon glyphicon-search"></span></a></span>     	                        
+          </div>		                
+         </div>
+    </div>
+         @Html.Hidden("SortField", "Name")
+         @Html.Hidden("SortDirection", "ascending")
+ 
         <div class="col-lg-12" style="margin-top: 25px">
             <table class="table table-bordered table-hover table-striped" id="employeeTable">
                 <thead>
                     <tr>
-                        <th>
-                            <a href="#">Email</a>
+                        <th>  
+                        <a href = "#" data-sortfield ="Email" class="clicked">
+                            Email </a>
                         </th>
                         <th>
-                            <a href="#">Employee name</a>
+                        <a href = "#" data-sortfield ="Name" class="clicked">
+                            Employee name </a>
                         </th>
-                        <th>
-                            <a href="#">Address</a>
+                        <th> <a href = "#" data-sortfield ="Address" class="clicked">
+                            Address </a>
                         </th>
-                        <th>
-                            <a href="#">Department</a>
+                        <th> <a href = "#" data-sortfield ="Department" class="clicked">
+                         Department </a>
                         </th>
-                        <th>
-                            <a href="#">Date of Joining</a>
+                        <th><a href = "#" data-sortfield ="DOJ" class="clicked">
+                         Date of Joining </a>
                         </th>
-                        <th>
-                            <a href="#">Date of Birth</a>
+                        <th><a  href = "#" data-sortfield ="DOB" class="clicked">
+                          Date of Birth </a>
                         </th>
-                        <th>
-                            <a href="#">Contact</a>
+                        <th><a href = "#" data-sortfield ="Contact" class="clicked">
+                           Contact </a>
                         </th>
-                        <th>
-                            <a href="#">Salary</a>
+                        <th> <a href = "#" data-sortfield ="Salary" class="clicked">
+                            Salary </a>
                         </th>
                         <th style="text-align: center;">
                             Action
@@ -77,7 +85,7 @@
                     </tr>
                 </thead>
             </table>
-            <div id="emptyRows">
+           <div id="emptyRows">
             </div>
             <div id="paginationDiv">
             </div>

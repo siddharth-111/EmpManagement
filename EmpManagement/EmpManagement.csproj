@@ -136,16 +136,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\CurrentDateAttribute.cs" />
-    <Compile Include="Business Layer\BusinessLogic.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Data Access Layer\DBAccess.cs" />
-    <Compile Include="Data Access Layer\SQLDBAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\EmployeeDetails.cs" />
-    <Compile Include="Models\LoginDetails.cs" />
+    <Compile Include="Models\EmpDetails.cs" />
+    <Compile Include="Models\Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -254,7 +251,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Common\" />
     <Folder Include="REST\" />
   </ItemGroup>
   <ItemGroup>
@@ -285,6 +281,16 @@
     <None Include="Content\assets\fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Content\assets\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Content\assets\fonts\glyphicons-halflings-regulard41d.eot" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{31A7DCE6-975D-43A3-8879-54BB3E7270D2}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
+      <Project>{8E7B980B-D9AC-4D56-BC3E-C6F927A7DE2A}</Project>
+      <Name>DataLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -64,7 +64,7 @@
 {
     padding: 4px !important;
 }
-.login input
+.login input,.login select
 {
     box-sizing: border-box;
     display: block;
