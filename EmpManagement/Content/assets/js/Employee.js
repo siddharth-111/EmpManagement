@@ -1,4 +1,4 @@
-﻿var sortField,sortDirection,currentPage,pageSize;
+﻿var sortField, sortDirection, currentPage, pageSize;
 pageSize = 10;
 function getPage(currPage, pSize) {
     pagingInfo = {};
@@ -22,7 +22,7 @@ function getPage(currPage, pSize) {
             var pages = '';
             $.each(data, function (key, employee) {
                 if (!employee.Pagecount) {
-                    trHTML += '<tr><td>' + employee.email + '</td><td>' + employee.EmployeeName + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
+                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
                 '</td><td style="text-align: center;">' +
                   '<div class="dropdown"><a href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
@@ -104,14 +104,14 @@ $(document).ready(function () {
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(pagingInfo),
-        async: true,
-        processData: false,
         success: function (data) {
             var trHTML = '';
             var pages = '';
+            debugger;
+            var returnedData = data.dataObject;
             $.each(data, function (key, employee) {
                 if (!employee.Pagecount) {
-                    trHTML += '<tr><td>' + employee.email + '</td><td>' + employee.EmployeeName + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
+                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
                 '</td><td style="text-align: center;">' +
                   '<div class="dropdown"><a  href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
@@ -172,7 +172,7 @@ $(document).ready(function () {
 $(".getSearchValue").click(function (evt) {
     pagingInfo = {};
     currentPage = 0;
-   
+
     pagingInfo.pageSize = pageSize;
     pagingInfo.currPage = currentPage;
     pagingInfo.sortField = sortField;
@@ -195,7 +195,7 @@ $(".getSearchValue").click(function (evt) {
                         trHTML += '<tr class="removeClass"><td colspan="9"><div class="text-center"> No employees in the grid</div></td><tr>';
                         return false;
                     }
-                    trHTML += '<tr><td>' + employee.email + '</td><td>' + employee.EmployeeName + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
+                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
                 '</td><td style="text-align: center;">' +
                   '<div class="dropdown"><a href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
@@ -291,7 +291,7 @@ $('.clicked').click(function (evt) {
             var pages = '';
             $.each(data, function (key, employee) {
                 if (!employee.Pagecount) {
-                    trHTML += '<tr><td>' + employee.email + '</td><td>' + employee.EmployeeName + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
+                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
                 '</td><td style="text-align: center;">' +
                   '<div class="dropdown"><a  href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
@@ -337,7 +337,7 @@ $('.clicked').click(function (evt) {
             table.find('.sorter').remove();
             $('#paginationDiv').empty();
             $('#paginationDiv').append(pages);
-         
+
 
             var inc = 0;
             sortDirection = $("#SortDirection").val();

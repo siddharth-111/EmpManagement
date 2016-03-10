@@ -14,16 +14,16 @@ namespace BLL
         DataLayer.FileAccess DataLayerObj = new DataLayer.FileAccess();
         public bool IsUserValid(dynamic login)
         {
-            log.Info("Business Layer IsUserValid start, The data is :" + login);
+            log.Info("Business Layer IsUserValid start, The data--> Username:" + login.username+",Password:"+login.password);
             List<dynamic> NewList = GetUserList();
             foreach (dynamic List in NewList)
             {
-                if (List.username == login.username && List.password == login.password)
+                if (List.username == login.GetType().GetProperty("username").GetValue(login, null) && List.password == login.GetType().GetProperty("password").GetValue(login, null))
                 {
-                    log.Info("Business Layer IsUserValid stop,the User is successfully validated, The Userdata is :" + login);
+                    log.Info("Business Layer IsUserValid start, The data--> Username:" + login.username + ",Password:" + login.password);
                     return true;
                 }
-                    
+
             }
             log.Info("Business Layer IsUserValid stop,the user is not valid, The Userdata is :" + login);
             return false;
@@ -58,7 +58,7 @@ namespace BLL
         {
             log.Info("Business Layer DeletEmployee Start");
             bool Val = DataLayerObj.DeleteData(id.ToString());
-            log.Info("Business Layer DeleteEmployee Stop,is User Deleted? :"+Val);
+            log.Info("Business Layer DeleteEmployee Stop,is User Deleted? :" + Val);
             return Val;
         }
 
@@ -93,20 +93,20 @@ namespace BLL
         //Get the entire list of employees        
         public List<dynamic> GetAllEmployees(string searchString, string sortDirection, string sortField, int pageSize, int currPage)
         {
-            log.Info("Business Layer GetAllEmployees Called,The data is : searchstring:"+searchString+",sortDirection:"+sortDirection+",sortField:"+sortField+",pageSize:"+pageSize+",currPage:"+currPage );
+            log.Info("Business Layer GetAllEmployees Called,The data is : searchstring:" + searchString + ",sortDirection:" + sortDirection + ",sortField:" + sortField + ",pageSize:" + pageSize + ",currPage:" + currPage);
             List<dynamic> EmpData = DataLayerObj.GetEmployeeData(searchString, sortDirection, sortField, pageSize, currPage);
             if (EmpData != null)
             {
-                log.Info("Business Layer GetAllEmployees Stop,The Employee Data is :"+EmpData);
+                log.Info("Business Layer GetAllEmployees Stop,The Employee Data is :" + EmpData);
                 return EmpData;
-            }                
+            }
             return null;
         }
 
         //Get individual employee data
         public dynamic GetSingleEmployee(Guid id)
         {
-            log.Info("Business Layer GetSingleEmployee Start, the employee Id is :" +id);
+            log.Info("Business Layer GetSingleEmployee Start, the employee Id is :" + id);
             string EmpData = DataLayerObj.GetSingleEmpData(id.ToString());
             dynamic SingleData = new ExpandoObject();
             if (EmpData != null)
@@ -125,7 +125,7 @@ namespace BLL
                     contact = dataItem[7],
                     salary = Int32.Parse(dataItem[8])
                 };
-                log.Info("Business Layer GetSingleEmployee Stop,The Employee data is :"+SingleData);
+                log.Info("Business Layer GetSingleEmployee Stop,The Employee data is :" + SingleData);
                 return SingleData;
             }
 

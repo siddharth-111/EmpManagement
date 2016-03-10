@@ -1,6 +1,6 @@
 ﻿@model EmpManagement.Models.Login
 @{
-    ViewBag.Title = "Home";
+    ViewBag.Title = "Employee Management System";
 }
 @section css {
     <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
@@ -29,8 +29,8 @@
             <li><a href="#login">Login</a> </li>
             <li><a href="#home">Project</a> </li>
             <li><a href="#about">Company</a> </li>
-            <li><a target="_blank" href="http://www.leadsquared.com/">Visit LeadSquared
-            </a></li>
+            <li><a target="_blank" href="http://www.leadsquared.com/">Visit LeadSquared </a>
+            </li>
         </ul>
     </div>
     <!-- /.navbar-collapse -->
@@ -47,17 +47,19 @@
             <div class="login-container">
                 @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "createForm" }))
                 {
-                    <div style="font-size: 12px; padding-left: 12px;" class = "help-blocked ">
+                    <div style="font-size: 12px; padding-left: 12px;" class="help-blocked ">
                         @Html.ValidationSummary(true, "", new { @class = "validation-message" })
                     </div>
                     @Html.AntiForgeryToken()
                     <p style="padding: 12px 12px 0px 12px;" class="index">
                         @Html.TextBoxFor(model => model.username, new { placeholder = @Html.DisplayNameFor(m => m.username) })
-                        <span class=" validation-message errors" style="font-size: 12px;display: block;line-height: 18px;"></span>
+                        <span class=" validation-message errors" style="font-size: 12px; display: block;
+                            line-height: 18px;"></span>
                     </p>       
-                    <p class="index"  style="padding: 12px 12px 0px 12px;">
+                    <p class="index" style="padding: 12px 12px 0px 12px;">
                         @Html.TextBoxFor(model => model.password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.password) })
-                        <span class=" validation-message errors" style="font-size: 12px;display: block;line-height: 18px;"></span>
+                        <span class=" validation-message errors" style="font-size: 12px; display: block;
+                            line-height: 18px;"></span>
                     </p>  
                     <p class="index" style="padding: 12px 12px 0px 12px;">
                         <input type="submit" value="Login" id="formLogin" /></p>

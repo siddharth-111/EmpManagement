@@ -3,15 +3,14 @@
     ViewBag.Title = "Create Employee";
 }
 @section css {
-    <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
+    <link href="@Url.Content("../../Content/assets/css/bootstrap.css")" rel = "stylesheet" />
     <!-- FONTAWESOME STYLE CSS -->
-    <link href="@Url.Content("../../assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("../../Content/assets/css/font-awesome.min.css")" rel="stylesheet" />
     <!-- CUSTOM STYLE CSS -->
-    <link href="@Url.Content("../../assets/css/style.css")" rel="stylesheet" />
+    <link href="@Url.Content("../../Content/assets/css/style.css")" rel="stylesheet" />
     <link href="@Url.Content("../../Content/assets/css/Login.css")" rel = "stylesheet" />
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
-    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" />
 }
 <nav class="navbar navbar-inverse" role="navigation">
     <div class="navbar-header">
@@ -35,7 +34,7 @@
 </nav>
 <div class="container fade-in">
     <div class="row text-center">
-        <h1 style="line-height:1;">
+        <h1>
             Create Employee
         </h1>
     </div>
@@ -83,47 +82,47 @@
             }
         };
     </script>
-      @{
-   List<SelectListItem> listItems= new List<SelectListItem>();
-   listItems.Add(new SelectListItem
+    @{
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem
+             {
+                 Text = "HR",
+                 Value = "HR"
+             });
+        listItems.Add(new SelectListItem
+             {
+                 Text = "IT",
+                 Value = "IT",
+             });
+        listItems.Add(new SelectListItem
+             {
+                 Text = "Networks",
+                 Value = "Networks"
+             });
+        listItems.Add(new SelectListItem
         {
-          Text = "HR",
-          Value = "HR"
+            Text = "Business Intelligence",
+            Value = "Business Intelligence"
         });
-   listItems.Add(new SelectListItem
+        listItems.Add(new SelectListItem
         {
-            Text = "IT",
-            Value = "IT",
+            Text = "System Admin",
+            Value = "System Admin"
         });
-   listItems.Add(new SelectListItem
+        listItems.Add(new SelectListItem
         {
-            Text = "Networks",
-            Value = "Networks"
+            Text = "QA",
+            Value = "QA"
         });
-   listItems.Add(new SelectListItem
-   {
-       Text = "Business Intelligence",
-       Value = "Business Intelligence"
-   });
-   listItems.Add(new SelectListItem
-   {
-       Text = "System Admin",
-       Value = "System Admin"
-   });
-   listItems.Add(new SelectListItem
-   {
-       Text = "QA",
-       Value = "QA"
-   });
-}
+    }
     @using (Html.BeginForm("CreateEmployee", "Employee", FormMethod.Post, new { id = "createForm" }))
     { 
         
         <div class="login" style="margin: 0px auto 0px;">
             <div class="login-container">
-                <div style="font-size: 12px; padding-left: 12px;" class = "help-blocked ">
-                        @Html.ValidationSummary(true, "", new { @class = "validation-message" })
-                    </div>
+                <div style="font-size: 12px; padding-left: 12px;" class="help-blocked ">
+                    @Html.ValidationSummary(true, "", new { @class = "validation-message" })
+                </div>
                 @Html.AntiForgeryToken()
                 <p style="font-size: 14px; line-height: 25px;">
                     Email:

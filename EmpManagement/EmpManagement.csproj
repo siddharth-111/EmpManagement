@@ -146,8 +146,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Users.txt" />
-    <Content Include="App_Data\Employees.txt" />
     <Content Include="Content\assets\css\bootstrap.css" />
     <Content Include="Content\assets\css\font-awesome.min.css" />
     <Content Include="Content\assets\css\Login.css" />
@@ -164,7 +162,6 @@
     <Content Include="Content\empSystem.jpg" />
     <Content Include="Content\images.jpg" />
     <Content Include="Content\images.png" />
-    <Content Include="Content\Login.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -251,7 +248,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="REST\" />
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -17,17 +17,20 @@ namespace EmpManagement.Models
         [Display(Name = "Employee Name")]
         [StringLength(50)]
         public string EmployeeName { get; set; }
+        
         [Required(ErrorMessage = "Address is required")]
         [Display(Name = "Address")]
         [StringLength(100)]
         public string Address { get; set; }
+
         [Display(Name = "Date of birth")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "Date of birth is required")]
         [ValidBirthDate(ErrorMessage =
          "Date of birth cannot lie after the year 2000")] 
-        public DateTime DOB { get; set; }
+        public string DOB { get; set; }
+
         [Display(Name = "Salary")]
         [Required(ErrorMessage = "Salary is required")]
         public int salary { get; set; }
@@ -40,18 +43,16 @@ namespace EmpManagement.Models
         [Required(ErrorMessage = "Date of Joining is required")]
         [ValidJoinDate(ErrorMessage =
            "Join Date can not be greater than current date")] 
-        public DateTime DOJ { get; set; }
+        public string DOJ { get; set; }
         [Display(Name = "Department")]
         public string Dept { get; set; }
         [Display(Name = "Mobile")]
         [RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
         public string contact { get; set; }
 
-        public int PageSize { get; set; }
-        public int PageCount { get; set; }
-        public int CurrentPageIndex { get; set; }
-        public string SortField { get; set; }
-        public string SortDirection { get; set; }
+        public int Pagecount { get; set;}
+        public int TotalRecords { get; set; }
+
     }
 
     // Pagination Model

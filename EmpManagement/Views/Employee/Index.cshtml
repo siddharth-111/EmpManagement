@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<EmpManagement.Models.EmployeeDetails>
 @{
-    ViewBag.Title = "Employee";
+    ViewBag.Title = "Employee Management System";
 }
 @section css {
-    <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
+       <link href="@Url.Content("../../Content/assets/css/bootstrap.css")" rel = "stylesheet" />
     <!-- FONTAWESOME STYLE CSS -->
-    <link href="@Url.Content("../../assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("../../Content/assets/css/font-awesome.min.css")" rel="stylesheet" />
     <!-- CUSTOM STYLE CSS -->
-    <link href="@Url.Content("../../assets/css/style.css")" rel="stylesheet" />
-    <link href="@Url.Content("../../Content/Login.css")" rel = "stylesheet" />
+    <link href="@Url.Content("../../Content/assets/css/style.css")" rel="stylesheet" />
+    <link href="@Url.Content("../../Content/assets/css/Login.css")" rel = "stylesheet" />
+    <!-- GOOGLE FONT -->
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
 }
@@ -39,58 +40,56 @@
 <div class="container">
     <div class="col-lg-12">
         <input type="button" class = "btn btn-primary pull-right" onclick = "location.href = '@Url.Action("CreateEmployee")'" value="Create Employee"/>
-          <div class="input-group col-md-2">
-    	    <div class="input-group">
-            <input type = "text" class = "form-control clear-inp" id="search" placeholder = "Search..." />	                    
-               <span class="input-group-addon"><a class="icon getSearchValue"><span class="glyphicon glyphicon glyphicon-search"></span></a></span>     	                        
-          </div>		                
-         </div>
-    </div>
-         @Html.Hidden("SortField", "Name")
-         @Html.Hidden("SortDirection", "ascending")
- 
-        <div class="col-lg-12" style="margin-top: 25px">
-            <table class="table table-bordered table-hover table-striped" id="employeeTable">
-                <thead>
-                    <tr>
-                        <th>  
-                        <a href = "#" data-sortfield ="Email" class="clicked">
-                            Email </a>
-                        </th>
-                        <th>
-                        <a href = "#" data-sortfield ="Name" class="clicked">
-                            Employee name </a>
-                        </th>
-                        <th> <a href = "#" data-sortfield ="Address" class="clicked">
-                            Address </a>
-                        </th>
-                        <th> <a href = "#" data-sortfield ="Department" class="clicked">
-                         Department </a>
-                        </th>
-                        <th><a href = "#" data-sortfield ="DOJ" class="clicked">
-                         Date of Joining </a>
-                        </th>
-                        <th><a  href = "#" data-sortfield ="DOB" class="clicked">
-                          Date of Birth </a>
-                        </th>
-                        <th><a href = "#" data-sortfield ="Contact" class="clicked">
-                           Contact </a>
-                        </th>
-                        <th> <a href = "#" data-sortfield ="Salary" class="clicked">
-                            Salary </a>
-                        </th>
-                        <th style="text-align: center;">
-                            Action
-                        </th>
-                    </tr>
-                </thead>
-            </table>
-           <div id="emptyRows">
-            </div>
-            <div id="paginationDiv">
+        <div class="input-group col-md-2">
+            <div class="input-group">
+                <input type="text" class="form-control clear-inp" id="search" placeholder="Search..." />
+                <span class="input-group-addon"><a class="icon getSearchValue"><span class="glyphicon glyphicon glyphicon-search">
+                </span></a></span>
             </div>
         </div>
     </div>
+    @Html.Hidden("SortField", "Name")
+    @Html.Hidden("SortDirection", "ascending")
+    <div class="col-lg-12" style="margin-top: 25px">
+        <table class="table table-bordered table-hover table-striped" id="employeeTable">
+            <thead>
+                <tr>
+                    <th>                     
+                         <a href="#" data-sortfield="Name" class="clicked">Employee name </a>
+                    </th>
+                    <th>
+                         <a href="#" data-sortfield="Email" class="clicked">Email </a>
+                    </th>
+                    <th>
+                        <a href="#" data-sortfield="Address" class="clicked">Address </a>
+                    </th>
+                    <th>
+                        <a href="#" data-sortfield="Department" class="clicked">Department </a>
+                    </th>
+                    <th>
+                        <a href="#" data-sortfield="DOJ" class="clicked">Date of Joining </a>
+                    </th>
+                    <th>
+                        <a href="#" data-sortfield="DOB" class="clicked">Date of Birth </a>
+                    </th>
+                    <th>
+                        <a href="#" data-sortfield="Contact" class="clicked">Contact </a>
+                    </th>
+                    <th>
+                        <a href="#" data-sortfield="Salary" class="clicked">Salary </a>
+                    </th>
+                    <th style="text-align: center;">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        <div id="emptyRows">
+        </div>
+        <div id="paginationDiv">
+        </div>
+    </div>
+</div>
 </div>
 <div class="for-full-back footer-emp">
     Copyright © 2016 www.leadsquared.com | All Rights Reserved
@@ -102,9 +101,10 @@
             <div class="modal-header">
                 <h4 class="modal-title text-center">
                     Are you sure you want to delete employee?</h4>
-                <button style="width:50%;float:left;" class ="btn btn-default" id = "empId" value="" onclick="location.href='@Url.Action("DeleteEmployee")?id=' + $('#empId').val()">
+                <button style="width:45%;float:left;" class ="btn btn-default btn-primary" id = "empId" value="" onclick="location.href='@Url.Action("DeleteEmployee")?id=' + $('#empId').val()">
                     Yes</button>
-                <input type="button" class="btn btn-default align-button" data-dismiss="modal" value="No" />
+                <input type="button" style="width: 45%; float: right;" class="btn btn-default btn-danger align-button"
+                    data-dismiss="modal" value="No" />
             </div>
         </div>
     </div>

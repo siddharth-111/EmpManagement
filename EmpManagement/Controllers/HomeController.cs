@@ -1,27 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.IO;
-using EmpManagement.Models;
-using System.Data;
-using log4net;
-using BLL;
-using System.Diagnostics;
 using System.Web.Security;
+using BLL;
+using EmpManagement.Models;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace EmpManagement.Controllers
 {
     public class HomeController : Controller
     {
-        
+
         // GET: /Home/
         BusinessLogic BusinessLayerObj = new BusinessLogic();
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog _Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ActionResult Index()
-        {
+        {        
             return View();
         }
 
@@ -31,30 +27,54 @@ namespace EmpManagement.Controllers
         public ActionResult Index(Login login)
         {
 
-            log.Info("Login Method Start");
+            _Log.Info("Login Method Start");
             try
             {
+
                 if (ModelState.IsValid)
                 {
-                    dynamic LoginDetails = login;
-                    bool IsValid = BusinessLayerObj.IsUserValid(LoginDetails);
 
-                    log.Info("Login Method Stop");
-                    if (IsValid)
+                    var Url = "http://localhost:57156/Authentication.svc/IsUserValid/";
+                    var WbRequest = (HttpWebRequest)WebRequest.Create(Url);
+                    WbRequest.ContentType = @"application/json";
+                    WbRequest.Method = "POST";
+
+                    using (var streamWriter = new StreamWriter(WbRequest.GetRequestStream()))
                     {
-                        log.Info("Login Method Stop successful,The details are :" +login);
-                        FormsAuthentication.RedirectFromLoginPage(login.username, false);
-                        return RedirectToAction("Index", "Employee");
+                        string Json = "{\"username\":\"" + login.username + "\"," +
+                                        "\"password\":\"" + login.password + "\"}";
+
+                        streamWriter.Write(Json);
+                        streamWriter.Flush();
+                        streamWriter.Close();
                     }
-                    else
-                        log.Info("Login Method Stop, Invalid login details,The details are :" + login);
-                        ModelState.AddModelError("", "Invalid username and/or password");
-                }
+
+                    var WbResponse = (HttpWebResponse)WbRequest.GetResponse();
+                    using (var streamReader = new StreamReader(WbResponse.GetResponseStream()))
+                    {
+                        var Result = streamReader.ReadToEnd();                       
+                        var JsonResult = JObject.Parse(Result);
+                        bool IsValid = (bool)JsonResult.SelectToken("IsUserValidResult");
+                        if (IsValid)
+                        {
+                            _Log.Debug("Login Method Stop successful,The details are Username:" + login.username + " and Password:" + login.password);
+                            FormsAuthentication.RedirectFromLoginPage(login.username, false);
+                            return RedirectToAction("Index", "Employee");
+                        }
+                        else
+                        {
+                            _Log.Info("Login Method Stop, Invalid login details,The details are Username:" + login.username + " and Password:" + login.password);
+                            ModelState.AddModelError("", "Invalid username and/or password");
+                        }
+                    }
+                    }
+                        
+                  
             }
             catch (Exception ex)
             {
                 //Log the error 
-                log.Error("Error in logging in,the error is : " + ex);
+                _Log.Error("Error in logging in,the error is : " + ex);
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
 
@@ -65,7 +85,7 @@ namespace EmpManagement.Controllers
         //  GET: /Register
         public ActionResult Register()
         {
-            log.Info("Get Register called ");
+            _Log.Info("Get Register called ");
             return View();
         }
 
@@ -74,7 +94,7 @@ namespace EmpManagement.Controllers
         [HttpPost]
         public ActionResult Register(Register newUser)
         {
-            log.Info("Post Register called , the data is :"+newUser);
+            _Log.Info("Post Register called , the data is  Username:" + newUser.name+ ",password:"+newUser.password+",Contact:"+newUser.phone);
             try
             {
                 if (ModelState.IsValid)
@@ -83,19 +103,19 @@ namespace EmpManagement.Controllers
                     bool IsValid = BusinessLayerObj.RegisterUser(RegisterUser);
                     if (IsValid)
                     {
-                        log.Info("Post Register method successful stop,the data is :" + newUser);
+                        _Log.Info("Post Register successful stop , the data is  Username:" + newUser.name+ ",password:"+newUser.password+",Contact:"+newUser.phone);
                         TempData["Success"] = "User Registered successfully!!";
                         return View(newUser);
                     }
                     else
-                        log.Error("Post Register unsuccessful call, the data is : "+newUser);
-                        ModelState.AddModelError("", "Cannot register,Duplicate username/email");
+                        _Log.Error("Post Register successful stop , the data is  Username:" + newUser.name + ",password:" + newUser.password + ",Contact:" + newUser.phone);
+                    ModelState.AddModelError("", "Cannot register,Duplicate username/email");
                 }
             }
             catch (Exception ex)
             {
                 //Log the error 
-                log.Error("Error in logging in,the error is : " + ex);
+                _Log.Error("Error in logging in,the error is : " + ex);
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
 

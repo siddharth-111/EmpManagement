@@ -7,30 +7,61 @@ using BLL;
 using EmpManagement.Models;
 using System.Data;
 using System.Dynamic;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace EmpManagement.Controllers
 {
     [Authorize]
     public class EmployeeController : Controller
     {
-      
-        // GET: /Employee/
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        BusinessLogic BusinessLayerObj  = new BusinessLogic();
 
+        // GET: /Employee/
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        BusinessLogic BusinessLayerObj = new BusinessLogic();
+        public List<EmpDetails> ListOfEmployees;
 
         //Get the Result of employee object
         public JsonResult ReturnEmployeeData(PaginationInfo pagingInfo)
         {
             log.Info("ReturnEmployeeData method start");
-            var ReturnList = new List<dynamic>();
-            ReturnList = BusinessLayerObj.GetAllEmployees(pagingInfo.searchString,pagingInfo.sortDirection,pagingInfo.sortField,pagingInfo.pageSize,pagingInfo.currPage);
-            log.Info("ReturnEmployeeData method stop");
-            return Json(ReturnList, JsonRequestBehavior.AllowGet);
+            try {
+                var Url = "http://localhost:57156/EmployeeManagementService.svc/GetEmployeeList/";
+                var WbRequest = (HttpWebRequest)WebRequest.Create(Url);
+                WbRequest.ContentType = @"application/json";
+                WbRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(WbRequest.GetRequestStream()))
+                {
+                    string Json = "{\"searchString\":\"" + pagingInfo.searchString + "\"," + "\"sortDirection\":\"" + pagingInfo.sortDirection + "\"," + "\"sortField\":\"" + pagingInfo.sortField + "\"," + "\"pageSize\":\"" + pagingInfo.pageSize + "\"," + "\"currPage\":\"" + pagingInfo.currPage + "\"}";
+                    streamWriter.Write(Json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+
+                var WbResponse = (HttpWebResponse)WbRequest.GetResponse();
+                using (var streamReader = new StreamReader(WbResponse.GetResponseStream()))
+                {
+                    JavaScriptSerializer Ser = new JavaScriptSerializer();
+                    var Result = streamReader.ReadToEnd();
+                    var Data = JsonConvert.DeserializeObject(Result) as JToken;
+                    ListOfEmployees = JsonConvert.DeserializeObject<List<EmpDetails>>(Data["GetEmployeeListResult"].ToString());
+                    return Json(ListOfEmployees, JsonRequestBehavior.AllowGet);   
+                }
+           
+            }
+            catch (Exception e) {
+                log.Error("Error in returning Data :"+e.Message);
+            }
+            return null;          
         }
 
         //GET : /Employee
-        public ActionResult Index() {
+        public ActionResult Index()
+        {
             log.Info("Get Employee method start");
             return View();
         }
@@ -48,7 +79,7 @@ namespace EmpManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateEmployee(EmpDetails newEmployee)
         {
-            log.Info("Create Employee method start");
+            log.Info("Create Employee method start, The Employee details are--> Username:"+newEmployee.EmployeeName+" Email:"+newEmployee.email+" DOB:"+newEmployee.DOB+" DOJ:"+newEmployee.DOJ+" Address:"+newEmployee.Address+" Salary:"+newEmployee.salary);
             try
             {
                 if (ModelState.IsValid)
@@ -58,13 +89,13 @@ namespace EmpManagement.Controllers
 
                     if (Check)
                     {
-                        log.Info("Create Employee method stop,successfully created employee, the employee data is :" + newEmployee);
+                        log.Info("Create Employee method stop successful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary);
                         TempData["Success"] = "Employee created successfully!!";
                         return View(newEmployee);
                     }
                     else
                     {
-                        log.Error("Create Employee method stop,creating employee unsuccessful");
+                        log.Info("Create Employee method stop unsuccessful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary); ;
                         ModelState.AddModelError("", "An employee with the same email ID exists");
                     }
 
@@ -84,10 +115,10 @@ namespace EmpManagement.Controllers
         // GET : /Employee/EditEmployee
         public ActionResult EditEmployee(Guid id)
         {
-            log.Info("Get Edit Employee method start");
+            log.Info("Get Edit Employee method start, the employee id is :"+id);
             dynamic DynamicData = new ExpandoObject();
             DynamicData = BusinessLayerObj.GetSingleEmployee(id);
-
+           
             EmpDetails SingleEmp = new EmpDetails
                         {
                             EmployeeID = DynamicData.GetType().GetProperty("EmployeeID").GetValue(DynamicData, null),
@@ -95,12 +126,13 @@ namespace EmpManagement.Controllers
                             EmployeeName = DynamicData.GetType().GetProperty("EmployeeName").GetValue(DynamicData, null),
                             Address = DynamicData.GetType().GetProperty("Address").GetValue(DynamicData, null),
                             Dept = DynamicData.GetType().GetProperty("Dept").GetValue(DynamicData, null),
-                            DOJ = DynamicData.GetType().GetProperty("DOJ").GetValue(DynamicData, null),
-                            DOB = DynamicData.GetType().GetProperty("DOB").GetValue(DynamicData, null),
+                            DOJ = (DynamicData.GetType().GetProperty("DOJ").GetValue(DynamicData, null)).ToShortDateString(),
+                            DOB = (DynamicData.GetType().GetProperty("DOB").GetValue(DynamicData, null)).ToShortDateString(),
                             contact = DynamicData.GetType().GetProperty("contact").GetValue(DynamicData, null),
                             salary = DynamicData.GetType().GetProperty("salary").GetValue(DynamicData, null)
                         };
-            log.Info("Edit Employee method start, the data to  Get EditEmployee is :" + SingleEmp); 
+            log.Info("Edit Employee method stop, The Employee details are--> Username:" + SingleEmp.EmployeeName + " Email:" + SingleEmp.email + " DOB:" + SingleEmp.DOB + " DOJ:" + SingleEmp.DOJ + " Address:" + SingleEmp.Address + " Salary:" + SingleEmp.salary);
+
             return View(SingleEmp);
         }
 
@@ -117,14 +149,15 @@ namespace EmpManagement.Controllers
                     bool val = BusinessLayerObj.EditSingleEmployee(EditEmp);
                     if (val)
                     {
-                        log.Info("Edit employee method stop,successful, the data is :"+EditEmp);
+                    
+                        log.Info("Edit Employee method stop successful, The Employee details are--> Username:" + EditEmp.EmployeeName + " Email:" + EditEmp.email + " DOB:" + EditEmp.DOB + " DOJ:" + EditEmp.DOJ + " Address:" + EditEmp.Address + " Salary:" + EditEmp.salary);
                         TempData["Success"] = "Employee edited successfully!!";
                         return View(editedEmp);
                     }
                     else
                     {
                         TempData["Fail"] = "Employee edit failed";
-                        log.Info("Edit employee method stop,unsuccessful, the data is : "+EditEmp);
+                        log.Info("Edit Employee method stop unsuccessful, The Employee details are--> Username:" + EditEmp.EmployeeName + " Email:" + EditEmp.email + " DOB:" + EditEmp.DOB + " DOJ:" + EditEmp.DOJ + " Address:" + EditEmp.Address + " Salary:" + EditEmp.salary);
                         return View(editedEmp);
                     }
                 }
@@ -144,22 +177,23 @@ namespace EmpManagement.Controllers
         {
             try
             {
-                log.Info("Deleting employee method called");
+                log.Info("Deleting employee method called, the id is "+id);
                 var DynamicData = BusinessLayerObj.GetSingleEmployee(id);
-                EmpDetails SingleEmp = new EmpDetails {
+                EmpDetails SingleEmp = new EmpDetails
+                {
                     EmployeeID = DynamicData.GetType().GetProperty("EmployeeID").GetValue(DynamicData, null),
                 };
-                bool Val = BusinessLayerObj .DeleteEmployee(SingleEmp.EmployeeID);
+                bool Val = BusinessLayerObj.DeleteEmployee(SingleEmp.EmployeeID);
                 if (Val)
                 {
                     TempData["Delete"] = "Deleted the employee successfully!!";
-                    log.Info("Delete employee method stop,successful execution!,the deleted Employee is :" +SingleEmp);
+                    log.Info("Delete Employee method stop successful, The Employee details are--> Username:" + SingleEmp.EmployeeName + " Email:" + SingleEmp.email + " DOB:" + SingleEmp.DOB + " DOJ:" + SingleEmp.DOJ + " Address:" + SingleEmp.Address + " Salary:" + SingleEmp.salary);
                     return RedirectToAction("Index", "Employee");
                 }
                 else
                 {
                     TempData["DeleteFail"] = "Couldn't Delete the Employee";
-                    log.Info("Delete employee method stop,unsuccessful execution,the employee data is :" + SingleEmp);
+                    log.Info("Delete Employee method stop unsuccessful, The Employee details are--> Username:" + SingleEmp.EmployeeName + " Email:" + SingleEmp.email + " DOB:" + SingleEmp.DOB + " DOJ:" + SingleEmp.DOJ + " Address:" + SingleEmp.Address + " Salary:" + SingleEmp.salary);
                     ModelState.AddModelError("", "Error in Deleting the Employee");
                 }
 
