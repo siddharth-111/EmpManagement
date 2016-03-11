@@ -6,28 +6,6 @@ using System.IO;
 namespace DataLayer
 {
 
-    public class EmployeeObject
-    {
-
-        public Guid EmployeeID { get; set; }
-
-        public string EmployeeName { get; set; }
-
-        public string Address { get; set; }
-
-        public DateTime DOB { get; set; }
-
-        public int salary { get; set; }
-
-        public string email { get; set; }
-
-        public DateTime DOJ { get; set; }
-
-        public string Dept { get; set; }
-        public string contact { get; set; }
-       
-
-    }
     public class FileAccess
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -65,14 +43,14 @@ namespace DataLayer
                     EmpList.Add(new EmployeeObject
                     {
                         EmployeeID = Guid.Parse(DataItem[0]),
-                        email = DataItem[1],
+                        Email = DataItem[1],
                         EmployeeName = DataItem[2],
                         Address = DataItem[3],
                         Dept = DataItem[4],
                         DOJ = DateTime.Parse(DataItem[5]),
                         DOB = DateTime.Parse(DataItem[6]),
-                        contact = DataItem[7],
-                        salary = Int32.Parse(DataItem[8])
+                        Contact = DataItem[7],
+                        Salary = Int32.Parse(DataItem[8])
                     });
                 }
                 IQueryable<EmployeeObject> Emp = EmpList.AsQueryable();
@@ -93,11 +71,11 @@ namespace DataLayer
                     }
                     else if (isNumeric)
                     {
-                        ModEmplist = ModEmplist.Where(s => s.salary == Int32.Parse(searchString) || s.contact.ToUpper().Contains(searchString.ToUpper()));
+                        ModEmplist = ModEmplist.Where(s => s.Salary == Int32.Parse(searchString) || s.Contact.ToUpper().Contains(searchString.ToUpper()));
                     }
                     else
                     {
-                        ModEmplist = ModEmplist.Where(s => s.EmployeeName.ToUpper().Contains(searchString.ToUpper()) || s.Address.ToUpper().Contains(searchString.ToUpper()) || s.contact.ToUpper().Equals(searchString.ToUpper()) || s.Dept.ToUpper().Equals(searchString.ToUpper()) || s.email.ToUpper().Contains(searchString.ToUpper()));
+                        ModEmplist = ModEmplist.Where(s => s.EmployeeName.ToUpper().Contains(searchString.ToUpper()) || s.Address.ToUpper().Contains(searchString.ToUpper()) || s.Contact.ToUpper().Equals(searchString.ToUpper()) || s.Dept.ToUpper().Equals(searchString.ToUpper()) || s.Email.ToUpper().Contains(searchString.ToUpper()));
                     }
 
                 }
@@ -106,7 +84,7 @@ namespace DataLayer
                     switch (sortField)
                     {
                         case "Email":
-                            ModEmplist = ModEmplist.OrderBy(s => s.email);
+                            ModEmplist = ModEmplist.OrderBy(s => s.Email);
                             break;
                         case "Name":
                             ModEmplist = ModEmplist.OrderBy(s => s.EmployeeName);
@@ -124,10 +102,10 @@ namespace DataLayer
                             ModEmplist = ModEmplist.OrderBy(s => s.DOB);
                             break;
                         case "Salary":
-                            ModEmplist = ModEmplist.OrderBy(s => s.salary);
+                            ModEmplist = ModEmplist.OrderBy(s => s.Salary);
                             break;
                         case "Contact":
-                            ModEmplist = ModEmplist.OrderBy(s => s.contact);
+                            ModEmplist = ModEmplist.OrderBy(s => s.Contact);
                             break;
                     }
                 }
@@ -136,7 +114,7 @@ namespace DataLayer
                     switch (sortField)
                     {
                         case "Email":
-                            ModEmplist = ModEmplist.OrderByDescending(s => s.email);
+                            ModEmplist = ModEmplist.OrderByDescending(s => s.Email);
                             break;
                         case "Name":
                             ModEmplist = ModEmplist.OrderByDescending(s => s.EmployeeName);
@@ -154,16 +132,16 @@ namespace DataLayer
                             ModEmplist = ModEmplist.OrderByDescending(s => s.DOB);
                             break;
                         case "Salary":
-                            ModEmplist = ModEmplist.OrderByDescending(s => s.salary);
+                            ModEmplist = ModEmplist.OrderByDescending(s => s.Salary);
                             break;
                         case "Contact":
-                            ModEmplist = ModEmplist.OrderByDescending(s => s.contact);
+                            ModEmplist = ModEmplist.OrderByDescending(s => s.Contact);
                             break;
                     }
                 }
                 var EmployeeData = new List<dynamic>();
-                var count = ModEmplist.Count();
-                var PageCount = Convert.ToInt32(Math.Ceiling((double)((count + pageSize - 1) / pageSize)));
+                var Count = ModEmplist.Count();
+                var PageCount = Convert.ToInt32(Math.Ceiling((double)((Count + pageSize - 1) / pageSize)));
                 var newEmpList = ModEmplist.ToList().Skip(currPage * pageSize).Take(pageSize);
                 foreach (EmployeeObject temp in newEmpList)
                 {
@@ -171,14 +149,14 @@ namespace DataLayer
                          new
                          {
                              EmployeeID = temp.EmployeeID,
-                             email = temp.email,
+                             Email = temp.Email,
                              EmployeeName = temp.EmployeeName,
                              Address = temp.Address,
                              DOB = temp.DOB.Date.ToString("d"),
                              DOJ = temp.DOJ.Date.ToString("d"),
                              Dept = temp.Dept,
-                             salary = temp.salary,
-                             contact = temp.contact,
+                             Salary = temp.Salary,
+                             Contact = temp.Contact,
 
                          }
                          );
@@ -186,7 +164,7 @@ namespace DataLayer
                 EmployeeData.Add(new
                 {
                     Pagecount = PageCount,
-                    TotalRecords = count
+                    TotalRecords = Count
                 });
                 log.Info("File Access GetEmployeeData stop,the returned list is :" + EmployeeData);
                 return EmployeeData;
@@ -215,10 +193,10 @@ namespace DataLayer
 
 
         //Save Data in file
-        public bool SaveData(string data, string email)
+        public bool SaveData(string data, string email,string path)
         {
             log.Info("File Access SaveData start,the data is  :" + data + ",email is:" + email);
-            var FileData = System.IO.File.ReadAllText("C:\\Users\\Siddharth\\Documents\\Visual Studio 2010\\Projects\\EmpManagement\\DataLayer\\Employee.txt");
+            var FileData = System.IO.File.ReadAllText("C:\\Users\\Siddharth\\Documents\\Visual Studio 2010\\Projects\\EmpManagement\\DataLayer\\"+path);
             foreach (var myString in FileData.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
                 if (myString.Contains(email))
@@ -228,7 +206,7 @@ namespace DataLayer
                 }
 
             }
-            using (StreamWriter sr = new StreamWriter("C:\\Users\\Siddharth\\Documents\\Visual Studio 2010\\Projects\\EmpManagement\\DataLayer\\Employee.txt", true))
+            using (StreamWriter sr = new StreamWriter("C:\\Users\\Siddharth\\Documents\\Visual Studio 2010\\Projects\\EmpManagement\\DataLayer\\"+path, true))
             {
                 sr.WriteLine(data);
                 sr.Close();

@@ -22,7 +22,7 @@ function getPage(currPage, pSize) {
             var pages = '';
             $.each(data, function (key, employee) {
                 if (!employee.Pagecount) {
-                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
+                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.Email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + ((new Date(parseInt(employee.DOJ.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOJ.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOJ.substr(6))).getFullYear()) + '</td><td>' + ((new Date(parseInt(employee.DOB.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOB.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOB.substr(6))).getFullYear()) + '</td><td>' + employee.Contact + '</td><td>' + employee.Salary +
                 '</td><td style="text-align: center;">' +
                   '<div class="dropdown"><a href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
@@ -107,11 +107,11 @@ $(document).ready(function () {
         success: function (data) {
             var trHTML = '';
             var pages = '';
-            debugger;
+         
             var returnedData = data.dataObject;
             $.each(data, function (key, employee) {
                 if (!employee.Pagecount) {
-                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
+                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.Email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + ((new Date(parseInt(employee.DOJ.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOJ.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOJ.substr(6))).getFullYear()) + '</td><td>'+((new Date(parseInt(employee.DOB.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOB.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOB.substr(6))).getFullYear()) + '</td><td>' + employee.Contact + '</td><td>' + employee.Salary +
                 '</td><td style="text-align: center;">' +
                   '<div class="dropdown"><a  href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
@@ -189,13 +189,15 @@ $(".getSearchValue").click(function (evt) {
         success: function (data) {
             var trHTML = '';
             var pages = '';
+            var length = data.length;
+            var increment = 0;
             $.each(data, function (key, employee) {
                 if (!employee.Pagecount) {
-                    if (employee.Pagecount == 0) {
-                        trHTML += '<tr class="removeClass"><td colspan="9"><div class="text-center"> No employees in the grid</div></td><tr>';
-                        return false;
+                    if (employee.Pagecount == 0 && increment==length-1) {
+                          trHTML += '<tr class="removeClass"><td colspan="9"><div class="text-center"> No employees in the grid</div></td><tr>';
+                          return false;
                     }
-                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
+                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.Email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + ((new Date(parseInt(employee.DOJ.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOJ.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOJ.substr(6))).getFullYear()) + '</td><td>' + ((new Date(parseInt(employee.DOB.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOB.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOB.substr(6))).getFullYear()) + '</td><td>' + employee.Contact + '</td><td>' + employee.Salary +
                 '</td><td style="text-align: center;">' +
                   '<div class="dropdown"><a href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
@@ -230,6 +232,7 @@ $(".getSearchValue").click(function (evt) {
                     }
                     pages += '</ul>';
                 }
+                increment++;
             });
 
             $("#employeeTable").find("tr:gt(0)").remove();
@@ -289,9 +292,11 @@ $('.clicked').click(function (evt) {
         success: function (data) {
             var trHTML = '';
             var pages = '';
+           
             $.each(data, function (key, employee) {
+
                 if (!employee.Pagecount) {
-                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + employee.DOJ + '</td><td>' + employee.DOB + '</td><td>' + employee.contact + '</td><td>' + employee.salary +
+                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.Email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + ((new Date(parseInt(employee.DOJ.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOJ.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOJ.substr(6))).getFullYear()) + '</td><td>' + ((new Date(parseInt(employee.DOB.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOB.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOB.substr(6))).getFullYear()) + '</td><td>' + employee.Contact + '</td><td>' + employee.Salary +
                 '</td><td style="text-align: center;">' +
                   '<div class="dropdown"><a  href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }

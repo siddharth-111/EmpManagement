@@ -12,34 +12,42 @@ namespace Rest
     public class Authentication : IAuthentication
     {
         BusinessLogic BusinessLayerObj = new BusinessLogic();
-        public List<DataObject> GetUserList()
+       
+
+        public bool IsUserValid(string username, string password)
         {
-            var ReturnList = new List<dynamic>();
-            List<DataObject> UserList = new List<DataObject>();
-            ReturnList = BusinessLayerObj.GetUserList();
-            foreach (dynamic Value in ReturnList)
-            {
-                UserList.Add(new DataObject
+            try {
+
+                dynamic login = new
                 {
-                    username = Value.GetType().GetProperty("username").GetValue(Value, null),
-                    password = Value.GetType().GetProperty("password").GetValue(Value, null)
-                });
+                    username = username,
+                    password = password
+                };
+
+                bool Returnval = BusinessLayerObj.IsUserValid(login);
+                return Returnval;
             }
-            return UserList;
+            catch (Exception e) {
+
+                Console.Write(e);
+            }
+            return false;
+
+
         }
 
-        public bool IsUserValid(string user, string pass)
+        public bool Register(string username, string password, string name, string contact)
         {
-            DataObject login = new DataObject
+            dynamic newUser = new
             {
-                username = user,
-                password = pass
+                  username = username,
+                  password = password,
+                  name = name,
+                  contact = contact
             };
 
-            bool Returnval = BusinessLayerObj.IsUserValid(login);
-            return true;
-
-
+            bool IsRegistered = BusinessLayerObj.RegisterUser(newUser);
+            return IsRegistered;
         }
     }
 }

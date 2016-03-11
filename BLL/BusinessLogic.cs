@@ -14,18 +14,18 @@ namespace BLL
         DataLayer.FileAccess DataLayerObj = new DataLayer.FileAccess();
         public bool IsUserValid(dynamic login)
         {
-            log.Info("Business Layer IsUserValid start, The data--> Username:" + login.username+",Password:"+login.password);
+          //  log.Info("Business Layer IsUserValid start, The data--> Username:" + login.username+",Password:"+login.password);
             List<dynamic> NewList = GetUserList();
             foreach (dynamic List in NewList)
             {
                 if (List.username == login.GetType().GetProperty("username").GetValue(login, null) && List.password == login.GetType().GetProperty("password").GetValue(login, null))
                 {
-                    log.Info("Business Layer IsUserValid start, The data--> Username:" + login.username + ",Password:" + login.password);
+                   // log.Info("Business Layer IsUserValid start, The data--> Username:" + login.username + ",Password:" + login.password);
                     return true;
                 }
 
             }
-            log.Info("Business Layer IsUserValid stop,the user is not valid, The Userdata is :" + login);
+          //  log.Info("Business Layer IsUserValid stop,the user is not valid, The Userdata is :" + login);
             return false;
         }
 
@@ -67,10 +67,32 @@ namespace BLL
         {
             log.Info("Business Layer EditSingleEmployee Start,The data is :" + newEmployee);
             StringBuilder DataOfEmp = new StringBuilder();
-            DataOfEmp.Append(newEmployee.EmployeeID.ToString()).Append("|").Append(newEmployee.email).Append("|").Append(newEmployee.EmployeeName).Append("|").Append(newEmployee.Address).Append("|").Append((newEmployee.Dept != null) ? newEmployee.Dept : "").Append("|").Append(newEmployee.DOJ.ToString()).Append("|").Append(newEmployee.DOB.ToString()).Append("|").Append(newEmployee.contact != null ? newEmployee.contact.ToString() : "").Append("|").Append(newEmployee.salary.ToString());
-            bool IsEdited = DataLayerObj.UpdateData(DataOfEmp.ToString(), newEmployee.EmployeeID.ToString());
-            log.Info("Business Layer EditSingleEmployee Stop,The data is :" + newEmployee);
-            return IsEdited;
+            try {
+
+                dynamic TempEmp = new
+                {
+                    EmployeeID = newEmployee.GetType().GetProperty("EmployeeID").GetValue(newEmployee, null),
+                    Email = newEmployee.GetType().GetProperty("Email").GetValue(newEmployee, null),
+                    EmployeeName = newEmployee.GetType().GetProperty("EmployeeName").GetValue(newEmployee, null),
+                    Address = newEmployee.GetType().GetProperty("Address").GetValue(newEmployee, null),
+                    Dept = newEmployee.GetType().GetProperty("Dept").GetValue(newEmployee, null),
+                    DOJ = (newEmployee.GetType().GetProperty("DOJ").GetValue(newEmployee, null)),
+                    DOB = (newEmployee.GetType().GetProperty("DOB").GetValue(newEmployee, null)),
+                    Contact = newEmployee.GetType().GetProperty("Contact").GetValue(newEmployee, null),
+                    Salary = newEmployee.GetType().GetProperty("Salary").GetValue(newEmployee, null)
+
+                };
+                DataOfEmp.Append(TempEmp.EmployeeID.ToString()).Append("|").Append(TempEmp.Email).Append("|").Append(TempEmp.EmployeeName).Append("|").Append(TempEmp.Address).Append("|").Append((TempEmp.Dept != null) ? TempEmp.Dept : "").Append("|").Append(TempEmp.DOJ.ToString()).Append("|").Append(TempEmp.DOB.ToString()).Append("|").Append(TempEmp.Contact != null ? TempEmp.Contact.ToString() : "").Append("|").Append(TempEmp.Salary.ToString());
+                bool IsEdited = DataLayerObj.UpdateData(DataOfEmp.ToString(), TempEmp.EmployeeID.ToString());
+                log.Info("Business Layer EditSingleEmployee Stop,The data is :" + TempEmp);
+                return IsEdited;
+            }
+            catch (Exception e) { 
+            
+            
+            }
+            return false;
+         
         }
 
         //Register new user
@@ -78,28 +100,51 @@ namespace BLL
         {
             log.Info("Business Layer Register User Start,The data is :" + register);
             List<dynamic> UserList = GetUserList();
-            foreach (dynamic User in UserList)
+            try
             {
-                if (User.username.Equals(register.username))
-                    return false;
+                foreach (dynamic User in UserList)
+                {
+                    if (User.username.Equals(register.GetType().GetProperty("username").GetValue(register, null)))
+                        return false;
+                }
+                StringBuilder DataOfUser = new StringBuilder();
+                dynamic TempRegister = new
+                {
+                    Username = register.GetType().GetProperty("username").GetValue(register, null),
+                    Password = register.GetType().GetProperty("password").GetValue(register, null),
+                    Contact = register.GetType().GetProperty("contact").GetValue(register, null),
+                    Name = register.GetType().GetProperty("name").GetValue(register, null),
+
+                };
+                DataOfUser.Append(TempRegister.Username).Append("|").Append(TempRegister.Password).Append("|").Append((TempRegister.Name != null) ? TempRegister.Name : "").Append("|").Append((TempRegister.Contact != null) ? TempRegister.Contact : "");
+                bool RegisteredUser = DataLayerObj.SaveData(DataOfUser.ToString(), TempRegister.Username.ToString(),"User.txt");
+                log.Info("Business Layer Register User Stop,is user registered? :" + RegisteredUser);
+                return RegisteredUser;
             }
-            StringBuilder DataOfUser = new StringBuilder();
-            DataOfUser.Append(register.username).Append("|").Append(register.password).Append("|").Append((register.name != null) ? register.name : "").Append("|").Append((register.phone != null) ? register.phone : "");
-            bool RegisteredUser = DataLayerObj.SaveData(DataOfUser.ToString(), register.username.ToString());
-            log.Info("Business Layer Register User Stop,is user registered? :" + RegisteredUser);
-            return RegisteredUser;
+            catch (Exception e) {
+                log.Error("Error in registering the user, the error is :" + e.Message);
+            }
+            return false;
+          
         }
 
         //Get the entire list of employees        
         public List<dynamic> GetAllEmployees(string searchString, string sortDirection, string sortField, int pageSize, int currPage)
         {
-            log.Info("Business Layer GetAllEmployees Called,The data is : searchstring:" + searchString + ",sortDirection:" + sortDirection + ",sortField:" + sortField + ",pageSize:" + pageSize + ",currPage:" + currPage);
-            List<dynamic> EmpData = DataLayerObj.GetEmployeeData(searchString, sortDirection, sortField, pageSize, currPage);
-            if (EmpData != null)
-            {
-                log.Info("Business Layer GetAllEmployees Stop,The Employee Data is :" + EmpData);
-                return EmpData;
+            try {
+                //log.Info("Business Layer GetAllEmployees Called,The data is : searchstring:" + searchString + ",sortDirection:" + sortDirection + ",sortField:" + sortField + ",pageSize:" + pageSize + ",currPage:" + currPage);
+                List<dynamic> EmpData = DataLayerObj.GetEmployeeData(searchString, sortDirection, sortField, pageSize, currPage);
+                if (EmpData != null)
+                {
+                    // log.Info("Business Layer GetAllEmployees Stop,The Employee Data is :" + EmpData);
+                    return EmpData;
+                }
             }
+            catch (Exception e) {
+
+                log.Error("Error in returning employees :" + e);
+            }
+           
             return null;
         }
 
@@ -116,14 +161,14 @@ namespace BLL
                 SingleData = new
                 {
                     EmployeeID = Guid.Parse(dataItem[0]),
-                    email = dataItem[1],
+                    Email = dataItem[1],
                     EmployeeName = dataItem[2],
                     Address = dataItem[3],
                     Dept = dataItem[4],
-                    DOJ = DateTime.Parse(dataItem[5]),
-                    DOB = DateTime.Parse(dataItem[6]),
-                    contact = dataItem[7],
-                    salary = Int32.Parse(dataItem[8])
+                    DOJ = DateTime.Parse(dataItem[5]).Date.ToString("d"),
+                    DOB = DateTime.Parse(dataItem[6]).Date.ToString("d"),
+                    Contact = dataItem[7],
+                    Salary = Int32.Parse(dataItem[8])
                 };
                 log.Info("Business Layer GetSingleEmployee Stop,The Employee data is :" + SingleData);
                 return SingleData;
@@ -135,13 +180,35 @@ namespace BLL
         //Registering a new user
         public bool SaveUser(dynamic newEmployee)
         {
-            log.Info("Business Layer SaveUser Start,The Employee data is :" + newEmployee);
-            string GuidEmp = Guid.NewGuid().ToString();
-            StringBuilder DataOfEmp = new StringBuilder();
-            DataOfEmp.Append(GuidEmp).Append("|").Append(newEmployee.email).Append("|").Append(newEmployee.EmployeeName).Append("|").Append(newEmployee.Address).Append("|").Append((newEmployee.Dept != null) ? newEmployee.Dept : "").Append("|").Append(newEmployee.DOJ.ToString()).Append("|").Append(newEmployee.DOB.ToString()).Append("|").Append(newEmployee.contact != null ? newEmployee.contact.ToString() : "").Append("|").Append(newEmployee.salary.ToString());
-            bool ret = DataLayerObj.SaveData(DataOfEmp.ToString(), newEmployee.email.ToString());
-            log.Info("Business Layer SaveUser Stop,Is User saved? :" + newEmployee);
-            return ret;
+            try {
+                log.Info("Business Layer SaveUser Start,The Employee data is :" + newEmployee);
+                string GuidEmp = Guid.NewGuid().ToString();
+                StringBuilder DataOfEmp = new StringBuilder();
+             
+                dynamic TempEmp = new
+                {
+                    EmployeeID = newEmployee.GetType().GetProperty("EmployeeID").GetValue(newEmployee, null),
+                    Email = newEmployee.GetType().GetProperty("Email").GetValue(newEmployee, null),
+                    EmployeeName = newEmployee.GetType().GetProperty("EmployeeName").GetValue(newEmployee, null),
+                    Address = newEmployee.GetType().GetProperty("Address").GetValue(newEmployee, null),
+                    Dept = newEmployee.GetType().GetProperty("Dept").GetValue(newEmployee, null),
+                    DOJ = (newEmployee.GetType().GetProperty("DOJ").GetValue(newEmployee, null)),
+                    DOB = (newEmployee.GetType().GetProperty("DOB").GetValue(newEmployee, null)),
+                    Contact = newEmployee.GetType().GetProperty("Contact").GetValue(newEmployee, null),
+                    Salary = newEmployee.GetType().GetProperty("Salary").GetValue(newEmployee, null)
+
+                };
+                DataOfEmp.Append(GuidEmp).Append("|").Append(TempEmp.Email).Append("|").Append(TempEmp.EmployeeName).Append("|").Append(TempEmp.Address).Append("|").Append((TempEmp.Dept != null) ? TempEmp.Dept : "").Append("|").Append(TempEmp.DOJ.ToString()).Append("|").Append(TempEmp.DOB.ToString()).Append("|").Append(TempEmp.Contact != null ? TempEmp.Contact.ToString() : "").Append("|").Append(TempEmp.Salary.ToString());
+                bool ret = DataLayerObj.SaveData(DataOfEmp.ToString(), TempEmp.Email.ToString(),"Employee.txt");
+                log.Info("Business Layer SaveUser Stop,Is User saved? :" + ret);
+                return ret;
+            
+            }
+            catch (Exception e) {
+                log.Error("Business Layer SaveUser Stop err,The error is is :" + e.Message);
+            }
+            return false;
+            
         }
     }
 }

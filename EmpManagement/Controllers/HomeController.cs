@@ -6,6 +6,8 @@ using EmpManagement.Models;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Configuration;
 
 namespace EmpManagement.Controllers
 {
@@ -13,7 +15,8 @@ namespace EmpManagement.Controllers
     {
 
         // GET: /Home/
-        BusinessLogic BusinessLayerObj = new BusinessLogic();
+        string TemplateUrl = ConfigurationManager.AppSettings["AuthServiceURL"];
+      
         private static readonly log4net.ILog _Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ActionResult Index()
@@ -34,16 +37,14 @@ namespace EmpManagement.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    var Url = "http://localhost:57156/Authentication.svc/IsUserValid/";
+                    var Url = TemplateUrl + "IsUserValid/";
                     var WbRequest = (HttpWebRequest)WebRequest.Create(Url);
                     WbRequest.ContentType = @"application/json";
                     WbRequest.Method = "POST";
-
                     using (var streamWriter = new StreamWriter(WbRequest.GetRequestStream()))
                     {
-                        string Json = "{\"username\":\"" + login.username + "\"," +
-                                        "\"password\":\"" + login.password + "\"}";
-
+                        JObject createEmp = (JObject)JToken.FromObject(login);
+                        string Json = JsonConvert.SerializeObject(createEmp);                   
                         streamWriter.Write(Json);
                         streamWriter.Flush();
                         streamWriter.Close();
@@ -99,18 +100,40 @@ namespace EmpManagement.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    dynamic RegisterUser = newUser;
-                    bool IsValid = BusinessLayerObj.RegisterUser(RegisterUser);
-                    if (IsValid)
+
+                    var Url = TemplateUrl + "Register/";
+                    var WbRequest = (HttpWebRequest)WebRequest.Create(Url);
+                    WbRequest.ContentType = @"application/json";
+                    WbRequest.Method = "POST";
+                    using (var streamWriter = new StreamWriter(WbRequest.GetRequestStream()))
+                    {
+                        JObject createEmp = (JObject)JToken.FromObject(newUser);
+                        string Json = JsonConvert.SerializeObject(createEmp);
+                        streamWriter.Write(Json);
+                        streamWriter.Flush();
+                        streamWriter.Close();
+                    }
+
+                    var WbResponse = (HttpWebResponse)WbRequest.GetResponse();
+                    using (var streamReader = new StreamReader(WbResponse.GetResponseStream()))
+                    {
+                        var Result = streamReader.ReadToEnd();
+                        var JsonResult = JObject.Parse(Result);
+                        bool IsValid = (bool)JsonResult.SelectToken("RegisterResult");
+                        if (IsValid)
                     {
                         _Log.Info("Post Register successful stop , the data is  Username:" + newUser.name+ ",password:"+newUser.password+",Contact:"+newUser.phone);
                         TempData["Success"] = "User Registered successfully!!";
                         return View(newUser);
                     }
-                    else
+                    else{
                         _Log.Error("Post Register successful stop , the data is  Username:" + newUser.name + ",password:" + newUser.password + ",Contact:" + newUser.phone);
-                    ModelState.AddModelError("", "Cannot register,Duplicate username/email");
-                }
+                        ModelState.AddModelError("", "Cannot register,Duplicate username/email");
+                    }
+                    }
+
+                    }
+                                                                                                                                                                                                                                                                                                                                                                                                     
             }
             catch (Exception ex)
             {

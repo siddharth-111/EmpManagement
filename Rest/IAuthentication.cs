@@ -13,11 +13,12 @@ namespace Rest
     [ServiceContract]
     public interface IAuthentication
     {
-        [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "GetUserList/")]
-        List<DataObject> GetUserList();
+      
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "IsUserValid/")]
-        bool IsUserValid(string user, string pass);
+        bool IsUserValid(string username, string password);
+        [OperationContract]
+        [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "Register/")]
+        bool Register(string username, string password,string name,string contact);
     }
 }
