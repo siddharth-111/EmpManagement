@@ -117,7 +117,10 @@ $(document).ready(function () {
                 }
                 else {
                     var pageCount = employee.Pagecount;
-                    pages += '<span>Records ' + (pagingInfo.currPage + 1) + '-' + pagingInfo.pageSize * (pagingInfo.currPage + 1) + ' out of ' + employee.TotalRecords + '</span>';
+                    if ((pagingInfo.pageSize * (pagingInfo.currPage + 1)) > employee.TotalRecords)
+                        pages += '<span>Records ' + ((pagingInfo.pageSize * pagingInfo.currPage) + 1) + '-' + employee.TotalRecords + ' out of ' + employee.TotalRecords + '</span>';
+                    else
+                        pages += '<span>Records ' + ((pagingInfo.pageSize * pagingInfo.currPage) + 1) + '-' + (pagingInfo.pageSize * (pagingInfo.currPage + 1)) + ' out of ' + employee.TotalRecords + '</span>';
                     pages += '<ul class = "pagination pull-right">';
 
                     for (var i = 1; i <= pageCount; i++) {

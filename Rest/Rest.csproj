@@ -59,7 +59,9 @@
   <ItemGroup>
     <Content Include="Authentication.svc" />
     <Content Include="EmployeeManagementService.svc" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -75,8 +77,8 @@
     <Compile Include="EmployeeManagementService.svc.cs">
       <DependentUpon>EmployeeManagementService.svc</DependentUpon>
     </Compile>
-    <Compile Include="IAuthentication.cs" />
-    <Compile Include="IEmployeeManagementService.cs" />
+    <Compile Include="App_Code\IAuthentication.cs" />
+    <Compile Include="App_Code\IEmployeeManagementService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +88,10 @@
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{31A7DCE6-975D-43A3-8879-54BB3E7270D2}</Project>
       <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DTObject\DTObject.csproj">
+      <Project>{3F11111A-2580-4DF2-9843-A609A7297B5B}</Project>
+      <Name>DTObject</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
