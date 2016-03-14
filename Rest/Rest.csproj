@@ -34,8 +34,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
@@ -89,6 +89,10 @@
       <Project>{31A7DCE6-975D-43A3-8879-54BB3E7270D2}</Project>
       <Name>BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CommonAccess\CommonUtility.csproj">
+      <Project>{881686D9-F9E2-413C-9F04-5E96AA03F674}</Project>
+      <Name>CommonUtility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DTObject\DTObject.csproj">
       <Project>{3F11111A-2580-4DF2-9843-A609A7297B5B}</Project>
       <Name>DTObject</Name>
@@ -105,7 +109,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>57156</DevelopmentServerPort>
+          <DevelopmentServerPort>56089</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

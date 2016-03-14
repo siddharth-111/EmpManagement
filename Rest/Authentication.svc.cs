@@ -14,7 +14,7 @@ namespace Rest
         BusinessLogic BusinessLayerObj = new BusinessLogic();
        
 
-        public bool IsUserValid(string username, string password)
+        public bool IsUserValid(string password, string username)
         {
             try {
 

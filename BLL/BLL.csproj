@@ -49,6 +49,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonAccess\CommonUtility.csproj">
+      <Project>{881686D9-F9E2-413C-9F04-5E96AA03F674}</Project>
+      <Name>CommonUtility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj">
       <Project>{8E7B980B-D9AC-4D56-BC3E-C6F927A7DE2A}</Project>
       <Name>DataLayer</Name>

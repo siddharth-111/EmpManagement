@@ -16,7 +16,7 @@ namespace Rest
       
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "IsUserValid/")]
-        bool IsUserValid(string username, string password);
+        bool IsUserValid(string password, string username);
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "Register/")]
         bool Register(string username, string password,string name,string contact);

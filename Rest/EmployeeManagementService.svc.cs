@@ -14,7 +14,7 @@ namespace Rest
     public class EmployeeManagementService : IEmployeeManagementService
     {
         BusinessLogic BusinessLayerObj = new BusinessLogic();
-        public List<EmployeeObject> GetEmployeeList(string searchString, string sortDirection, string sortField, int pageSize, int currPage) {
+        public List<EmployeeObject> GetEmployeeList(int pageSize,int currPage, string sortField,string sortDirection,string searchString ) {
             
            try {
                var ReturnList = new List<dynamic>();

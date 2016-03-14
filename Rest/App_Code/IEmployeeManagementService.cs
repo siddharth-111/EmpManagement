@@ -16,7 +16,7 @@ namespace Rest
        
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "GetEmployeeList/")]
-        List<EmployeeObject> GetEmployeeList(string searchString,string sortDirection,string sortField,int pageSize,int currPage);
+        List<EmployeeObject> GetEmployeeList(int pageSize, int currPage, string sortField, string sortDirection, string searchString);
 
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "DeleteEmployee/")]

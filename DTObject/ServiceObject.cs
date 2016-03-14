@@ -35,7 +35,10 @@ namespace DTObject
 
         public string Contact { get; set; }
 
+        public int Pagecount { get; set;}
 
+        public int TotalRecords { get; set;}
+      
     }
 
 }

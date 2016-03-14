@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using System.Configuration;
+using CommonUtility;
 
 namespace EmpManagement.Controllers
 {
@@ -21,44 +22,36 @@ namespace EmpManagement.Controllers
     {
 
         // GET: /Employee/
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public List<EmpDetails> ListOfEmployees;
-        string TemplateUrl = ConfigurationManager.AppSettings["EmpServiceURL"];
+        
+        
+        string EmpServiceURL = ConfigurationManager.AppSettings["EmpServiceURL"];
+        CommonGetPost ApiCall = new CommonGetPost();
+        Logger Wrapper = new Logger();
+        
+
         //Get the Result of employee object
         public JsonResult ReturnEmployeeData(PaginationInfo pagingInfo)
         {
-            log.Info("ReturnEmployeeData method start");
+           
+            Wrapper.Log.Info("ReturnEmployeeData method start");
             try
             {
-
-                var Url = TemplateUrl + "GetEmployeeList/";
-                var WbRequest = (HttpWebRequest)WebRequest.Create(Url);
-                WbRequest.ContentType = @"application/json";
-                WbRequest.Method = "POST";
-
-                using (var streamWriter = new StreamWriter(WbRequest.GetRequestStream()))
-                {
-                    string Json = "{\"searchString\":\"" + pagingInfo.searchString + "\"," + "\"sortDirection\":\"" + pagingInfo.sortDirection + "\"," + "\"sortField\":\"" + pagingInfo.sortField + "\"," + "\"pageSize\":\"" + pagingInfo.pageSize + "\"," + "\"currPage\":\"" + pagingInfo.currPage + "\"}";
-                    streamWriter.Write(Json);
-                    streamWriter.Flush();
-                    streamWriter.Close();
-                }
-
-                var WbResponse = (HttpWebResponse)WbRequest.GetResponse();
-                using (var streamReader = new StreamReader(WbResponse.GetResponseStream()))
-                {
-                    JavaScriptSerializer Ser = new JavaScriptSerializer();
-                    var Result = streamReader.ReadToEnd();
-                    var Data = JsonConvert.DeserializeObject(Result) as JToken;
-                    ListOfEmployees = JsonConvert.DeserializeObject<List<EmpDetails>>(Data["GetEmployeeListResult"].ToString());
-
-                    return Json(ListOfEmployees, JsonRequestBehavior.AllowGet);
-                }
-
+                Wrapper.Log.Debug("ReturnEmployeeData method pagination info data:" + new JavaScriptSerializer().Serialize(pagingInfo));
+                var Url = EmpServiceURL + "GetEmployeeList/";
+                var Data = ApiCall.ReturnPost(Url, pagingInfo);
+                List<EmpDetails> ListOfEmployees = new List<EmpDetails>();
+                ListOfEmployees = JsonConvert.DeserializeObject<List<EmpDetails>>(Data["GetEmployeeListResult"].ToString());
+                Wrapper.Log.Info("ReturnEmployeeData method stop");
+                return Json(ListOfEmployees, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                log.Error("Error in returning Data :" + e);
+                Wrapper.Log.Error("Error in returning Data :" + e);
+            }
+            finally
+            {
+                Wrapper.Log.Info("ReturnEmployee Data mandatory stop");
+            
             }
             return null;
         }
@@ -66,8 +59,21 @@ namespace EmpManagement.Controllers
         //GET : /Employee
         public ActionResult Index()
         {
-            log.Info("Get Employee method start");
-            log.Info("Get Employee method stop");
+            Wrapper.Log.Info("Get Employee method start");
+            try
+            {
+                Wrapper.Log.Info("Get Employee method stop");
+                return View();
+            }
+            catch (Exception e)
+            {
+                Wrapper.Log.Error("Get Employee method Error :" +e.Message);
+            }
+            finally 
+            {
+                Wrapper.Log.Info("Get Employee method mandatory stop");
+            }
+          
             return View();
         }
 
@@ -75,8 +81,21 @@ namespace EmpManagement.Controllers
         // GET : /Employee/CreateEmployee
         public ActionResult CreateEmployee()
         {
-            log.Info("Get CreateEmployee method start");
-            log.Info("Get CreateEmployee method stop");
+            Wrapper.Log.Info("Create Employee method start");
+            try
+            {
+                Wrapper.Log.Info("Create Employee method stop");
+                return View();
+            }
+            catch (Exception e)
+            {
+                Wrapper.Log.Error("Create Employee method Error :" + e.Message);
+            }
+            finally
+            {
+                Wrapper.Log.Info("Create Employee method mandatory stop");
+            }
+
             return View();
         }
 
@@ -86,53 +105,42 @@ namespace EmpManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateEmployee(EmpDetails newEmployee)
         {
-           // log.Info("Create Employee method start, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary);
+            Wrapper.Log.Info("Create Employee method post start");
             try
             {
+                Wrapper.Log.Debug("Create Employee method post data :" + new JavaScriptSerializer().Serialize(newEmployee));
                 if (ModelState.IsValid)
                 {
-                    var Url = TemplateUrl + "CreateEmployee/";
-                    var WbRequest = (HttpWebRequest)WebRequest.Create(Url);
-                    WbRequest.ContentType = @"application/json";
-                    WbRequest.Method = "POST";
-                    using (var streamWriter = new StreamWriter(WbRequest.GetRequestStream()))
+                    var Url = EmpServiceURL + "CreateEmployee/";
+                    var Data = ApiCall.ReturnPost(Url, newEmployee);
+                    bool IsEmployeeCreated = (bool)Data.SelectToken("CreateEmployeeResult");
+                    if (IsEmployeeCreated)
                     {
-                        JObject createEmp = (JObject)JToken.FromObject(newEmployee);
-
-                        string Json = JsonConvert.SerializeObject(createEmp);
-                        streamWriter.Write(Json);
-                        streamWriter.Flush();
-                        streamWriter.Close();
+                        //     Wrapper.Log.Info("Create Employee method stop successful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary);
+                        TempData["Success"] = "Employee created successfully!!";
+                        Wrapper.Log.Debug("Create Employee method post return data :" + IsEmployeeCreated.ToString());
+                        Wrapper.Log.Info("Create Employee method stop");
+                        return View(newEmployee);
                     }
-
-                    var WbResponse = (HttpWebResponse)WbRequest.GetResponse();
-                    using (var streamReader = new StreamReader(WbResponse.GetResponseStream()))
+                    else
                     {
-                        JavaScriptSerializer Ser = new JavaScriptSerializer();
-                        var Result = streamReader.ReadToEnd();
-                        var JsonResult = JObject.Parse(Result);
-                        bool IsEmployeeCreated = (bool)JsonResult.SelectToken("CreateEmployeeResult");
-                        if (IsEmployeeCreated)
-                        {
-                       //     log.Info("Create Employee method stop successful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary);
-                            TempData["Success"] = "Employee created successfully!!";
-                            return View(newEmployee);
-                        }
-                        else
-                        {
-                     //       log.Info("Create Employee method stop unsuccessful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary); ;
-                            ModelState.AddModelError("", "An employee with the same email ID exists");
-                        }
-
+                        Wrapper.Log.Debug("Create Employee method post return data :" + IsEmployeeCreated.ToString());
+                        Wrapper.Log.Info("Create Employee method stop");
+                        //       Wrapper.Log.Info("Create Employee method stop unsuccessful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary); ;
+                        ModelState.AddModelError("", "An employee with the same email ID exists");
                     }
-
                 }
+
             }
             catch (Exception ex)
             {
-                //Log the error
-                log.Error("Create Employee method error, the error is : " + ex);
+                //Wrapper.Log the error
+                Wrapper.Log.Error("Create Employee method error, the error is : " + ex.Message);
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
+            finally 
+            {
+                Wrapper.Log.Info("Create Employee post method mandatory stop");
             }
 
             return View();
@@ -142,43 +150,31 @@ namespace EmpManagement.Controllers
         // GET : /Employee/EditEmployee
         public ActionResult EditEmployee(Guid id)
         {
-            log.Info("Get Edit Employee method start, the employee id is :" + id);
-            
+            Wrapper.Log.Info("Get Edit Employee method start");
+
             try
             {
-
-                var Url = TemplateUrl + "GetSingleEmployee/";
-                var WbRequest = (HttpWebRequest)WebRequest.Create(Url);
-                WbRequest.ContentType = @"application/json";
-                WbRequest.Method = "POST";
-                using (var streamWriter = new StreamWriter(WbRequest.GetRequestStream()))
+                Wrapper.Log.Debug("Get Edit Employee method data passed : " + id.ToString());
+                var Url = EmpServiceURL + "GetSingleEmployee/";
+                var createEmp = new
                 {
-                    var createEmp = new
-                    {
-                        EmployeeID = id
-                    };
-
-                    string Json = JsonConvert.SerializeObject(createEmp);
-                    streamWriter.Write(Json);
-                    streamWriter.Flush();
-                    streamWriter.Close();
-                }
-
-                var WbResponse = (HttpWebResponse)WbRequest.GetResponse();
-                using (var streamReader = new StreamReader(WbResponse.GetResponseStream()))
-                {
-                    JavaScriptSerializer Ser = new JavaScriptSerializer();
-                    var Result = streamReader.ReadToEnd();
-                    var Data = JsonConvert.DeserializeObject(Result) as JToken;
-                    EmpDetails SingleEmployee = JsonConvert.DeserializeObject<EmpDetails>(Data["GetSingleEmployeeResult"].ToString());
-                    return View(SingleEmployee);
-                }
+                    EmployeeID = id
+                };
+                var Data = ApiCall.ReturnPost(Url, createEmp);
+                EmpDetails SingleEmployee = JsonConvert.DeserializeObject<EmpDetails>(Data["GetSingleEmployeeResult"].ToString());
+                Wrapper.Log.Debug("Get Edit Employee method data retrieved : " + new JavaScriptSerializer().Serialize(SingleEmployee));
+                Wrapper.Log.Info("Get Edit Employee method stop");
+                return View(SingleEmployee);
             }
             catch (Exception ex)
             {
-                //Log the error
-                log.Error("Create Employee method error, the error is : " + ex);
+                //Wrapper.Log the error
+                Wrapper.Log.Error("Get Edit Employee method error, the error is : " + ex);
 
+            }
+            finally
+            {
+                Wrapper.Log.Info("Get Edit Employee method mandatory stop");
             }
             return View();
         }
@@ -187,120 +183,98 @@ namespace EmpManagement.Controllers
         [HttpPost]
         public ActionResult EditEmployee(EmpDetails editedEmp)
         {
-            log.Info("Edit employee method start");
+            Wrapper.Log.Info("Post Edit employee method start");
             try
             {
+                Wrapper.Log.Debug("Post Edit employee method data : " + new JavaScriptSerializer().Serialize(editedEmp));
                 if (ModelState.IsValid)
                 {
-                    var Url = TemplateUrl + "EditEmployee/";
-                    var WbRequest = (HttpWebRequest)WebRequest.Create(Url);
-                    WbRequest.ContentType = @"application/json";
-                    WbRequest.Method = "POST";
-                    using (var streamWriter = new StreamWriter(WbRequest.GetRequestStream()))
+                    var Url = EmpServiceURL + "EditEmployee/";
+                    var Data = ApiCall.ReturnPost(Url, editedEmp);
+
+                    bool IsEmployeeEdited = (bool)Data.SelectToken("EditEmployeeResult");
+                    if (IsEmployeeEdited)
                     {
-                        JObject createEmp = (JObject)JToken.FromObject(editedEmp);
-                        string Json = JsonConvert.SerializeObject(createEmp);
-                        streamWriter.Write(Json);
-                        streamWriter.Flush();
-                        streamWriter.Close();
+                        //  Wrapper.Log.Info("Create Employee method stop successful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary);
+                        TempData["Success"] = "Employee Edited successfully!!";
+                        Wrapper.Log.Debug("Post Edit employee method return data : " + IsEmployeeEdited);
+                        Wrapper.Log.Debug("Post Edit employee method stop");
+                        return View(editedEmp);
+                    }
+                    else
+                    {
+                        Wrapper.Log.Debug("Post Edit employee method return data : " + IsEmployeeEdited);
+                        Wrapper.Log.Debug("Post Edit employee method stop");
+                        //     Wrapper.Log.Info("Create Employee method stop unsuccessful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary); ;
+                        ModelState.AddModelError("", "Error in saving the details of employee");
                     }
 
-                    var WbResponse = (HttpWebResponse)WbRequest.GetResponse();
-                    using (var streamReader = new StreamReader(WbResponse.GetResponseStream()))
-                    {
-                        JavaScriptSerializer Ser = new JavaScriptSerializer();
-                        var Result = streamReader.ReadToEnd();
-                        var JsonResult = JObject.Parse(Result);
-                        bool IsEmployeeCreated = (bool)JsonResult.SelectToken("EditEmployeeResult");
-                        if (IsEmployeeCreated)
-                        {
-                            //  log.Info("Create Employee method stop successful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary);
-                            TempData["Success"] = "Employee created successfully!!";
-                            return View(editedEmp);
-                        }
-                        else
-                        {
-                            //     log.Info("Create Employee method stop unsuccessful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary); ;
-                            ModelState.AddModelError("", "An employee with the same email ID exists");
-                        }
-
-                    }
 
                 }
             }
-            catch (Exception ex/* dex */)
+            catch (Exception ex)
             {
-                log.Error("Error in editing the employee details, the error is : " + ex);
-                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
+                Wrapper.Log.Error("Error in editing the employee details, the error is : " + ex);
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-
+            finally
+            {            
+                Wrapper.Log.Debug("Post Edit employee method mandatory stop");
+            }
             return View(editedEmp);
         }
 
         // POST : /Employee/DeleteEmployee
         public ActionResult DeleteEmployee(Guid id)
         {
+            Wrapper.Log.Info("Deleting employee method start");
             try
             {
-                log.Info("Deleting employee method called, the id is " + id);
-                var Url = TemplateUrl + "DeleteEmployee/";
-                var WbRequest = (HttpWebRequest)WebRequest.Create(Url);
-                WbRequest.ContentType = @"application/json";
-                WbRequest.Method = "POST";
-
-
-                using (var streamWriter = new StreamWriter(WbRequest.GetRequestStream()))
+                Wrapper.Log.Debug("Deleting employee data, the id is " + id);
+                var Url = EmpServiceURL + "DeleteEmployee/";
+                var EmpObj = new
                 {
-                    var EmpObj = new
-                    {
-                        EmpId = id
-                    };
-                    string Json = JsonConvert.SerializeObject(EmpObj);
-                    streamWriter.Write(Json);
-                    streamWriter.Flush();
-                    streamWriter.Close();
+                    EmpId = id
+                };
+                var Data = ApiCall.ReturnPost(Url, EmpObj);
+                bool IsEmployeeDeleted = (bool)Data.SelectToken("DeleteEmployeeResult");
+                if (IsEmployeeDeleted)
+                {
+                    TempData["Delete"] = "Deleted the employee successfully!!";
+                    Wrapper.Log.Debug("Deleting employee return data is " + IsEmployeeDeleted);
+                    Wrapper.Log.Info("Deleting employee method stop");
+                    return RedirectToAction("Index", "Employee");
                 }
-
-                var WbResponse = (HttpWebResponse)WbRequest.GetResponse();
-                using (var streamReader = new StreamReader(WbResponse.GetResponseStream()))
+                else
                 {
-                    JavaScriptSerializer Ser = new JavaScriptSerializer();
-                    var Result = streamReader.ReadToEnd();
-                    var JsonResult = JObject.Parse(Result);
-                    bool IsEmployeeDeleted = (bool)JsonResult.SelectToken("DeleteEmployeeResult");
-                    if (IsEmployeeDeleted)
-                    {
-                        TempData["Delete"] = "Deleted the employee successfully!!";
-                        log.Info("Delete Employee method stop successful, the employee id is : " + id);
-                        return RedirectToAction("Index", "Employee");
-                    }
-                    else
-                    {
-                        TempData["DeleteFail"] = "Couldn't Delete the Employee";
-                        log.Info("Delete Employee method stop unsuccessful, The Employee id is :" + id);
-                        ModelState.AddModelError("", "Error in Deleting the Employee");
-                    }
+                    TempData["DeleteFail"] = "Couldn't Delete the Employee";
+                    Wrapper.Log.Debug("Delete Employee method stop unsuccessful, return data is:" + IsEmployeeDeleted);
+                    Wrapper.Log.Info("Delete employee method stop");
+                    ModelState.AddModelError("", "Error in Deleting the Employee");
                 }
             }
             catch (Exception ex)
             {
-                log.Error("Error in deleting the employee, the error is : " + ex);
+                Wrapper.Log.Error("Error in deleting the employee, the error is : " + ex);
+            }
+            finally
+            {
+                Wrapper.Log.Info("Delete Employee method mandatory stop");
             }
             return RedirectToAction("Index", "Employee");
         }
 
-        //Logout
+        //Wrapper.Logout
         public ActionResult Logout()
         {
-            log.Info("Logout method start");
+            Wrapper.Log.Info("Wrapper.Logout method start");
             if (Request.Cookies["formsCookie"] != null)
             {
                 var Cookie = new HttpCookie("formsCookie");
                 Cookie.Expires = DateTime.Now.AddDays(-1);
                 Response.Cookies.Add(Cookie);
             }
-            log.Info("Logout method stop");
+            Wrapper.Log.Info("Wrapper.Logout method stop");
             return RedirectToAction("Index", "Home");
         }
 
