@@ -4,7 +4,10 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using DTObject;
 using BLL;
+using log4net;
+using System.Reflection;
 
 namespace Rest
 {
@@ -12,10 +15,12 @@ namespace Rest
     public class Authentication : IAuthentication
     {
         BusinessLogic BusinessLayerObj = new BusinessLogic();
-       
 
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         public bool IsUserValid(string password, string username)
         {
+            _log.Info("Rest IsUserValid start");
             try {
 
                 dynamic login = new
@@ -38,12 +43,12 @@ namespace Rest
 
         public bool Register(string username, string password, string name, string contact)
         {
-            dynamic newUser = new
+            UserObject newUser = new UserObject
             {
-                  username = username,
-                  password = password,
-                  name = name,
-                  contact = contact
+                  Email = username,
+                  Password = password,
+                  Name = name,
+                  Contact = contact
             };
 
             bool IsRegistered = BusinessLayerObj.RegisterUser(newUser);

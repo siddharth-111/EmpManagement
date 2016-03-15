@@ -7,6 +7,8 @@ using DTObject;
 using DataLayer;
 using System.Web.Script.Serialization;
 using CommonUtility;
+using log4net;
+using System.Reflection;
 namespace BLL
 {
 
@@ -14,15 +16,14 @@ namespace BLL
     {
       //  private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         //Check if the Login user is valid
-        Logger Wrapper = new Logger();
+        private static readonly ILog _log = LogManager.GetLogger(typeof(BLL.BusinessLogic));
         FileAccess DataLayerObj = new FileAccess();
         SQLRetrieve SqlLayerObj = new SQLRetrieve();
 
 
-
         public bool IsUserValid(dynamic login)
         {
-            Wrapper.Log.Info("Business Layer IsUserValid method start ");
+            _log.Info("Business Layer IsUserValid method start ");
             try
             {
                 List<dynamic> NewList = GetSQLUserList();
@@ -38,22 +39,22 @@ namespace BLL
                 return false;
             }
             catch (Exception e) {
-                Wrapper.Log.Error("Business Layer IsUserValid exception,the exception is :" + e.Message);
+                _log.Error("Business Layer IsUserValid exception,the exception is :" + e.Message);
                 return false;
             }
             finally {
-                Wrapper.Log.Info("Business Layer IsUserValid method mandatory stop");            
+                _log.Info("Business Layer IsUserValid method mandatory stop");            
             }
           
         }
 
         //Get SQL User list
         public List<dynamic> GetSQLUserList() {
-            Wrapper.Log.Info("Business Layer Get SQL User list method start:");
+            _log.Info("Business Layer Get SQL User list method start:");
             try
             {
                 List<UserObject> UserData = SqlLayerObj.GetUserData();
-                Wrapper.Log.Debug("The User data from SQL proc is :" + new JavaScriptSerializer().Serialize(UserData));
+                _log.Debug("The User data from SQL proc is :" + new JavaScriptSerializer().Serialize(UserData));
                 List<dynamic> UserList = new List<dynamic>();
                 if (UserData != null)
                 {
@@ -65,18 +66,18 @@ namespace BLL
                             password = SingleUser.Password
                         });
                     }
-                    Wrapper.Log.Info("Business Layer Get SQL User list method stop");
+                    _log.Info("Business Layer Get SQL User list method stop");
                     return UserList;
                 }
 
             }
             catch (Exception e)
             {
-                Wrapper.Log.Error("The Error in retrieving data from Business Layer Get SQL User List,The error is :" + e.Message);
+                _log.Error("The Error in retrieving data from Business Layer Get SQL User List,The error is :" + e.Message);
             }
             finally
             {
-                Wrapper.Log.Info("Business Layer Get SQL User list method mandatory stop");
+                _log.Info("Business Layer Get SQL User list method mandatory stop");
             }
            
             return null;
@@ -87,7 +88,7 @@ namespace BLL
         //Get the list of users from file
         public List<dynamic> GetUserList()
         {
-            Wrapper.Log.Info("Business Layer GetUserData start");
+            _log.Info("Business Layer GetUserData start");
             try {
                 List<UserObject> UserL = SqlLayerObj.GetUserData();
                 string[] UserData = DataLayerObj.GetUserData();
@@ -104,16 +105,16 @@ namespace BLL
                             password = dataItem[1]
                         });
                     }
-                    Wrapper.Log.Info("Business Layer GetUserData Stop");
+                    _log.Info("Business Layer GetUserData Stop");
                     return UserList;
                 }
                 
             }
             catch (Exception e) {
-                Wrapper.Log.Error("Business Layer GetUserData Exception : " + e.Message);
+                _log.Error("Business Layer GetUserData Exception : " + e.Message);
             }
             finally {
-                Wrapper.Log.Info("Business Layer GetUserData mandatory stop :");
+                _log.Info("Business Layer GetUserData mandatory stop :");
             }
            
             return null;
@@ -122,9 +123,9 @@ namespace BLL
         //Delete Employee 
         public bool DeleteEmployee(Guid id)
         {
-            Wrapper.Log.Info("Business Layer DeletEmployee Start");
+            _log.Info("Business Layer DeletEmployee Start");
             bool Val = SqlLayerObj.DeleteData(id.ToString());
-            Wrapper.Log.Info("Business Layer DeleteEmployee Stop,is User Deleted? :" + Val);
+            _log.Info("Business Layer DeleteEmployee Stop,is User Deleted? :" + Val);
             return Val;
         }
 
@@ -165,7 +166,7 @@ namespace BLL
         //Update single employee data
         public bool EditSingleEmployee(dynamic newEmployee)
         {
-           Wrapper.Log.Info("Business Layer EditSingleEmployee Start,The data is :" + newEmployee);
+           _log.Info("Business Layer EditSingleEmployee Start,The data is :" + newEmployee);
             StringBuilder DataOfEmp = new StringBuilder();
             try
             {
@@ -185,65 +186,85 @@ namespace BLL
                 };
 
                 bool IsEdited = SqlLayerObj.Edit(TempEmp);
-                Wrapper.Log.Info("Business Layer EditSingleEmployee Stop,The data is :" + TempEmp);
+                _log.Info("Business Layer EditSingleEmployee Stop,The data is :" + TempEmp);
                 return IsEdited;
             }
             catch (Exception e)
             {
 
-                Wrapper.Log.Error("Error in saving updated details of the employee, the data is :" + e);
+                _log.Error("Error in saving updated details of the employee, the data is :" + e);
             }
             return false;
 
         }
 
-        //Register new user
-        public bool RegisterUser(dynamic register)
+        public bool RegisterUser(UserObject User)
         {
-            Wrapper.Log.Info("Business Layer Register User Start,The data is :" + register);
-            List<dynamic> UserList = GetUserList();
-            try
-            {
-                foreach (dynamic User in UserList)
-                {
-                    if (User.username.Equals(register.GetType().GetProperty("username").GetValue(register, null)))
-                        return false;
-                }
-                StringBuilder DataOfUser = new StringBuilder();
-                dynamic TempRegister = new
-                {
-                    Username = register.GetType().GetProperty("username").GetValue(register, null),
-                    Password = register.GetType().GetProperty("password").GetValue(register, null),
-                    Contact = register.GetType().GetProperty("contact").GetValue(register, null),
-                    Name = register.GetType().GetProperty("name").GetValue(register, null),
 
-                };
-                DataOfUser.Append(TempRegister.Username).Append("|").Append(TempRegister.Password).Append("|").Append((TempRegister.Name != null) ? TempRegister.Name : "").Append("|").Append((TempRegister.Contact != null) ? TempRegister.Contact : "");
-                bool RegisteredUser = DataLayerObj.SaveData(DataOfUser.ToString(), TempRegister.Username.ToString(),"User.txt");
-                Wrapper.Log.Info("Business Layer Register User Stop,is user registered? :" + RegisteredUser);
-                return RegisteredUser;
+            _log.Info("Business Layer Register method start");
+            try 
+            {
+                _log.Debug("Business Layer Register data is :" + new JavaScriptSerializer().Serialize(User));
+                bool IsUserRegistered = SqlLayerObj.RegisterUser(User);
+                _log.Debug("Business Layer Register returned data is :" + IsUserRegistered);
+                return IsUserRegistered; 
             }
-            catch (Exception e) {
-                Wrapper.Log.Error("Error in registering the user, the error is :" + e.Message);
+            catch (Exception e)
+            {
+                _log.Error("Business Layer RegisterUser error:" + e.Message);
+                return false;
             }
-            return false;
-          
+            finally
+            {
+                _log.Info("Business Layer Register method mandatory stop");
+            }
+                           
         }
+        //Register new user
+        //public bool RegisterUser(dynamic register)
+        //{
+        //    _log.Info("Business Layer Register User Start,The data is :" + register);
+        //    List<dynamic> UserList = GetUserList();
+        //    try
+        //    {
+        //        foreach (dynamic User in UserList)
+        //        {
+        //            if (User.username.Equals(register.GetType().GetProperty("username").GetValue(register, null)))
+        //                return false;
+        //        }
+        //        StringBuilder DataOfUser = new StringBuilder();
+        //        dynamic TempRegister = new
+        //        {
+        //            Username = register.GetType().GetProperty("username").GetValue(register, null),
+        //            Password = register.GetType().GetProperty("password").GetValue(register, null),
+        //            Contact = register.GetType().GetProperty("contact").GetValue(register, null),
+        //            Name = register.GetType().GetProperty("name").GetValue(register, null),
+
+        //        };
+        //        DataOfUser.Append(TempRegister.Username).Append("|").Append(TempRegister.Password).Append("|").Append((TempRegister.Name != null) ? TempRegister.Name : "").Append("|").Append((TempRegister.Contact != null) ? TempRegister.Contact : "");
+        //        bool RegisteredUser = DataLayerObj.SaveData(DataOfUser.ToString(), TempRegister.Username.ToString(),"User.txt");
+        //        _log.Info("Business Layer Register User Stop,is user registered? :" + RegisteredUser);
+        //        return RegisteredUser;
+        //    }
+        //    catch (Exception e) {
+        //        _log.Error("Error in registering the user, the error is :" + e.Message);
+        //    }
+        //    return false;
+          
+        //}
 
 
 
         //Get the entire list of employees        
         public List<dynamic> GetAllEmployees(string searchString, string sortDirection, string sortField, int pageSize, int currPage)
         {
-            Wrapper.Log.Info("Business layer GetallEmployees start");
-            try {
+            _log.Info("Business layer GetallEmployees start");
+            try
+            {
                 if (sortDirection == "ascending")
                     sortDirection = "ASC";
                 else
                     sortDirection = "DESC";
-                //log.Info("Business Layer GetAllEmployees Called,The data is : searchstring:" + searchString + ",sortDirection:" + sortDirection + ",sortField:" + sortField + ",pageSize:" + pageSize + ",currPage:" + currPage);
-           //     List<dynamic> EmpData = DataLayerObj.GetEmployeeData(searchString, sortDirection, sortField, pageSize, currPage);
-             //   List<EMSObject> EmpData = SqlLayerObj.GetEmployeeData(searchString,sortDirection,sortField,(currPage*pageSize),pageSize+(currPage*pageSize));
                 List<EMSObject> EmpData = SqlLayerObj.GetEmployeeData(searchString, sortDirection, sortField, currPage, pageSize);
                 List<dynamic> JsonEmployee = new List<dynamic>();
 
@@ -265,16 +286,22 @@ namespace BLL
                 }
                 JsonEmployee.Add(new 
                 {
-                    Pagecount = EmpData[Count-1].Pagecount,
-                    TotalRecords = EmpData[Count-1].TotalRecords,
+                    Pagecount = EmpData[Count - 1].Pagecount,
+                    TotalRecords = EmpData[Count - 1].TotalRecords,
                 });
-                    Wrapper.Log.Info("File Access GetEmployeeData stop,the returned list is :" + JsonEmployee);
-                    return JsonEmployee;
-                
-            }
-            catch (Exception e) {
+                _log.Debug("Business Layer GetAllEmployees returned list is :" + JsonEmployee);
+                _log.Info("Business Layer GetAllEmployees stop");
+                return JsonEmployee;
 
-                Wrapper.Log.Error("Error in returning employees :" + e);
+            }
+            catch (Exception e)
+            {
+
+                _log.Error("Business Layer Error in GetAllEmployees,The exception is :" + e);
+            }
+            finally
+            {
+                _log.Info("Business Layer GetAllEmployees mandatory stop");
             }
            
             return null;
@@ -313,7 +340,7 @@ namespace BLL
         //Using MysQL 
         public dynamic GetSingleEmployee(Guid id)
         {
-            Wrapper.Log.Info("Business Layer GetSingleEmployee Start, the employee Id is :" + id);
+            _log.Info("Business Layer GetSingleEmployee Start, the employee Id is :" + id);
             EMSObject EmpData = SqlLayerObj.GetSingleEmpData(id.ToString());;
             dynamic SingleData = new ExpandoObject();
             if (EmpData != null)
@@ -330,7 +357,7 @@ namespace BLL
                     Contact = EmpData.Contact,
                     Salary = EmpData.Salary
                 };
-                Wrapper.Log.Info("Business Layer GetSingleEmployee Stop,The Employee data is :" + SingleData);
+                _log.Info("Business Layer GetSingleEmployee Stop,The Employee data is :" + SingleData);
                 return SingleData;
             }
             return null;
@@ -373,9 +400,9 @@ namespace BLL
         //Registering a new user
         public bool SaveUser(dynamic newEmployee)
         {
-           Wrapper.Log.Info("Business Layer SaveUser Start");
+           _log.Info("Business Layer SaveUser Start");
             try {
-               Wrapper.Log.Debug("The Employee data is :" + newEmployee);
+               _log.Debug("The Employee data is :" + newEmployee);
                 string GuidEmp = Guid.NewGuid().ToString();
                 StringBuilder DataOfEmp = new StringBuilder();
 
@@ -393,13 +420,13 @@ namespace BLL
 
                 };
                 bool EmpCreated = SqlLayerObj.CreateData(TempEmp);
-                Wrapper.Log.Debug("Business Layer SaveUser,Is User saved? :" + EmpCreated);
-                Wrapper.Log.Info("Business Layer SaveUser Stop,Is User saved?");
+                _log.Debug("Business Layer SaveUser,Is User saved? :" + EmpCreated);
+                _log.Info("Business Layer SaveUser Stop,Is User saved?");
                 return EmpCreated;
 
             }
             catch (Exception e) {
-                Wrapper.Log.Error("Business Layer SaveUser Stop err,The error is is :" + e.Message);
+                _log.Error("Business Layer SaveUser Stop err,The error is is :" + e.Message);
             }
             return false;
        }

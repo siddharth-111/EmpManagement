@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 
 namespace DTObject
-{
-    public class ServiceObject
-    {
-    }
-
+{    
     public class UserObject {
         public string Email { get; set; }
 
         public string Password { get; set; }
+
+        public string Name { get; set; }
+
+        public string Contact { get; set; }
     }
 
     public class EMSObject
@@ -40,5 +40,7 @@ namespace DTObject
         public int TotalRecords { get; set;}
       
     }
-
+    public class ServiceObject
+    {
+    }
 }

@@ -6,6 +6,8 @@ using System.ServiceModel;
 using System.Text;
 using System.ServiceModel.Web;
 using DTObject;
+using log4net;
+
 
 namespace Rest
 {
@@ -23,12 +25,12 @@ namespace Rest
         bool DeleteEmployee(Guid EmpId);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json,BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "CreateEmployee/")]
-        bool CreateEmployee(Guid? EmployeeID,string EmployeeName,string Address,string DOB,int Salary,string Email,string DOJ,string Dept,string Contact);
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json,BodyStyle = WebMessageBodyStyle.WrappedRequest, ResponseFormat = WebMessageFormat.Json, UriTemplate = "CreateEmployee/")]
+        bool CreateEmployee(EmployeeObject employee);
 
         [OperationContract]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "EditEmployee/")]
-        bool EditEmployee(Guid EmployeeID,string Email,string EmployeeName,string Address, string DOB,string DOJ, string Dept , string Contact, int Salary);
+        bool EditEmployee(EmployeeObject employee);
    
         [OperationContract]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "GetSingleEmployee/")]

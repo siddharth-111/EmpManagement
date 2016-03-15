@@ -16,12 +16,12 @@ namespace CommonUtility
         public dynamic ReturnPost(string url, dynamic info)
         {
             Wrapper.Log.Info("Common GetPost method start");
-            var WbRequest = (HttpWebRequest)WebRequest.Create(url);
-            Wrapper.Log.Debug("Common GetPost method data passed :" + new JavaScriptSerializer().Serialize(info));
-            WbRequest.ContentType = @"application/json";
-            WbRequest.Method = "POST";
             try
             {
+                var WbRequest = (HttpWebRequest)WebRequest.Create(url);
+                Wrapper.Log.Debug("Common GetPost method data passed :" + new JavaScriptSerializer().Serialize(info));
+                WbRequest.ContentType = @"application/json";
+                WbRequest.Method = "POST";
                 using (var streamWriter = new StreamWriter(WbRequest.GetRequestStream()))
                 {
                     JObject pageInfo = (JObject)JToken.FromObject(info);
@@ -35,6 +35,8 @@ namespace CommonUtility
                 {
                     JavaScriptSerializer Ser = new JavaScriptSerializer();
                     var Result = streamReader.ReadToEnd();
+                    if (Result == "true" || Result == "false")
+                        return Result;
                     var Data = JsonConvert.DeserializeObject(Result) as JToken;
                     return Data;
                 }
@@ -43,13 +45,13 @@ namespace CommonUtility
             catch (Exception e)
             {
                 Wrapper.Log.Error("Error in handling the request,the exception is :" + e.Message);
-
+                return null;
             }
             finally
             {
                 Wrapper.Log.Info("Common GetPost mandatory stop");
             }
-            return null;
+
 
         }
     }

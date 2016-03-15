@@ -45,7 +45,7 @@
             error.appendTo(".errors");
         },
         rules: {
-            "email": {
+            "Email": {
                 required: true,
                 email: true
             },
@@ -65,17 +65,17 @@
                 date: true,
                 dateofBirth: true
             },
-            "salary": {
+            "Salary": {
                 required: true,
                 number: true
             },
-            "contact": {
+            "Contact": {
                 minlength: 10,
                 number: true
             }
         },
         messages: {
-            "email": {
+            "Email": {
                 required: "Email is required",
                 email: "Not a valid email"
             },
@@ -93,11 +93,11 @@
                 required: "Date of Birth is mandatory",
                 date: "Invalid date format"
             },
-            "salary": {
+            "Salary": {
                 required: "Salary is required",
                 number: "Salary should only contain numbers"
             },
-            "contact": {
+            "Contact": {
                 minlength: "Mobile number should contain more than 10 characters",
                 number: "Mobile number should only contain digits"
             }

@@ -82,7 +82,7 @@ namespace DataLayer
                 {
                     using (MySqlConnection con = new MySqlConnection(Connectionstr))
                     {
-                        using (MySqlCommand cmd = new MySqlCommand("CALL getTotalEmployees('" + sortField + "','" + sortDirection + "'," + (currPage * pageSize) + "," + (pageSize)+ ")"))
+                        using (MySqlCommand cmd = new MySqlCommand("CALL getTotalEmployees('" + sortField + "','" + sortDirection + "'," + (currPage * pageSize) + "," + (pageSize) + ")"))
                         {
                             using (MySqlDataAdapter sda = new MySqlDataAdapter())
                             {
@@ -246,7 +246,6 @@ namespace DataLayer
                                 foreach (DataRow row in dt.Rows)
                                 {
                                     SingleEmployee.EmployeeID = Guid.Parse(row["EmployeeID"].ToString());
-
                                     SingleEmployee.EmployeeName = Convert.ToString(row["Name"].ToString());
                                     SingleEmployee.Email = Convert.ToString(row["Email"].ToString());
                                     SingleEmployee.Address = Convert.ToString(row["Address"].ToString());
@@ -368,11 +367,10 @@ namespace DataLayer
                 _log.Debug("SQL Retrieve New employee data : " + new JavaScriptSerializer().Serialize(newUser));
                 using (MySqlConnection con = new MySqlConnection(Connectionstr))
                 {
-                    con.Open();
-                    using (MySqlCommand cmd = new MySqlCommand())
+                    
+                    using (MySqlCommand cmd = new MySqlCommand("editEmployee",con))
                     {
-                        cmd.Connection = con;
-                        cmd.CommandText = "CALL editEmployee(@EmpId,@Name,@Email,@Address,@Dept,@Contact,@DOB,@DOJ,@Salary);";
+                        cmd.CommandType = CommandType.StoredProcedure;                   
                         cmd.Parameters.AddWithValue("@EmpId", newUser.EmployeeID);
                         cmd.Parameters.AddWithValue("@Name", newUser.EmployeeName);
                         cmd.Parameters.AddWithValue("@Email", newUser.Email);
@@ -382,10 +380,11 @@ namespace DataLayer
                         cmd.Parameters.AddWithValue("@DOB", newUser.DOB.Date.ToString("yyyy-MM-dd"));
                         cmd.Parameters.AddWithValue("@DOJ", newUser.DOJ.Date.ToString("yyyy-MM-dd"));
                         cmd.Parameters.AddWithValue("@Salary", newUser.Salary);
+                        con.Open();
                         cmd.ExecuteNonQuery();
                     }
 
-
+                    con.Close();
                 }
                 _log.Info("SQL Retrieve Create new employee method stop");
                 return true;
@@ -403,6 +402,44 @@ namespace DataLayer
 
         }
 
+        public bool RegisterUser(UserObject user)
+        {
 
+            _log.Info("SQL Retrieve DeleteSingleEmployeData start ");
+            _log.Debug("SQL Retrieve DeleteSingleEmployeData id : " + new JavaScriptSerializer().Serialize(user));
+
+            using (MySqlConnection con = new MySqlConnection(Connectionstr))
+            {
+                using (MySqlCommand cmd = new MySqlCommand("Register", con))
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@email", user.Email);
+                    cmd.Parameters.AddWithValue("@pass", user.Password);
+                    cmd.Parameters.AddWithValue("@name", user.Name);
+                    cmd.Parameters.AddWithValue("@contact", user.Contact);
+                    try
+                    {
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        _log.Info("SQL Retrieve RegisterUser stop ");
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        _log.Error("SQL Retrieve RegisterUser Error,the error is : " + e.Message);
+                        return false;
+                    }
+                    finally
+                    {
+                        con.Close();
+                        _log.Info("SQL Retrieve RegisterUser mandatory stop");
+                    }
+
+                }
+
+            }
+        }
     }
+
 }

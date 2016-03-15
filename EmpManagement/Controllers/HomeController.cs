@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using System.Configuration;
 using System.Web.Script.Serialization;
 using CommonUtility;
+using log4net;
+using System.Reflection;
 
 namespace EmpManagement.Controllers
 {
@@ -19,9 +21,8 @@ namespace EmpManagement.Controllers
         // GET: /Home/
         string TemplateUrl = ConfigurationManager.AppSettings["AuthServiceURL"];
         CommonGetPost ApiCall = new CommonGetPost();
-        Logger Wrapper = new Logger();
-       // private static readonly log4net.ILog Wrapper.Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+    
         public ActionResult Index()
         {        
             return View();
@@ -33,10 +34,10 @@ namespace EmpManagement.Controllers
         public ActionResult Index(Login login)
         {
 
-            Wrapper.Log.Info("Login Method Start");
+            _log.Info("Login Method Start");
             try
             {
-                Wrapper.Log.Debug("The data passed to Login method : " + new JavaScriptSerializer().Serialize(login));
+                _log.Debug("The data passed to Login method : " + new JavaScriptSerializer().Serialize(login));
                 if (ModelState.IsValid)
                 {
 
@@ -46,14 +47,14 @@ namespace EmpManagement.Controllers
                     bool IsValid = (bool)Data.SelectToken("IsUserValidResult");
                     if (IsValid)
                     {
-                        Wrapper.Log.Debug("The user is valid , the returned data is: " + IsValid);
-                        Wrapper.Log.Info("Login method stop");
+                        _log.Debug("The user is valid , the returned data is: " + IsValid);
+                        _log.Info("Login method stop");
                         FormsAuthentication.RedirectFromLoginPage(login.username, false);
                         return RedirectToAction("Index", "Employee");
                     }
                     else
                     {
-                        Wrapper.Log.Info("Login Method Stop, Invalid login details");
+                        _log.Info("Login Method Stop, Invalid login details");
                         ModelState.AddModelError("", "Invalid username and/or password");
                     }
                 }
@@ -62,12 +63,12 @@ namespace EmpManagement.Controllers
             catch (Exception ex)
             {
                 //Log the error 
-                Wrapper.Log.Error("Error in logging in,the error is : " + ex);
+                _log.Error("Error in logging in,the error is : " + ex);
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
             finally
             {
-                Wrapper.Log.Info("Employee Controller login method mandatory stop");
+                _log.Info("Employee Controller login method mandatory stop");
             }
 
             return View(login);
@@ -77,7 +78,7 @@ namespace EmpManagement.Controllers
         //  GET: /Register
         public ActionResult Register()
         {
-            Wrapper.Log.Info("Get Register called ");
+            _log.Info("Get Register called ");
             return View();
         }
 
@@ -86,7 +87,7 @@ namespace EmpManagement.Controllers
         [HttpPost]
         public ActionResult Register(Register newUser)
         {
-            Wrapper.Log.Info("Post Register called , the data is  Username:" + newUser.name+ ",password:"+newUser.password+",Contact:"+newUser.phone);
+            _log.Info("Post Register called , the data is  Username:" + newUser.name+ ",password:"+newUser.password+",Contact:"+newUser.phone);
             try
             {
                 if (ModelState.IsValid)
@@ -97,15 +98,15 @@ namespace EmpManagement.Controllers
                     bool IsValid = (bool)Data.SelectToken("RegisterResult");
                     if (IsValid)
                     {
-                        Wrapper.Log.Info("Post Register successful stop , the data is  Username:" + newUser.name + ",password:" + newUser.password + ",Contact:" + newUser.phone);
+                        _log.Info("Post Register successful stop , the data is  Username:" + newUser.name + ",password:" + newUser.password + ",Contact:" + newUser.phone);
                         TempData["Success"] = "User Registered successfully!!";
                         return View(newUser);
                     }
                     else
                     {
 
-                        Wrapper.Log.Debug("Post Register unsuccessful, the returned data is +" +IsValid);
-                        Wrapper.Log.Info("Post Register method stop");
+                        _log.Debug("Post Register unsuccessful, the returned data is +" +IsValid);
+                        _log.Info("Post Register method stop");
                         ModelState.AddModelError("", "Cannot register,Duplicate username/email");
                     }
 
@@ -115,12 +116,12 @@ namespace EmpManagement.Controllers
             catch (Exception ex)
             {
                 //Log the error 
-                Wrapper.Log.Error("Error in logging in,the error is : " + ex);
+                _log.Error("Error in logging in,the error is : " + ex);
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
             finally
             {
-                Wrapper.Log.Info("Register user mandatory stop");
+                _log.Info("Register user mandatory stop");
             }
             return View(newUser);
 
