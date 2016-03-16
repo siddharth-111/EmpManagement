@@ -1,4 +1,4 @@
-﻿@model EmpManagement.Models.EmpDetails
+﻿@model EmpManagement.Models.EmployeeModel
 @{
     ViewBag.Title = "Create Employee";
 }
@@ -115,7 +115,7 @@
             Value = "QA"
         });
     }
-    @using (Html.BeginForm("CreateEmployee", "Employee", FormMethod.Post, new { id = "createForm" }))
+    @using (Html.BeginForm("Create", "Employee", FormMethod.Post, new { id = "createForm" }))
     { 
         
         <div class="login" style="margin: 0px auto 0px;">

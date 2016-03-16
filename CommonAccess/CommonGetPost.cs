@@ -12,14 +12,15 @@ namespace CommonUtility
 {
     public class CommonGetPost
     {
-        Logger Wrapper = new Logger();
+        //Logger Wrapper = new Logger();
+        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public dynamic ReturnPost(string url, dynamic info)
         {
-            Wrapper.Log.Info("Common GetPost method start");
+           _log.Info("Common GetPost method start");
             try
             {
                 var WbRequest = (HttpWebRequest)WebRequest.Create(url);
-                Wrapper.Log.Debug("Common GetPost method data passed :" + new JavaScriptSerializer().Serialize(info));
+               _log.Debug("Common GetPost method data passed :" + new JavaScriptSerializer().Serialize(info));
                 WbRequest.ContentType = @"application/json";
                 WbRequest.Method = "POST";
                 using (var streamWriter = new StreamWriter(WbRequest.GetRequestStream()))
@@ -44,12 +45,12 @@ namespace CommonUtility
             }
             catch (Exception e)
             {
-                Wrapper.Log.Error("Error in handling the request,the exception is :" + e.Message);
+               _log.Error("Error in handling the request,the exception is :" + e.Message);
                 return null;
             }
             finally
             {
-                Wrapper.Log.Info("Common GetPost mandatory stop");
+               _log.Info("Common GetPost mandatory stop");
             }
 
 

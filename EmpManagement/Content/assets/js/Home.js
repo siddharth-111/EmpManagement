@@ -8,21 +8,21 @@
             error.appendTo(".errors");
         },
         rules: {
-            "username": {
+            "Email": {
                 required: true,
                 email: true
             },
-            "password" : {
+            "Password" : {
                 minlength : 6,
                 required : true
             }
         },
         messages: {
-            "username": {
+            "Email": {
                 required: "Email is required",
                 email: "Not a valid Email"
             },
-            "password" : {
+            "Password" : {
                 minlength : "Password should contain minimum 6 characters",
                 required : "Password is mandatory"
             }

@@ -77,7 +77,6 @@
     <Compile Include="Authentication.svc.cs">
       <DependentUpon>Authentication.svc</DependentUpon>
     </Compile>
-    <Compile Include="DataObject.cs" />
     <Compile Include="EmployeeManagementService.svc.cs">
       <DependentUpon>EmployeeManagementService.svc</DependentUpon>
     </Compile>
@@ -89,26 +88,21 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BLL\BLL.csproj">
+    <ProjectReference Include="..\BLL\BusinessLayer.csproj">
       <Project>{31A7DCE6-975D-43A3-8879-54BB3E7270D2}</Project>
-      <Name>BLL</Name>
+      <Name>BusinessLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\CommonAccess\CommonUtility.csproj">
       <Project>{881686D9-F9E2-413C-9F04-5E96AA03F674}</Project>
       <Name>CommonUtility</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DTObject\DTObject.csproj">
+    <ProjectReference Include="..\DTObject\DataObject.csproj">
       <Project>{3F11111A-2580-4DF2-9843-A609A7297B5B}</Project>
-      <Name>DTObject</Name>
+      <Name>DataObject</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\log4net.config">
-      <Link>log4net.config</Link>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

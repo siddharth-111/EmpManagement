@@ -1,5 +1,5 @@
 ﻿var sortField, sortDirection, currentPage, pageSize;
-pageSize = 10;
+pageSize = 50;
 function getPage(currPage, pSize) {
     pagingInfo = {};
     currentPage = currPage;
@@ -10,7 +10,7 @@ function getPage(currPage, pSize) {
     pagingInfo.sortDirection = sortDirection;
     pagingInfo.searchString = $("#search").val();
     $.ajax({
-        url: "/Employee/ReturnEmployeeData",
+        url: "/Employee/Retrieve",
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
@@ -24,7 +24,7 @@ function getPage(currPage, pSize) {
                 if (!employee.Pagecount) {
                     trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.Email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + ((new Date(parseInt(employee.DOJ.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOJ.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOJ.substr(6))).getFullYear()) + '</td><td>' + ((new Date(parseInt(employee.DOB.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOB.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOB.substr(6))).getFullYear()) + '</td><td>' + employee.Contact + '</td><td>' + employee.Salary +
                 '</td><td style="text-align: center;">' +
-                  '<div class="dropdown"><a href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
+                  '<div class="dropdown"><a href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/Edit/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
                 else {
                     var pageCount = employee.Pagecount;
@@ -99,7 +99,7 @@ $(document).ready(function () {
     pagingInfo.sortDirection = sortDirection;
     pagingInfo.searchString = $("#search").val();
     $.ajax({
-        url: "/Employee/ReturnEmployeeData",
+        url: "/Employee/Retrieve",
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
@@ -113,7 +113,7 @@ $(document).ready(function () {
                 if (!employee.Pagecount) {
                     trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.Email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + ((new Date(parseInt(employee.DOJ.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOJ.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOJ.substr(6))).getFullYear()) + '</td><td>'+((new Date(parseInt(employee.DOB.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOB.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOB.substr(6))).getFullYear()) + '</td><td>' + employee.Contact + '</td><td>' + employee.Salary +
                 '</td><td style="text-align: center;">' +
-                  '<div class="dropdown"><a  href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
+                  '<div class="dropdown"><a  href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/Edit/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
                 else {
                     var pageCount = employee.Pagecount;
@@ -182,7 +182,7 @@ $(".getSearchValue").click(function (evt) {
     pagingInfo.sortDirection = sortDirection;
     pagingInfo.searchString = $("#search").val();
     $.ajax({
-        url: "/Employee/ReturnEmployeeData",
+        url: "/Employee/Retrieve",
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
@@ -202,7 +202,7 @@ $(".getSearchValue").click(function (evt) {
                     }
                     trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.Email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + ((new Date(parseInt(employee.DOJ.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOJ.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOJ.substr(6))).getFullYear()) + '</td><td>' + ((new Date(parseInt(employee.DOB.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOB.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOB.substr(6))).getFullYear()) + '</td><td>' + employee.Contact + '</td><td>' + employee.Salary +
                 '</td><td style="text-align: center;">' +
-                  '<div class="dropdown"><a href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
+                  '<div class="dropdown"><a href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/Edit/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
                 else {
                     var pageCount = employee.Pagecount;
@@ -285,7 +285,7 @@ $('.clicked').click(function (evt) {
     pagingInfo.searchString = $("#search").val();
     console.log(pagingInfo);
     $.ajax({
-        url: "/Employee/ReturnEmployeeData",
+        url: "/Employee/Retrieve",
         type: 'POST',
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',

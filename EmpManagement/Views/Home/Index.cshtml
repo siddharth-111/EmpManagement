@@ -1,4 +1,4 @@
-﻿@model EmpManagement.Models.Login
+﻿@model EmpManagement.Models.UserModel
 @{
     ViewBag.Title = "Employee Management System";
 }
@@ -52,12 +52,12 @@
                     </div>
                     @Html.AntiForgeryToken()
                     <p style="padding: 12px 12px 0px 12px;" class="index">
-                        @Html.TextBoxFor(model => model.username, new { placeholder = @Html.DisplayNameFor(m => m.username) })
+                        @Html.TextBoxFor(model => model.Email, new { placeholder = @Html.DisplayNameFor(m => m.Email) })
                         <span class=" validation-message errors" style="font-size: 12px; display: block;
                             line-height: 18px;"></span>
                     </p>       
                     <p class="index" style="padding: 12px 12px 0px 12px;">
-                        @Html.TextBoxFor(model => model.password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.password) })
+                        @Html.TextBoxFor(model => model.Password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.Password) })
                         <span class=" validation-message errors" style="font-size: 12px; display: block;
                             line-height: 18px;"></span>
                     </p>  

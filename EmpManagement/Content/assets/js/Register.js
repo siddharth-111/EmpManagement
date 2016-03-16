@@ -20,29 +20,29 @@
             error.appendTo(".errors");
         },
         rules: {
-            "username": {
+            "Email": {
                 required: true,
                 email: true
             },
-            "password": {
+            "Password": {
                 minlength: 6,
                 required: true
             },
             "ConfirmPassword": {
                 required: true,
-                equalTo: "#password"
+                equalTo: "#Password"
             },
-            "phone": {
+            "Contact": {
                 minlength: 10,
                 number: true
             }
         },
         messages: {
-            "username": {
+            "Email": {
                 required: "Email is required",
                 email: "Not a valid email"
             },
-            "password": {
+            "Password": {
                 minlength: "Password should contain minimum 6 characters",
                 required: "Password is mandatory"
             },
@@ -50,7 +50,7 @@
                 required: "Confirm password is required",
                 equalTo: "Passwords should match"
             },
-            "phone": {
+            "Contact": {
                 minlength: "Mobile number should contain more than 10 characters",
                 number: "Mobile number should only contain digits"
             }

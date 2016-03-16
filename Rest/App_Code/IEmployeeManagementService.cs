@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using System.ServiceModel.Web;
-using DTObject;
+using DataObject;
 using log4net;
 
 
@@ -18,7 +18,7 @@ namespace Rest
        
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "GetEmployeeList/")]
-        List<EmployeeObject> GetEmployeeList(int pageSize, int currPage, string sortField, string sortDirection, string searchString);
+        List<EmployeeObject> GetEmployeeList(int PageSize, int CurrPage, string SortField, string SortDirection, string SearchString);
 
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "DeleteEmployee/")]

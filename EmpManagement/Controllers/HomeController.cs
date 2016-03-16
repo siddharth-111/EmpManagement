@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Security;
-using BLL;
 using EmpManagement.Models;
 using System.Net;
 using System.IO;
@@ -17,44 +16,99 @@ namespace EmpManagement.Controllers
 {
     public class HomeController : Controller
     {
+       
+        #region Fields 
+        string AuthServiceURL = ConfigurationManager.AppSettings["AuthServiceURL"];
+        CommonGetPost ApiCall = new CommonGetPost();
+        Serializer ObjectSerializer = new Serializer();
+        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        #endregion Fields
+
+        #region Get Methods
 
         // GET: /Home/
-        string TemplateUrl = ConfigurationManager.AppSettings["AuthServiceURL"];
-        CommonGetPost ApiCall = new CommonGetPost();
-        private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-    
         public ActionResult Index()
-        {        
-            return View();
+        {
+            _log.Info("Get Index method start");
+            try
+            {
+                return View();
+
+            }
+            catch (Exception e)
+            {              
+                _log.Error("Get Index method error :" + e.Message);
+                return View();
+            }
+            finally
+            {
+                _log.Info("Get Index method stop");
+            }
+                                 
         }
+
+        //  GET: /Register
+        public ActionResult Register()
+        {
+            _log.Info("Get Register start ");                        
+            try
+            {
+                return View();
+
+            }
+            catch (Exception e)
+            {
+                _log.Error("Get Register method error :" + e.Message);
+                return View();
+            }
+            finally
+            {
+                _log.Info("Get Register stop");
+            }
+                 
+        }
+        #endregion GetMethods
+
+        #region Post Methods
 
         // POST : /Home/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(Login login)
+        [ValidateInput(false)]
+        public ActionResult Index(UserModel user)
         {
 
             _log.Info("Login Method Start");
             try
             {
-                _log.Debug("The data passed to Login method : " + new JavaScriptSerializer().Serialize(login));
+                _log.Debug("The data passed to Login method : " + ObjectSerializer.SerializeObject(user));
                 if (ModelState.IsValid)
                 {
 
-                    var Url = TemplateUrl + "IsUserValid/";
-                    var Data = ApiCall.ReturnPost(Url, login);
+                    string Url = AuthServiceURL + "IsUserValid/";
 
-                    bool IsValid = (bool)Data.SelectToken("IsUserValidResult");
+                    _log.Debug("The Url Passed is :" + Url);
+
+                    var RestData = new
+                    {
+                        login = user
+                    };
+                    _log.Debug("The Data to be passed is:" + ObjectSerializer.SerializeObject(RestData));
+
+                    var Data = ApiCall.ReturnPost(Url, RestData);
+
+                    bool IsValid = Convert.ToBoolean(Data);
+
                     if (IsValid)
                     {
-                        _log.Debug("The user is valid , the returned data is: " + IsValid);
-                        _log.Info("Login method stop");
-                        FormsAuthentication.RedirectFromLoginPage(login.username, false);
+                        _log.Debug("The user is valid , the returned data is: " + IsValid); 
+                
+                        FormsAuthentication.RedirectFromLoginPage(user.Email, false);
+
                         return RedirectToAction("Index", "Employee");
                     }
                     else
-                    {
-                        _log.Info("Login Method Stop, Invalid login details");
+                    {                   
                         ModelState.AddModelError("", "Invalid username and/or password");
                     }
                 }
@@ -62,51 +116,66 @@ namespace EmpManagement.Controllers
             }
             catch (Exception ex)
             {
-                //Log the error 
-                _log.Error("Error in logging in,the error is : " + ex);
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+         
+                _log.Error("Error in logging in,the error is : " + ex.Message);
+
+                ModelState.AddModelError("", "Unable to Login. Try again, and if the problem persists, see your system administrator.");
             }
             finally
             {
+
                 _log.Info("Employee Controller login method mandatory stop");
+
             }
 
-            return View(login);
+            return View(user);
 
         }
 
-        //  GET: /Register
-        public ActionResult Register()
-        {
-            _log.Info("Get Register called ");
-            return View();
-        }
 
 
         // POST : /Register
         [HttpPost]
-        public ActionResult Register(Register newUser)
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult Register(RegisterModel user)
         {
-            _log.Info("Post Register called , the data is  Username:" + newUser.name+ ",password:"+newUser.password+",Contact:"+newUser.phone);
+            _log.Info("Post Register start");
+
             try
             {
                 if (ModelState.IsValid)
                 {
+                    _log.Debug("Post Register data is " + ObjectSerializer.SerializeObject(user));
 
-                    var Url = TemplateUrl + "Register/";
-                    var Data = ApiCall.ReturnPost(Url, newUser);
-                    bool IsValid = (bool)Data.SelectToken("RegisterResult");
-                    if (IsValid)
+                    var Url = AuthServiceURL + "Register/";
+
+                    var RestData = new
                     {
-                        _log.Info("Post Register successful stop , the data is  Username:" + newUser.name + ",password:" + newUser.password + ",Contact:" + newUser.phone);
+                        register = user
+                    };
+
+                    _log.Debug("Post Register Url Passed is :" + Url);
+
+                    _log.Debug("Post Register data is " + ObjectSerializer.SerializeObject(user));
+
+                    var Data = ApiCall.ReturnPost(Url, RestData);
+
+                    bool IsCreated= Convert.ToBoolean(Data);
+
+                    if (IsCreated)
+                    {
+
+                        _log.Debug("Post Register successful , the returned data :" + IsCreated);
+
                         TempData["Success"] = "User Registered successfully!!";
-                        return View(newUser);
+
+                        return View(user);
                     }
                     else
                     {
+                        _log.Debug("Post Register unsuccessful, the returned data is +" + IsCreated);
 
-                        _log.Debug("Post Register unsuccessful, the returned data is +" +IsValid);
-                        _log.Info("Post Register method stop");
                         ModelState.AddModelError("", "Cannot register,Duplicate username/email");
                     }
 
@@ -117,15 +186,20 @@ namespace EmpManagement.Controllers
             {
                 //Log the error 
                 _log.Error("Error in logging in,the error is : " + ex);
+
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
             finally
             {
-                _log.Info("Register user mandatory stop");
+
+                _log.Info("Post Register user stop");
+
             }
-            return View(newUser);
+            return View(user);
 
         }
 
+        #endregion Post Method
+              
     }
 }

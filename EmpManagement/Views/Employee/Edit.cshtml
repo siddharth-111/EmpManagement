@@ -1,4 +1,4 @@
-﻿@model EmpManagement.Models.EmpDetails
+﻿@model EmpManagement.Models.EmployeeModel
 @{
     ViewBag.Title = "Edit Employee";
 }
@@ -104,15 +104,15 @@
             Value = "QA"
         });
     }
-    @using (Html.BeginForm("EditEmployee", "Employee", FormMethod.Post, new { id = "createForm" }))
+    @using (Html.BeginForm("Edit", "Employee", FormMethod.Post, new { id = "createForm" }))
     { 
         <div class="login" style="margin: 0px auto 90px;">
             <div class="login-container">
                 <div class="validation-message" id="errors">
                 </div>
-                <div style="font-size: 11px; padding-left: 12px;">
-                    @Html.ValidationSummary(true)
-                </div>
+                     <div style="font-size: 12px; padding-left: 12px;" class="help-blocked ">
+                        @Html.ValidationSummary(true, "", new { @class = "validation-message" })
+                    </div>
                 @Html.HiddenFor(model => model.EmployeeID)
                 @Html.AntiForgeryToken()
                 <p style="font-size: 14px; line-height: 25px;">

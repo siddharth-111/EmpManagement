@@ -142,8 +142,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\EmpDetails.cs" />
-    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\CriteriaModel.cs" />
+    <Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -252,7 +254,9 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
@@ -261,19 +265,16 @@
     <Content Include="Views\Employee\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Employee\CreateEmployee.cshtml" />
+    <Content Include="Views\Employee\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Employee\EditEmployee.cshtml" />
+    <Content Include="Views\Employee\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Register.cshtml" />
-    <Content Include="..\log4net.config">
-      <Link>log4net.config</Link>
-    </Content>
     <None Include="Content\assets\fonts\fontawesome-webfontba72.eot" />
     <None Include="Content\assets\fonts\fontawesome-webfontba72.ttf" />
     <None Include="Content\assets\fonts\fontawesome-webfontba72.woff" />
@@ -284,9 +285,9 @@
     <None Include="Content\assets\fonts\glyphicons-halflings-regulard41d.eot" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BLL\BLL.csproj">
+    <ProjectReference Include="..\BLL\BusinessLayer.csproj">
       <Project>{31A7DCE6-975D-43A3-8879-54BB3E7270D2}</Project>
-      <Name>BLL</Name>
+      <Name>BusinessLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\CommonAccess\CommonUtility.csproj">
       <Project>{881686D9-F9E2-413C-9F04-5E96AA03F674}</Project>

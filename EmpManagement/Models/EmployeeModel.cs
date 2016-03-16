@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace EmpManagement.Models
 {
-    //Employee Details 
-
-    public class EmpDetails
+    public class EmployeeModel
     {
         [Required]
         public Guid EmployeeID { get; set; }
@@ -17,7 +14,7 @@ namespace EmpManagement.Models
         [Display(Name = "Employee Name")]
         [StringLength(50)]
         public string EmployeeName { get; set; }
-        
+
         [Required(ErrorMessage = "Address is required")]
         [Display(Name = "Address")]
         [StringLength(100)]
@@ -54,19 +51,10 @@ namespace EmpManagement.Models
         [RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
         public string Contact { get; set; }
 
-        public int Pagecount { get; set;}
+        public int Pagecount { get; set; }
         public int TotalRecords { get; set; }
-
     }
 
-    // Pagination Model
-    public class PaginationInfo {
-        public int pageSize { get; set; }
-        public int currPage { get; set; }
-        public string sortField { get; set; }
-        public string sortDirection { get; set; }
-        public string searchString { get; set; }
-    }
 
     //Validate joining date
     public class ValidJoinDate : ValidationAttribute
