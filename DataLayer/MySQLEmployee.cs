@@ -2,75 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Data.SqlClient;
+using CommonUtility;
+using System.Configuration;
 using DataObject;
-using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Data;
-using CommonUtility;
-using System.Web.Script.Serialization;
 
 namespace DataLayer
 {
-    public class SQLRetrieve
+    public class MySQLEmployee
     {
-        Serializer ObjectSerializer = new Serializer();
-        string Connectionstr = "Data Source=localhost;port=3306;Initial Catalog=EmployeeManagementSystem;User Id=root;password=admin;Convert Zero Datetime=True";
+
+        #region Fields
+
+        string Connectionstr = ConfigurationManager.ConnectionStrings["MySQLConnection"].ConnectionString;
+
         private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        //public List<UserObject> GetUserData()
-        //{
-        //    _log.Info("SQL Retrieve GetUserData start : ");
-        //    List<UserObject> Userlist = new List<UserObject>();
-        //    MySqlConnection Con = new MySqlConnection(Connectionstr);
-        //    try
-        //    {
+        #endregion Fields
 
-        //        MySqlCommand Cmd = new MySqlCommand("CALL getUsers()", Con);
-        //        MySqlDataAdapter Sda = new MySqlDataAdapter();
-        //        Cmd.Connection = Con;
-        //        Sda.SelectCommand = Cmd;
-        //        DataTable dt = new DataTable();
-        //        Sda.Fill(dt);
-                
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            Userlist.Add(new UserObject
-        //          {
-        //              Email = Convert.ToString(row["email"].ToString()),
-        //              Password = Convert.ToString(row["password"].ToString()),
-        //          });
-        //        }
-        //        _log.Debug("SQL Retrieve GetUserData UserData:" + ObjectSerializer.SerializeObject(Userlist));
-        //        _log.Info("SQL Retrieve GetUserData method successful stop");
-        //        return Userlist;
+        #region Get Methods
 
-        //    }
-            
-        //    catch (Exception e)
-        //    {
-        //        _log.Error("SQL Retrieve GetUserData Error,the error is : " + e.Message);
-        //        return null;
-        //    }
-        //    finally
-        //    {
-        //        Con.Close();
-        //        _log.Info("SQL Retrieve GetUserData stop");
-        //    }
-        //}
-
-
-        public List<EmployeeObject> GetEmployeeData(string searchString, string sortDirection, string sortField, int currPage, int pageSize)
+        public List<Employee> Retrieve(string searchString, string sortDirection, string sortField, int currPage, int pageSize)
         {
-            _log.Info("SQL Retrieve GetEmployeeData start : ");
-            List<EmployeeObject> Employeelist = new List<EmployeeObject>();
+            _log.Info("Retrieve  start : ");
+            List<Employee> Employeelist = new List<Employee>();
             if (searchString == null)
             {
                 MySqlConnection Con = new MySqlConnection(Connectionstr);
                 try
                 {
                     Con.Open();
-                    MySqlCommand Cmd = new MySqlCommand("CALL getTotalEmployees('" + sortField + "','" + sortDirection + "'," + (currPage * pageSize) + "," + (pageSize) + ")", Con);
+                    MySqlCommand Cmd = new MySqlCommand("CALL udsp_Employee_Retrieve('" + sortField + "','" + sortDirection + "'," + (currPage * pageSize) + "," + (pageSize) + ",'" + searchString + "')", Con);
                     MySqlDataAdapter Sda = new MySqlDataAdapter();
                     Cmd.Connection = Con;
                     Sda.SelectCommand = Cmd;
@@ -78,7 +41,7 @@ namespace DataLayer
                     Sda.Fill(Dt);
                     foreach (DataRow row in Dt.Rows)
                     {
-                        Employeelist.Add(new EmployeeObject
+                        Employeelist.Add(new Employee
                         {
                             EmployeeID = Guid.Parse(row["EmployeeID"].ToString()),
                             EmployeeName = Convert.ToString(row["Name"].ToString()),
@@ -95,25 +58,25 @@ namespace DataLayer
                     MySqlCommand cmdCount = new MySqlCommand("CALL getCount()", Con);
                     int Count = Convert.ToInt32(cmdCount.ExecuteScalar());
                     int PageCount = Convert.ToInt32(Math.Ceiling((double)((Count + pageSize - 1) / pageSize)));
-                    Employeelist.Add(new EmployeeObject
+                    Employeelist.Add(new Employee
                     {
                         Pagecount = PageCount,
                         TotalRecords = Count
                     });
-                    _log.Debug("SQL Retrieve GetEmployeeData Employee Data:" + ObjectSerializer.SerializeObject(Employeelist));
+                    _log.Debug("Retrieve Employee Data:" + Log.SerializeObject(Employeelist));
                     return Employeelist;
 
 
                 }
                 catch (Exception e)
                 {
-                    _log.Error("SQL Retrieve GetEmployeeData Error,the error is : " + e.Message);
+                    _log.Error("Retrieve Error,the error is : " + e.Message);
 
                 }
                 finally
                 {
                     Con.Close();
-                    _log.Info("SQL Retrieve GetEmployeData mandatory stop: ");
+                    _log.Info("Retrieve stop: ");
                 }
             }
             else
@@ -122,7 +85,7 @@ namespace DataLayer
                 try
                 {
                     Con.Open();
-                    MySqlCommand Cmd = new MySqlCommand("CALL GetEmployees('" + sortField + "','" + sortDirection + "'," + (currPage * pageSize) + "," + (pageSize) + ",'" + searchString + "')", Con);
+                    MySqlCommand Cmd = new MySqlCommand("CALL udsp_Employee_Retrieve('" + sortField + "','" + sortDirection + "'," + (currPage * pageSize) + "," + (pageSize) + ",'" + searchString + "')", Con);
                     MySqlDataAdapter Sda = new MySqlDataAdapter();
                     Cmd.Connection = Con;
                     Sda.SelectCommand = Cmd;
@@ -130,7 +93,7 @@ namespace DataLayer
                     Sda.Fill(Dt);
                     foreach (DataRow row in Dt.Rows)
                     {
-                        Employeelist.Add(new EmployeeObject
+                        Employeelist.Add(new Employee
                         {
                             EmployeeID = Guid.Parse(row["EmployeeID"].ToString()),
                             EmployeeName = Convert.ToString(row["Name"].ToString()),
@@ -148,46 +111,47 @@ namespace DataLayer
                     MySqlCommand CmdCount = new MySqlCommand("CALL getSearchCount('" + searchString + "')", Con);
                     int Count = Convert.ToInt32(CmdCount.ExecuteScalar());
                     int PageCount = Convert.ToInt32(Math.Ceiling((double)((Count + pageSize - 1) / pageSize)));
-                    Employeelist.Add(new EmployeeObject
+                    Employeelist.Add(new Employee
                     {
                         Pagecount = PageCount,
                         TotalRecords = Count
                     });
-                    _log.Debug("SQL Retrieve GetEmployeeData Employee Data:" + ObjectSerializer.SerializeObject(Employeelist));
+                    _log.Debug("Retrieve Employee Data:" + Log.SerializeObject(Employeelist));
                     return Employeelist;
 
 
                 }
                 catch (Exception e)
                 {
-                    _log.Error("SQL Retrieve GetEmployeeData Error,the error is : " + e.Message);
+                    _log.Error("Retrieve Error,the error is : " + e.Message);
                     return null;
                 }
                 finally
                 {
                     Con.Close();
-                    _log.Info("SQL Retrieve GetEmployeData mandatory stop: ");
+                    _log.Info("Retrieve stop: ");
                 }
             }
             return null;
         }
 
-        public EmployeeObject GetSingleEmpData(string id)
+        public Employee RetrieveById(string id)
         {
-            _log.Info("SQL Retrieve GetSingleEmployeeData start : ");
-            EmployeeObject SingleEmployee = new EmployeeObject();
+            _log.Info(" RetrieveById start : ");
+            Employee SingleEmployee = new Employee();
             MySqlConnection Con = new MySqlConnection(Connectionstr);
             try
             {
                 Con.Open();
-                MySqlCommand Cmd = new MySqlCommand("CALL getSingleEmployee('" + id + "')", Con);
+                MySqlCommand Cmd = new MySqlCommand("CALL udsp_Employee_RetrieveById('" + id + "')", Con);
                 MySqlDataAdapter Sda = new MySqlDataAdapter();
 
                 Cmd.Connection = Con;
                 Sda.SelectCommand = Cmd;
-                DataTable dt = new DataTable();
-                Sda.Fill(dt);
-                foreach (DataRow row in dt.Rows)
+                DataTable EmployeeTable = new DataTable();
+                Sda.Fill(EmployeeTable);
+
+                foreach (DataRow row in EmployeeTable.Rows)
                 {
                     SingleEmployee.EmployeeID = Guid.Parse(row["EmployeeID"].ToString());
                     SingleEmployee.EmployeeName = Convert.ToString(row["Name"].ToString());
@@ -200,69 +164,77 @@ namespace DataLayer
                     SingleEmployee.Salary = Convert.ToInt32(row["Salary"].ToString());
                 }
 
-                _log.Debug("SQL Retrieve GetSingleEmployeeData Employee Data:" + ObjectSerializer.SerializeObject(SingleEmployee));
+                _log.Debug("RetrieveById Employee Data:" + Log.SerializeObject(SingleEmployee));
                 return SingleEmployee;
 
             }
             catch (Exception e)
             {
-                _log.Error("SQL Retrieve GetSingleEmployeeData Error,the error is : " + e.Message);
+                _log.Error("RetrieveById Error,the error is : " + e.Message);
                 return null;
 
             }
             finally
             {
                 Con.Close();
-                _log.Info("SQL Retrieve GetSingleEmployeData mandatory stop: ");
+                _log.Info("RetrieveById stop: ");
             }
 
         }
 
+        #endregion Get Methods
 
-        public bool DeleteData(string id)
+        #region Post Methods
+
+        public bool Delete(string id)
         {
-            _log.Info("SQL Retrieve DeleteSingleEmployeData start ");
+            _log.Info("Delete start ");
             MySqlConnection Con = new MySqlConnection(Connectionstr);
             try
             {
-                _log.Debug("SQL Retrieve DeleteSingleEmployeData id : " + id);
+                _log.Debug("Delete id : " + id);
+
                 Con.Open();
+
                 MySqlCommand Cmd = new MySqlCommand();
 
                 Cmd.Connection = Con;
-                Cmd.CommandText = "CALL deleteEmployee('" + id + "')";
+
+                Cmd.CommandText = "CALL udsp_Employee_Delete('" + id + "')";
+
                 Cmd.ExecuteNonQuery();
 
-                _log.Info("SQL Retrieve DeleteSingleEmployeData stop ");
                 return true;
             }
             catch (Exception e)
             {
-                _log.Error("SQL Retrieve DeleteEmployeeData Error,the error is : " + e.Message);
+                _log.Error("Delete Error,the error is : " + e.Message);
+
                 return false;
             }
             finally
             {
                 Con.Close();
-                _log.Info("SQL Retrieve DeleteEmployeeData mandatory stop");
+
+                _log.Info("Delete stop");
             }
 
         }
 
-        public bool CreateData(EmployeeObject newUser)
+        public bool Create(Employee newUser)
         {
-            _log.Info("SQL Retrieve CreateData start ");
+            _log.Info("Create start ");
             MySqlConnection Con = new MySqlConnection(Connectionstr);
             try
             {
                 Con.Open();
                 DateTime DOJ = DateTime.Parse(newUser.DOJ);
                 DateTime DOB = DateTime.Parse(newUser.DOB);
-                _log.Debug("SQL Retrieve New employee data : " + ObjectSerializer.SerializeObject(newUser));
+                _log.Debug("Create New employee data : " + Log.SerializeObject(newUser));
 
                 MySqlCommand Cmd = new MySqlCommand();
                 Cmd.Connection = Con;
-                Cmd.CommandText = "CALL createNewEmployee(@EmployeeID,@Name,@Email,@Address,@Dept,@Contact,@DOB,@DOJ,@Salary);";
+                Cmd.CommandText = "CALL udsp_Employee_Create(@EmployeeID,@Name,@Email,@Address,@Dept,@Contact,@DOB,@DOJ,@Salary);";
                 Cmd.Parameters.AddWithValue("@EmployeeID", newUser.EmployeeID);
                 Cmd.Parameters.AddWithValue("@Name", newUser.EmployeeName);
                 Cmd.Parameters.AddWithValue("@Email", newUser.Email);
@@ -273,33 +245,31 @@ namespace DataLayer
                 Cmd.Parameters.AddWithValue("@DOJ", DOJ.Date.ToString("yyyy-MM-dd"));
                 Cmd.Parameters.AddWithValue("@Salary", newUser.Salary);
                 Cmd.ExecuteNonQuery();
-
-                _log.Info("SQL Retrieve Create new employee method stop");
+         
                 return true;
             }
             catch (Exception e)
             {
-                _log.Error("SQL Retrieve Create new employee exception is : " + e);
+                _log.Error("Create exception is : " + e);
                 return false;
             }
             finally
             {
                 Con.Close();
-                _log.Info("SQL Retrieve Create new employee stop");
+                _log.Info("Create stop");
             }
 
         }
 
-
-        public bool Edit(EmployeeObject newUser)
+        public bool Edit(Employee newUser)
         {
-            _log.Info("SQL Retrieve CreateData start ");
+            _log.Info("Edit start ");
             MySqlConnection Con = new MySqlConnection(Connectionstr);
             try
             {
-                _log.Debug("SQL Retrieve New employee data : " + ObjectSerializer.SerializeObject(newUser));
+                _log.Debug("SQL Retrieve New employee data : " + Log.SerializeObject(newUser));
                 Con.Open();
-                MySqlCommand Cmd = new MySqlCommand("editEmployee", Con);
+                MySqlCommand Cmd = new MySqlCommand("udsp_Employee_Edit", Con);
                 Cmd.CommandType = CommandType.StoredProcedure;
                 Cmd.Parameters.AddWithValue("@EmpId", newUser.EmployeeID);
                 Cmd.Parameters.AddWithValue("@Name", newUser.EmployeeName);
@@ -310,52 +280,22 @@ namespace DataLayer
                 Cmd.Parameters.AddWithValue("@DOB", newUser.DOB);
                 Cmd.Parameters.AddWithValue("@DOJ", newUser.DOJ);
                 Cmd.Parameters.AddWithValue("@Salary", newUser.Salary);
-                Cmd.ExecuteNonQuery();
-                _log.Info("SQL Retrieve Create new employee method stop");
+                Cmd.ExecuteNonQuery();           
                 return true;
             }
             catch (Exception e)
             {
-                _log.Error("SQL Retrieve Create new employee exception is : " + e);
+                _log.Error("Edit exception is : " + e);
                 return false;
             }
             finally
             {
                 Con.Close();
-                _log.Info("SQL Retrieve Create new employee mandatory stop");
+                _log.Info("Edit Stop");
             }
         }
 
-        public bool RegisterUser(UserObject user)
-        {
-            _log.Info("SQL Retrieve DeleteSingleEmployeData start ");
-            MySqlConnection Con = new MySqlConnection(Connectionstr);
-            try
-            {
-                _log.Debug("SQL Retrieve DeleteSingleEmployeData id : " + ObjectSerializer.SerializeObject(user));
-                Con.Open();
-                MySqlCommand Cmd = new MySqlCommand("Register", Con);
-                Cmd.CommandType = CommandType.StoredProcedure;
-                Cmd.Parameters.AddWithValue("@email", user.Email);
-                Cmd.Parameters.AddWithValue("@pass", user.Password);
-                Cmd.Parameters.AddWithValue("@name", user.Name);
-                Cmd.Parameters.AddWithValue("@contact", user.Contact);
-                Cmd.ExecuteNonQuery();
-                return true;
+        #endregion Post Methods
 
-            }
-            catch (Exception e)
-            {
-                _log.Error("SQL Retrieve RegisterUser Error,the error is : " + e.Message);
-                return false;
-            }
-            finally
-            {
-                Con.Close();
-                _log.Info("SQL Retrieve RegisterUser mandatory stop");
-            }
-
-        }
     }
-
 }

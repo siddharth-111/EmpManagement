@@ -17,120 +17,187 @@ namespace Rest
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "EmployeeManagementService" in code, svc and config file together.
     public class EmployeeManagementService : IEmployeeManagementService
     {
+
+        #region Fields
+
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        Serializer ObjectSerializer = new Serializer();
-        BusinessLogic BusinessLayerObj = new BusinessLogic();
-        public List<EmployeeObject> GetEmployeeList(int PageSize, int CurrPage, string SortField, string SortDirection, string SearchString)
+       // BusinessLogic BusinessLayerObj = new BusinessLogic();
+        BLEmployee BLEmployee = new BLEmployee();        
+
+        #endregion Fields       
+
+        #region Get Methods
+
+        public List<Employee> Retrieve(int PageSize, int CurrPage, string SortField, string SortDirection, string SearchString)
         {
-            _log.Info("Rest GetemployeeList method start");
+            _log.Info("Rest Retrieve method start");
+
             try
             {
-                
-                _log.Debug("Rest GetEmployeeList method data passed :" + PageSize + "," + CurrPage + "," + SortField + "," + SortDirection + "," + SearchString);
-                List<EmployeeObject> JsonEmployee = BusinessLayerObj.GetAllEmployees(SearchString, SortDirection, SortField, PageSize, CurrPage);
-             
-                _log.Debug("Rest GetEmployeeList method data returned:" + ObjectSerializer.SerializeObject(JsonEmployee));
+
+                _log.Debug("Rest Retrieve method data passed :" + PageSize + "," + CurrPage + "," + SortField + "," + SortDirection + "," + SearchString);
+
+                List<Employee> JsonEmployee = BLEmployee.Retrieve(SearchString, SortDirection, SortField, PageSize, CurrPage);
+
+                _log.Debug("Rest Retrieve method data returned:" + Log.SerializeObject(JsonEmployee));
+
                 return JsonEmployee;
             }
             catch (Exception e)
             {
-                _log.Debug("Rest GetEmployeeList method Error :" + e.Message);
+
+                _log.Debug("Rest Retrieve method Error :" + e.Message);
+
             }
             finally
             {
 
-                _log.Info("Rest GetEmployeeList method mandatory stop");
+                _log.Info("Rest Retrieve method mandatory stop");
+
             }
+
             return null;
         }
 
-        public bool DeleteEmployee(Guid EmpId)
+        public Employee RetrieveById(string EmployeeID)
         {
-            _log.Info("Rest DeleteEmployee method start");
+
+            _log.Info("Rest RetrieveById method start");
+
             try
             {
-                _log.Debug("Rest DeleteEmployee method data passed :" + EmpId);
-                bool IsEmployeeDeleted = BusinessLayerObj.DeleteEmployee(EmpId);
-                return IsEmployeeDeleted;
-            }
-            catch (Exception e)
-            {
-                _log.Debug("Rest DeleteEmployee method Error :" + e.Message);
-                return false;
-            }
-            finally
-            {
-                _log.Info("Rest DeleteEmployee method stop");
-            }
 
-        }
+                _log.Debug("Rest RetrieveById method data passed :" + EmployeeID);
 
+                Employee Employee = BLEmployee.RetrieveById(EmployeeID);
 
-        public EmployeeObject GetSingleEmployee(Guid EmployeeID)
-        {
-            _log.Info("Rest GetSingleEmployee method start");
-            try
-            {
-                _log.Debug("Rest GetSingleEmployee method data passed :" + EmployeeID);
-                EmployeeObject Employee = BusinessLayerObj.GetSingleEmployee(EmployeeID);             
-                _log.Debug("Rest GetSingleEmployee method returned data :" + ObjectSerializer.SerializeObject(Employee));
+                _log.Debug("Rest RetrieveById method returned data :" + Log.SerializeObject(Employee));
+
                 return Employee;
+
             }
             catch (Exception e)
             {
-                _log.Debug("Rest GetSingleEmployee method Error :" + e.Message);
+
+                _log.Debug("Rest RetrieveById method Error :" + e.Message);
+
                 return null;
+
             }
             finally
             {
-                _log.Info("Rest GetSingleEmployee method mandatory stop");
+
+                _log.Info("Rest RetrieveById method mandatory stop");
+
             }
 
 
         }
-        public bool CreateEmployee(EmployeeObject employee)
+
+        #endregion Get Methods
+
+        #region Post Methods
+
+        public bool Create(Employee employee)
         {
-            _log.Info("Rest CreateEmployee method start");
+
+            _log.Info("Rest Create method start");
+
             try
             {
-                _log.Debug("Rest CreateEmployee method returned data :" + ObjectSerializer.SerializeObject(employee));
-               
-                bool EmployeeCreated = BusinessLayerObj.SaveUser(employee);
-                _log.Debug("Rest CreateEmployee method return data :" + EmployeeCreated);
+
+                _log.Debug("Rest Create method returned data :" + Log.SerializeObject(employee));
+
+                bool EmployeeCreated = BLEmployee.Create(employee);
+
+                _log.Debug("Rest Create method return data :" + EmployeeCreated);
+
                 return EmployeeCreated;
+
             }
             catch (Exception e)
             {
-                _log.Debug("Rest CreateEmployee method Error :" + e.Message);
+                _log.Debug("Rest Create method Error :" + e.Message);
+
                 return false;
+
             }
             finally
             {
-                _log.Info("Rest CreateEmployee method stop");
+
+                _log.Info("Rest Create method stop");
+
             }
 
         }
 
-        public bool EditEmployee(EmployeeObject employee)
+        public bool Edit(Employee employee)
         {
-            _log.Info("Rest EditEmployee method start");
+
+            _log.Info("Rest Edit method start");
+
             try
             {
-                _log.Debug("Rest EditEmployee method returned data :" + ObjectSerializer.SerializeObject(employee));
-                 bool EmployeeEdited = BusinessLayerObj.EditSingleEmployee(employee);
-                _log.Debug("Rest EditEmployee method return data :" + EmployeeEdited);
+
+                _log.Debug("Rest Edit method returned data :" + Log.SerializeObject(employee));
+
+                bool EmployeeEdited = BLEmployee.Edit(employee);
+
+                _log.Debug("Rest Edit method return data :" + EmployeeEdited);
+
                 return EmployeeEdited;
+
             }
             catch (Exception e)
             {
-                _log.Debug("Rest EditEmployee method error :" + e.Message);
+
+                _log.Debug("Rest Edit method error :" + e.Message);
+
                 return false;
+
             }
             finally
             {
-                _log.Info("Rest EditEmployee method mandatory stop");
+
+                _log.Info("Rest Edit method mandatory stop");
+
             }
 
         }
+
+        public bool Delete(string EmpId)
+        {
+
+            _log.Info("Rest Delete method start");
+
+            try
+            {
+
+                _log.Debug("Rest Delete method data passed :" + EmpId);
+
+                bool IsEmployeeDeleted = BLEmployee.Delete(EmpId);
+
+                return IsEmployeeDeleted;
+
+            }
+            catch (Exception e)
+            {
+
+                _log.Debug("Rest Delete method Error :" + e.Message);
+
+                return false;
+
+            }
+            finally
+            {
+
+                _log.Info("Rest Delete method stop");
+
+            }
+
+        }
+
+        #endregion Post Methods
+    
     }
 }

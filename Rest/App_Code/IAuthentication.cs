@@ -13,12 +13,15 @@ namespace Rest
     [ServiceContract]
     public interface IAuthentication
     {
-      
+        #region Post Methods
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.WrappedRequest, ResponseFormat = WebMessageFormat.Json, UriTemplate = "IsUserValid/")]
-        bool IsUserValid(UserObject login);
+        bool IsUserValid(User login);
+
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.WrappedRequest, ResponseFormat = WebMessageFormat.Json, UriTemplate = "Register/")]
-        bool Register(UserObject register);
+        bool Register(User register);
+        #endregion Post Methods
+       
     }
 }

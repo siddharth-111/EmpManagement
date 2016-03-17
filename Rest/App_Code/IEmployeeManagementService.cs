@@ -15,28 +15,37 @@ namespace Rest
     [ServiceContract]
     public interface IEmployeeManagementService
     {
-       
+
+        #region Get Methods
+
+
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "GetEmployeeList/")]
-        List<EmployeeObject> GetEmployeeList(int PageSize, int CurrPage, string SortField, string SortDirection, string SearchString);
+        List<Employee> Retrieve(int PageSize, int CurrPage, string SortField, string SortDirection, string SearchString);
+
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "GetSingleEmployee/")]
+        Employee RetrieveById(string EmployeeID);
+
+        #endregion Get Methods
+
+        #region Post Methods
 
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "DeleteEmployee/")]
-        bool DeleteEmployee(Guid EmpId);
+        bool Delete(string EmpId);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json,BodyStyle = WebMessageBodyStyle.WrappedRequest, ResponseFormat = WebMessageFormat.Json, UriTemplate = "CreateEmployee/")]
-        bool CreateEmployee(EmployeeObject employee);
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.WrappedRequest, ResponseFormat = WebMessageFormat.Json, UriTemplate = "CreateEmployee/")]
+        bool Create(Employee employee);
 
         [OperationContract]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "EditEmployee/")]
-        bool EditEmployee(EmployeeObject employee);
-   
-        [OperationContract]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, ResponseFormat = WebMessageFormat.Json, UriTemplate = "GetSingleEmployee/")]
-        EmployeeObject GetSingleEmployee(Guid EmployeeID);
- 
+        bool Edit(Employee employee);
 
 
+        #endregion Post Methods
+     
     }
 }

@@ -1,5 +1,5 @@
 ﻿var sortField, sortDirection, currentPage, pageSize;
-pageSize = 50;
+pageSize = 25;
 function getPage(currPage, pSize) {
     pagingInfo = {};
     currentPage = currPage;
@@ -42,51 +42,102 @@ function getPage(currPage, pSize) {
                     }
                     for (var i = 1; i <= pageCount; i++) {
                         if (i == (currentPage + 1)) {
-                            pages += '<li class="active"><a href = "#" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
-                        }
-                        else {
-                            pages += '<li><a href = "#" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
-                        }
-                    }
-                    for (var i = 1; i <= pageCount; i++) {
-                        if (i == (pagingInfo.currPage + 1)) {
-                            if ((i) < pageCount) {
-                                pages += '<li><a href = "#" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">&raquo;</a></li>'
+                            if (i == 1) {
+                                pages += '<li class="active"><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">' + (i + 1) + '</a></li>'
+                                pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 2) + ',' + pagingInfo.pageSize + ')">' + (pageCount - 1) + '</a></li>'
+                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 1) + ',' + pagingInfo.pageSize + ')">' + (pageCount) + '</a></li>'
+                            }
+                            else
+                                if (i == (pageCount - 1)) {
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 2) + ',' + pagingInfo.pageSize + ')">' + (2) + '</a></li>'
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (0) + ',' + pagingInfo.pageSize + ')">' + (1) + '</a></li>'
+                                    pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">' + (i - 1) + '</a></li>'
+                                    pages += '<li class="active"><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+
+                                }
+                                else
+                                    pages += '<li class="active"><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                            }
+                            else {
+                                if (pageCount - i >= 4) {
+                                    while (i <= pageCount) {
+                                        if (i == (currentPage + 1)) {
+
+                                            
+                                            if (i == (pageCount)) {
+                                                
+                                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (0) + ',' + pagingInfo.pageSize + ')">' + (1) + '</a></li>'
+                                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (1) + ',' + pagingInfo.pageSize + ')">' + (2) + '</a></li>'
+                                                pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">' + (i - 1) + '</a></li>'
+                                                pages += '<li class="active"><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+
+                                            } else {
+                                                if ((i - 2) >= 1) {
+                                                    pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                                }
+                                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">' + (i - 1) + '</a></li>'
+                                                pages += '<li class="active"><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">' + (i + 1) + '</a></li>'
+                                                if(i != (pageCount-1))
+                                                pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                                i += pageCount - 3;
+                                            }
+                                        }
+                                        i++;
+                                    }
+                                }
                             }
                         }
+                        for (var i = 1; i <= pageCount; i++) {
+                            if (i == (pagingInfo.currPage + 1)) {
+                                if ((i) < pageCount) {
+                                    pages += '<li><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">&raquo;</a></li>'
+                                }
+                            }
+                        }
+                        pages += '</ul>';
                     }
-                    pages += '</ul>';
-                }
-            });
+                });
 
-            $("#employeeTable").find("tr:gt(0)").remove();
-            $('#employeeTable').append(trHTML);
-            var table = $('#employeeTable');
-            table.find('.sorter').remove();
-            $('#paginationDiv').empty();
-            $('#paginationDiv').append(pages);
-            $("#search").trigger("keyup");
-            var inc = 0;
-            $(".clicked").each(function () {
-                if ($(this).data("sortfield") == sortField) {
-                    if (sortDirection == "ascending") {
-                        $(this).append($('<span class="pull-right sorter"><i class="glyphicon glyphicon-chevron-up"></i></span>'));
-                    } else {
-                        $(this).append($('<span class="pull-right sorter"><i class="glyphicon glyphicon-chevron-down"></i></span>'));
+                $("#employeeTable").find("tr:gt(0)").remove();
+                $('#employeeTable').append(trHTML);
+                var table = $('#employeeTable');
+                table.find('.sorter').remove();
+                $('#paginationDiv').empty();
+                $('#paginationDiv').append(pages);
+                $("#search").trigger("keyup");
+                var inc = 0;
+                $(".clicked").each(function () {
+                    if ($(this).data("sortfield") == sortField) {
+                        if (sortDirection == "ascending") {
+                            $(this).append($('<span class="pull-right sorter"><i class="glyphicon glyphicon-chevron-up"></i></span>'));
+                        } else {
+                            $(this).append($('<span class="pull-right sorter"><i class="glyphicon glyphicon-chevron-down"></i></span>'));
+                        }
+                        return false;
                     }
-                    return false;
-                }
-                inc++;
-            });
+                    inc++;
+                });
 
-        },
-        error: function (xhr) {
-            alert('error');
-        }
-    });
+            },
+            error: function (xhr) {
+                alert('error');
+            }
+        });
 }
 
 $(document).ready(function () {
+
+    $('#search').keydown(function (event) {
+        var keyCode = (event.keyCode ? event.keyCode : event.which);
+        if (keyCode == 13) {
+            $('.getSearchValue').trigger('click');
+        }
+    });
 
     sortField = "Name";
     sortDirection = "ascending";
@@ -107,11 +158,11 @@ $(document).ready(function () {
         success: function (data) {
             var trHTML = '';
             var pages = '';
-         
+
             var returnedData = data.dataObject;
             $.each(data, function (key, employee) {
                 if (!employee.Pagecount) {
-                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.Email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + ((new Date(parseInt(employee.DOJ.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOJ.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOJ.substr(6))).getFullYear()) + '</td><td>'+((new Date(parseInt(employee.DOB.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOB.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOB.substr(6))).getFullYear()) + '</td><td>' + employee.Contact + '</td><td>' + employee.Salary +
+                    trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.Email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + ((new Date(parseInt(employee.DOJ.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOJ.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOJ.substr(6))).getFullYear()) + '</td><td>' + ((new Date(parseInt(employee.DOB.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOB.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOB.substr(6))).getFullYear()) + '</td><td>' + employee.Contact + '</td><td>' + employee.Salary +
                 '</td><td style="text-align: center;">' +
                   '<div class="dropdown"><a  href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/Edit/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
@@ -132,16 +183,22 @@ $(document).ready(function () {
                     }
                     for (var i = 1; i <= pageCount; i++) {
                         if (i == (pagingInfo.currPage + 1)) {
-                            pages += '<li class="active"><a href = "#" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                            pages += '<li class="active"><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
                         } else {
-                            pages += '<li><a href = "#" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                            if (pageCount - i >= 4) {
+                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                                pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                i += pageCount - 3;
+                            }
+                            
+                            pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
                         }
 
                     }
                     for (var i = 1; i <= pageCount; i++) {
                         if (i == (pagingInfo.currPage + 1)) {
                             if ((i) < pageCount) {
-                                pages += '<li><a href = "#" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">&raquo;</a></li>'
+                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">&raquo;</a></li>'
                             }
                         }
                     }
@@ -214,22 +271,27 @@ $(".getSearchValue").click(function (evt) {
                     for (var i = 1; i <= pageCount; i++) {
                         if (i == (pagingInfo.currPage + 1)) {
                             if ((i - 1) > 0) {
-                                pages += '<li><a href = "#" onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">&laquo;</a></li>'
+                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">&laquo;</a></li>'
                             }
                         }
                     }
                     for (var i = 1; i <= pageCount; i++) {
                         if (i == (currentPage + 1)) {
-                            pages += '<li class="active"><a href = "#" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                            pages += '<li class="active"><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
                         }
                         else {
-                            pages += '<li><a href = "#" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                            if (pageCount - i >= 4) {
+                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                                pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                i += pageCount - 3;
+                            }
+                            pages += '<li><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
                         }
                     }
                     for (var i = 1; i <= pageCount; i++) {
                         if (i == (pagingInfo.currPage + 1)) {
                             if ((i) < pageCount) {
-                                pages += '<li><a href = "#" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">&raquo;</a></li>'
+                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">&raquo;</a></li>'
                             }
                         }
                     }
@@ -301,7 +363,7 @@ $('.clicked').click(function (evt) {
                 if (!employee.Pagecount) {
                     trHTML += '<tr><td>' + employee.EmployeeName + '</td><td>' + employee.Email + '</td><td>' + employee.Address + '</td><td>' + employee.Dept + '</td><td>' + ((new Date(parseInt(employee.DOJ.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOJ.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOJ.substr(6))).getFullYear()) + '</td><td>' + ((new Date(parseInt(employee.DOB.substr(6))).getMonth() + 1) + '/' + new Date(parseInt(employee.DOB.substr(6))).getDate() + '/' + new Date(parseInt(employee.DOB.substr(6))).getFullYear()) + '</td><td>' + employee.Contact + '</td><td>' + employee.Salary +
                 '</td><td style="text-align: center;">' +
-                  '<div class="dropdown"><a  href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/EditEmployee/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
+                  '<div class="dropdown"><a  href = "" data-toggle="dropdown" class="dropdown-toggle"><span class="glyphicon glyphicon-cog"></span></a><ul class="dropdown-menu"><li><a href="/Employee/Edit/' + employee.EmployeeID + '">Edit</a></li><li><a data-toggle="modal" href="" id = "openModal" class = "check" data-target="#myModal" data-id="' + employee.EmployeeID + '"> Delete</a></li> </ul>' + '</div>' + '</td>' + '</tr>';
                 }
                 else {
                     var pageCount = employee.Pagecount;
@@ -314,22 +376,27 @@ $('.clicked').click(function (evt) {
                     for (var i = 1; i <= pageCount; i++) {
                         if (i == (pagingInfo.currPage + 1)) {
                             if ((i - 1) > 0) {
-                                pages += '<li><a href = "#" onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">&laquo;</a></li>'
+                                pages += '<li><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">&laquo;</a></li>'
                             }
                         }
                     }
                     for (var i = 1; i <= pageCount; i++) {
                         if (i == (pagingInfo.currPage + 1)) {
-                            pages += '<li class="active"><a href = "#" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                            pages += '<li class="active"><a  href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
                         } else {
-                            pages += '<li><a href = "#" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                            if (pageCount - i >= 4) {
+                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                                pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                i += pageCount - 3;
+                            }
+                            pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
                         }
 
                     }
                     for (var i = 1; i <= pageCount; i++) {
                         if (i == (pagingInfo.currPage + 1)) {
                             if ((i) < pageCount) {
-                                pages += '<li><a href = "#" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">&raquo;</a></li>'
+                                pages += '<li><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">&raquo;</a></li>'
                             }
                         }
                     }

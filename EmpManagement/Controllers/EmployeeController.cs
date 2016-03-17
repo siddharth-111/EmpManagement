@@ -22,11 +22,8 @@ namespace EmpManagement.Controllers
     {
        
         #region Fields
-        string EmpServiceURL = ConfigurationManager.AppSettings["EmpServiceURL"];
 
-        CommonGetPost ApiCall = new CommonGetPost();
-
-        Serializer ObjectSerializer = new Serializer();
+        string EmpServiceURL = ConfigurationManager.AppSettings["EmpServiceURL"];      
 
         private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         
@@ -42,17 +39,17 @@ namespace EmpManagement.Controllers
 
             try
             {
-                _log.Debug("Retrieve method CriteriaModel info data:" + ObjectSerializer.SerializeObject(pagingInfo));
+                _log.Debug("Retrieve method CriteriaModel info data:" + Log.SerializeObject(pagingInfo));
 
                 string Url = EmpServiceURL + "GetEmployeeList/";
 
                 _log.Debug("Retrieve method Url passed:" + Url);
 
-                var Data = ApiCall.ReturnPost(Url, pagingInfo);
+                var Data = CommonGetPost.Post(Url, pagingInfo);
 
-                List<EmployeeModel> ListOfEmployees = JsonConvert.DeserializeObject<List<EmployeeModel>>(Data["GetEmployeeListResult"].ToString());
+                List<EmployeeModel> ListOfEmployees = JsonConvert.DeserializeObject<List<EmployeeModel>>(Data["RetrieveResult"].ToString());
 
-                _log.Debug("Retrieve method data:" + ObjectSerializer.SerializeObject(ListOfEmployees));
+                _log.Debug("Retrieve method data:" + Log.SerializeObject(ListOfEmployees));
 
                 return Json(ListOfEmployees ?? new List<EmployeeModel>(), JsonRequestBehavior.AllowGet);
             }
@@ -74,18 +71,18 @@ namespace EmpManagement.Controllers
         //GET : /Employee
         public ActionResult Index()
         {
-            _log.Info("Get Employee method start");
+            _log.Info("Index method start");
             try
             {
                 return View();
             }
             catch (Exception e)
             {
-                _log.Error("Get Employee method Error :" + e.Message);
+                _log.Error("Index method Error :" + e.Message);
             }
             finally
             {
-                _log.Info("Get Employee method mandatory stop");
+                _log.Info("Index method mandatory stop");
             }
 
             return View();
@@ -94,18 +91,18 @@ namespace EmpManagement.Controllers
         // GET : /Employee/CreateEmployee
         public ActionResult Create()
         {
-            _log.Info("Create Employee method start");
+            _log.Info("Create method start");
             try
             {
                 return View();
             }
             catch (Exception e)
             {
-                _log.Error("Create Employee method Error :" + e.Message);
+                _log.Error("Create method Error :" + e.Message);
             }
             finally
             {
-                _log.Info("Create Employee method mandatory stop");
+                _log.Info("Create method mandatory stop");
             }
 
             return View();
@@ -114,7 +111,7 @@ namespace EmpManagement.Controllers
         // GET : /Employee/EditEmployee
         public ActionResult Edit(string id)
         {
-            _log.Info("Get Edit Employee method start");
+            _log.Info("Get Edit method start");
 
             try
             {
@@ -125,28 +122,28 @@ namespace EmpManagement.Controllers
                     EmployeeID = id
                 };
 
-                _log.Debug("Get Edit Employee URL is : " + Url);
+                _log.Debug("Get Edit URL is : " + Url);
 
-                _log.Debug("Get Edit Employee method data passed : " + id);
+                _log.Debug("Get Edit method data passed : " + id);
 
-                var Data = ApiCall.ReturnPost(Url, createEmp);
+                var Data = CommonGetPost.Post(Url, createEmp);
 
-                EmployeeModel SingleEmployee = JsonConvert.DeserializeObject<EmployeeModel>(Data["GetSingleEmployeeResult"].ToString());
+                EmployeeModel SingleEmployee = JsonConvert.DeserializeObject<EmployeeModel>(Data["RetrieveByIdResult"].ToString());
 
-                _log.Debug("Get Edit Employee method data retrieved : " + ObjectSerializer.SerializeObject(SingleEmployee));
+                _log.Debug("Get Edit method data retrieved : " + Log.SerializeObject(SingleEmployee));
 
                 return View(SingleEmployee);
             }
             catch (Exception ex)
             {
 
-                _log.Error("Get Edit Employee method error, the error is : " + ex);
+                _log.Error("Get Edit method error, the error is : " + ex);
 
             }
             finally
             {
 
-                _log.Info("Get Edit Employee method mandatory stop");
+                _log.Info("Get Edit method mandatory stop");
 
             }
             return View();
@@ -158,11 +155,11 @@ namespace EmpManagement.Controllers
 
         // POST : /Employee/CreateEmployee
         [HttpPost]
-        [ValidateInput(false)]
+        [ValidateInput(true)]
         [ValidateAntiForgeryToken]
         public ActionResult Create(EmployeeModel employee)
         {
-            _log.Info("Create Employee method post start");
+            _log.Info("Create method post start");
             try
             {
 
@@ -176,11 +173,11 @@ namespace EmpManagement.Controllers
                         employee = employee
                     };
 
-                    _log.Debug("Create Employee Url is :" + Url);
+                    _log.Debug("Create Url is :" + Url);
 
-                    _log.Debug("Create Employee method post data :" + ObjectSerializer.SerializeObject(employee));
+                    _log.Debug("Create method post data :" + Log.SerializeObject(employee));
 
-                    var Data = ApiCall.ReturnPost(Url, RestData);
+                    var Data = CommonGetPost.Post(Url, RestData);
 
                     bool IsEmployeeCreated = Convert.ToBoolean(Data);
 
@@ -188,13 +185,13 @@ namespace EmpManagement.Controllers
                     {
                         TempData["Success"] = "Employee created successfully!!";
 
-                        _log.Debug("Create Employee method post return data :" + IsEmployeeCreated.ToString());
+                        _log.Debug("Create method post return data :" + IsEmployeeCreated.ToString());
 
                         return View(employee);
                     }
                     else
                     {
-                        _log.Debug("Create Employee method post return data :" + IsEmployeeCreated.ToString());
+                        _log.Debug("Create method post return data :" + IsEmployeeCreated.ToString());
 
                         ModelState.AddModelError("", "An employee with the same email ID exists");
                     }
@@ -229,7 +226,7 @@ namespace EmpManagement.Controllers
             try
             {
 
-               _log.Debug("Post Edit employee method data : " + ObjectSerializer.SerializeObject(editedEmp));
+               _log.Debug("Post Edit method data : " + Log.SerializeObject(editedEmp));
 
                 if (ModelState.IsValid)
                 {
@@ -241,21 +238,21 @@ namespace EmpManagement.Controllers
                         employee = editedEmp
                     };
 
-                    var Data = ApiCall.ReturnPost(Url, RestData);  
+                    var Data = CommonGetPost.Post(Url, RestData);  
             
-                    bool IsEmployeeEdited = (bool)Data.SelectToken("EditEmployeeResult");
+                    bool IsEmployeeEdited = (bool)Data.SelectToken("EditResult");
 
                     if (IsEmployeeEdited)
                     {
                         // _log.Info("Create Employee method stop successful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary);
                         TempData["Success"] = "Employee Edited successfully!!";
-                       _log.Debug("Post Edit employee method return data : " + IsEmployeeEdited);
+                       _log.Debug("Post Edit method return data : " + IsEmployeeEdited);
                       
                         return View(editedEmp);
                     }
                     else
                     {
-                       _log.Debug("Post Edit employee method return data : " + IsEmployeeEdited);
+                       _log.Debug("Post Edit method return data : " + IsEmployeeEdited);
                      
                         //    _log.Info("Create Employee method stop unsuccessful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary); ;
                         ModelState.AddModelError("", "Error in saving the details of employee,Duplicate Email ID");
@@ -282,7 +279,7 @@ namespace EmpManagement.Controllers
         // POST : /Employee/DeleteEmployee
         public ActionResult Delete(string id)
         {
-            _log.Info("Deleting employee method start");
+            _log.Info("Delete method start");
             try
             {
 
@@ -293,20 +290,20 @@ namespace EmpManagement.Controllers
                     EmpId = id
                 };
 
-                _log.Debug("Delete employee method url: " + Url);
+                _log.Debug("Delete method url: " + Url);
 
-                _log.Debug("Delete employee method id is " + id);
+                _log.Debug("Delete method id is " + id);
 
-                var Data = ApiCall.ReturnPost(Url, EmpObj);
+                var Data = CommonGetPost.Post(Url, EmpObj);
 
-                bool IsEmployeeDeleted = (bool)Data.SelectToken("DeleteEmployeeResult");
+                bool IsEmployeeDeleted = (bool)Data.SelectToken("DeleteResult");
 
                 if (IsEmployeeDeleted)
                 {
 
                     TempData["Delete"] = "Deleted the employee successfully!!";
 
-                    _log.Debug("Delete employee return data is " + IsEmployeeDeleted);
+                    _log.Debug("Delete return data is " + IsEmployeeDeleted);
 
                     return RedirectToAction("Index", "Employee");
                 }
@@ -315,7 +312,7 @@ namespace EmpManagement.Controllers
 
                     TempData["DeleteFail"] = "Couldn't Delete the Employee";
 
-                    _log.Debug("Delete Employee method stop unsuccessful, return data is:" + IsEmployeeDeleted);
+                    _log.Debug("Delete Employee unsuccessful, return data is:" + IsEmployeeDeleted);
 
                     ModelState.AddModelError("", "Error in Deleting the Employee");
                 }
@@ -329,7 +326,7 @@ namespace EmpManagement.Controllers
             finally
             {
 
-                _log.Info("Delete Employee method mandatory stop");
+                _log.Info("Delete method stop");
 
             }
 
@@ -370,6 +367,7 @@ namespace EmpManagement.Controllers
             }
 
         }
+
         #endregion Post Methods
              
     }

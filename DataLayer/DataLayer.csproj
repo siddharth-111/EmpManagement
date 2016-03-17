@@ -39,6 +39,7 @@
       <HintPath>..\..\..\..\..\Downloads\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -48,8 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MySQLUser.cs" />
+    <Compile Include="MySQLEmployee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SQLRetrieve.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Employee.txt" />

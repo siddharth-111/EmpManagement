@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmpManagement", "EmpManagement\EmpManagement.csproj", "{335960DD-5368-4E04-AC26-BF36F5CC0229}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement", "EmpManagement\EmployeeManagement.csproj", "{335960DD-5368-4E04-AC26-BF36F5CC0229}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 DataAccess", "02 DataAccess", "{36EB0A7A-BDF7-4437-AAF0-DBCDF0213A96}"
 EndProject
@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Common", "01 Common", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonUtility", "CommonAccess\CommonUtility.csproj", "{881686D9-F9E2-413C-9F04-5E96AA03F674}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 EMS", "05 EMS", "{50C8C9BF-7922-486C-8237-48148D90C41B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 WebApplication", "05 WebApplication", "{50C8C9BF-7922-486C-8237-48148D90C41B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 RestServices", "04 RestServices", "{4E5A824E-B133-432D-8F05-D7793907D74D}"
 EndProject

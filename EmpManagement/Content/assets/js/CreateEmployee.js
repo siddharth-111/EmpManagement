@@ -77,7 +77,7 @@
         messages: {
             "Email": {
                 required: "Email is required",
-                email: "Not a valid email"
+                email: "Not a valid Email address"
             },
             "EmployeeName": {
                 required: "You must enter Employee name"

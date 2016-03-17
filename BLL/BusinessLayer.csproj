@@ -45,8 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLogic.cs" />
+    <Compile Include="BLEmployee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BLUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonAccess\CommonUtility.csproj">

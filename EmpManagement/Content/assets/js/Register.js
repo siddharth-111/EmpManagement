@@ -40,10 +40,10 @@
         messages: {
             "Email": {
                 required: "Email is required",
-                email: "Not a valid email"
+                email: "Not a valid email address"
             },
             "Password": {
-                minlength: "Password should contain minimum 6 characters",
+                minlength: "Password should contain a minimum of 6 characters",
                 required: "Password is mandatory"
             },
             "ConfirmPassword": {

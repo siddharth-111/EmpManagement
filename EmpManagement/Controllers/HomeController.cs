@@ -19,9 +19,9 @@ namespace EmpManagement.Controllers
        
         #region Fields 
         string AuthServiceURL = ConfigurationManager.AppSettings["AuthServiceURL"];
-        CommonGetPost ApiCall = new CommonGetPost();
-        Serializer ObjectSerializer = new Serializer();
+        //HomeController Home = new HomeController();
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         #endregion Fields
 
         #region Get Methods
@@ -29,7 +29,9 @@ namespace EmpManagement.Controllers
         // GET: /Home/
         public ActionResult Index()
         {
-            _log.Info("Get Index method start");
+            
+           _log.Info("Get Index method start");
+            
             try
             {
                 return View();
@@ -37,12 +39,12 @@ namespace EmpManagement.Controllers
             }
             catch (Exception e)
             {              
-                _log.Error("Get Index method error :" + e.Message);
+               _log.Error("Get Index method error :" + e.Message);
                 return View();
             }
             finally
             {
-                _log.Info("Get Index method stop");
+               _log.Info("Get Index method stop");
             }
                                  
         }
@@ -50,7 +52,7 @@ namespace EmpManagement.Controllers
         //  GET: /Register
         public ActionResult Register()
         {
-            _log.Info("Get Register start ");                        
+           _log.Info( "Get Register start ");                        
             try
             {
                 return View();
@@ -58,12 +60,12 @@ namespace EmpManagement.Controllers
             }
             catch (Exception e)
             {
-                _log.Error("Get Register method error :" + e.Message);
+                _log.Error( "Get Register method error :" + e.Message);
                 return View();
             }
             finally
             {
-                _log.Info("Get Register stop");
+                _log.Info( "Get Register stop");
             }
                  
         }
@@ -78,30 +80,30 @@ namespace EmpManagement.Controllers
         public ActionResult Index(UserModel user)
         {
 
-            _log.Info("Login Method Start");
+            _log.Info( "_log.in Method Start");
             try
             {
-                _log.Debug("The data passed to Login method : " + ObjectSerializer.SerializeObject(user));
+                _log.Debug( "The data passed to _log.in method : " + Log.SerializeObject(user));
                 if (ModelState.IsValid)
                 {
 
                     string Url = AuthServiceURL + "IsUserValid/";
 
-                    _log.Debug("The Url Passed is :" + Url);
+                    _log.Debug( "The Url Passed is :" + Url);
 
                     var RestData = new
                     {
                         login = user
                     };
-                    _log.Debug("The Data to be passed is:" + ObjectSerializer.SerializeObject(RestData));
+                    _log.Debug( "The Data to be passed is:" + Log.SerializeObject(RestData));
 
-                    var Data = ApiCall.ReturnPost(Url, RestData);
+                    var Data = CommonGetPost.Post(Url, RestData);
 
                     bool IsValid = Convert.ToBoolean(Data);
 
                     if (IsValid)
                     {
-                        _log.Debug("The user is valid , the returned data is: " + IsValid); 
+                        _log.Debug( "The user is valid , the returned data is: " + IsValid); 
                 
                         FormsAuthentication.RedirectFromLoginPage(user.Email, false);
 
@@ -116,15 +118,15 @@ namespace EmpManagement.Controllers
             }
             catch (Exception ex)
             {
-         
-                _log.Error("Error in logging in,the error is : " + ex.Message);
 
-                ModelState.AddModelError("", "Unable to Login. Try again, and if the problem persists, see your system administrator.");
+                _log.Error( "Error in _log.ging in,the error is : " + ex.Message);
+
+                ModelState.AddModelError("", "Unable to _log.in. Try again, and if the problem persists, see your system administrator.");
             }
             finally
             {
 
-                _log.Info("Employee Controller login method mandatory stop");
+                _log.Info( "Employee Controller _log.in method mandatory stop");
 
             }
 
@@ -146,7 +148,7 @@ namespace EmpManagement.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _log.Debug("Post Register data is " + ObjectSerializer.SerializeObject(user));
+                   _log.Debug( "Post Register data is " + Log.SerializeObject(user));
 
                     var Url = AuthServiceURL + "Register/";
 
@@ -155,18 +157,18 @@ namespace EmpManagement.Controllers
                         register = user
                     };
 
-                    _log.Debug("Post Register Url Passed is :" + Url);
+                   _log.Debug("Post Register Url Passed is :" + Url);
 
-                    _log.Debug("Post Register data is " + ObjectSerializer.SerializeObject(user));
+                   _log.Debug("Post Register data is " + Log.SerializeObject(user));
 
-                    var Data = ApiCall.ReturnPost(Url, RestData);
+                    var Data = CommonGetPost.Post(Url, RestData);
 
                     bool IsCreated= Convert.ToBoolean(Data);
 
                     if (IsCreated)
                     {
 
-                        _log.Debug("Post Register successful , the returned data :" + IsCreated);
+                       _log.Debug( "Post Register successful , the returned data :" + IsCreated);
 
                         TempData["Success"] = "User Registered successfully!!";
 
@@ -174,7 +176,7 @@ namespace EmpManagement.Controllers
                     }
                     else
                     {
-                        _log.Debug("Post Register unsuccessful, the returned data is +" + IsCreated);
+                       _log.Debug( "Post Register unsuccessful, the returned data is +" + IsCreated);
 
                         ModelState.AddModelError("", "Cannot register,Duplicate username/email");
                     }
@@ -184,15 +186,15 @@ namespace EmpManagement.Controllers
             }
             catch (Exception ex)
             {
-                //Log the error 
-                _log.Error("Error in logging in,the error is : " + ex);
+                //_log. the error 
+               _log.Error( "Error in _log.ging in,the error is : " + ex);
 
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
             finally
             {
 
-                _log.Info("Post Register user stop");
+               _log.Info( "Post Register user stop");
 
             }
             return View(user);

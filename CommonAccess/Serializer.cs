@@ -8,9 +8,6 @@ namespace CommonUtility
 {
     public class Serializer
     {
-        public string SerializeObject(object objectToBeSerialized)
-        {
-            return new JavaScriptSerializer().Serialize(objectToBeSerialized);
-        }
+        
     }
 }

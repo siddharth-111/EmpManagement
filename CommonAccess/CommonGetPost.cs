@@ -10,11 +10,13 @@ using Newtonsoft.Json.Linq;
 
 namespace CommonUtility
 {
-    public class CommonGetPost
+    public static class CommonGetPost
     {
-        //Logger Wrapper = new Logger();
+    
         private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public dynamic ReturnPost(string url, dynamic info)
+       
+        
+        public static dynamic Post(string url, dynamic info)
         {
            _log.Info("Common GetPost method start");
             try
