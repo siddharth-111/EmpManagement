@@ -11,7 +11,7 @@ using System.Data;
 
 namespace BusinessLayer
 {
-    public class BLEmployee
+    public class Employee
     {
 
         #region Fields
@@ -24,7 +24,7 @@ namespace BusinessLayer
 
         #region Get Methods 
 
-        public List<Employee> Retrieve(string searchString, string sortDirection, string sortField, int pageSize, int currPage)
+        public List<DataObject.Employee> Retrieve(string searchString, string sortDirection, string sortField, int pageSize, int currPage)
         {
             _log.Info("Retrieve start");
             try
@@ -33,7 +33,7 @@ namespace BusinessLayer
                     sortDirection = "ASC";
                 else
                     sortDirection = "DESC";
-                List<Employee> JsonEmployee = MySQLEmployee.Retrieve(searchString, sortDirection, sortField, currPage, pageSize);
+                List<DataObject.Employee> JsonEmployee = MySQLEmployee.Retrieve(searchString, sortDirection, sortField, currPage, pageSize);
                 _log.Debug("Retrieve returned list is :" + JsonEmployee);
                 return JsonEmployee;
 
@@ -51,13 +51,13 @@ namespace BusinessLayer
             return null;
         }
 
-        public Employee RetrieveById(string id)
+        public DataObject.Employee RetrieveById(string id)
         {
             _log.Info("RetrieveById Start");
             try {
                 _log.Debug("RetrieveById employee Id is :" + id);
                 
-                Employee Employee = MySQLEmployee.RetrieveById(id);
+                DataObject.Employee Employee = MySQLEmployee.RetrieveById(id);
             ////    List<Employee> EmployeeList = new Employee().Deserialize(EmployeeTable);
             //    if (EmployeeList.Count == 1)
             //    {
@@ -84,10 +84,9 @@ namespace BusinessLayer
         
         #region Post Methods
 
-        public bool Edit(Employee employee)
+        public bool Edit(DataObject.Employee employee)
         {
-            _log.Info("Edit Start");
-            StringBuilder DataOfEmp = new StringBuilder();
+            _log.Info("Edit Start");         
             try
             {
                 _log.Debug("Edit data:" + Log.SerializeObject(employee));             
@@ -108,7 +107,7 @@ namespace BusinessLayer
 
         }
 
-        public bool Create(Employee newEmployee)
+        public bool Create(DataObject.Employee newEmployee)
         {
             _log.Info("Create Start");
            try

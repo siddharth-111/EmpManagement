@@ -43,17 +43,24 @@ function getPage(currPage, pSize) {
                     for (var i = 1; i <= pageCount; i++) {
                         if (i == (currentPage + 1)) {
                             if (i == 1) {
-                                pages += '<li class="active"><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
-                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">' + (i + 1) + '</a></li>'
-                                pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
-                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 2) + ',' + pagingInfo.pageSize + ')">' + (pageCount - 1) + '</a></li>'
-                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 1) + ',' + pagingInfo.pageSize + ')">' + (pageCount) + '</a></li>'
+                                if (pageCount > 3) {
+                                    pages += '<li class="active"><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">' + (i + 1) + '</a></li>'
+                                    pages += '<li><a style="z-index: 2;">...</a></li>'
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 2) + ',' + pagingInfo.pageSize + ')">' + (pageCount - 1) + '</a></li>'
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 1) + ',' + pagingInfo.pageSize + ')">' + (pageCount) + '</a></li>'
+                                }
+                                else {
+
+                                    pages += '<li class="active"><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                                }
+
                             }
                             else
                                 if (i == (pageCount - 1)) {
                                     pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 2) + ',' + pagingInfo.pageSize + ')">' + (2) + '</a></li>'
                                     pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (0) + ',' + pagingInfo.pageSize + ')">' + (1) + '</a></li>'
-                                    pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                    pages += '<li><a style="z-index: 2;">...</a></li>'
                                     pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">' + (i - 1) + '</a></li>'
                                     pages += '<li class="active"><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
 
@@ -66,29 +73,38 @@ function getPage(currPage, pSize) {
                                     while (i <= pageCount) {
                                         if (i == (currentPage + 1)) {
 
-                                            
+
                                             if (i == (pageCount)) {
-                                                
+
                                                 pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (0) + ',' + pagingInfo.pageSize + ')">' + (1) + '</a></li>'
                                                 pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (1) + ',' + pagingInfo.pageSize + ')">' + (2) + '</a></li>'
-                                                pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                                pages += '<li><a style="z-index: 2;">...</a></li>'
                                                 pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">' + (i - 1) + '</a></li>'
                                                 pages += '<li class="active"><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
 
                                             } else {
                                                 if ((i - 2) >= 1) {
-                                                    pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (0) + ',' + pagingInfo.pageSize + ')">' + (1) + '</a></li>'
+                                                    pages += '<li><a style="z-index: 2;">...</a></li>'
                                                 }
                                                 pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">' + (i - 1) + '</a></li>'
                                                 pages += '<li class="active"><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
                                                 pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">' + (i + 1) + '</a></li>'
-                                                if(i != (pageCount-1))
-                                                pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                                if (i != (pageCount - 1)) {
+                                                    pages += '<li><a style="z-index: 2;">...</a></li>'
+                                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 1) + ',' + pagingInfo.pageSize + ')">' + (pageCount) + '</a></li>'
+                                                }
+
                                                 i += pageCount - 3;
                                             }
                                         }
                                         i++;
                                     }
+                                }
+                                else {
+
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+
                                 }
                             }
                         }
@@ -187,7 +203,7 @@ $(document).ready(function () {
                         } else {
                             if (pageCount - i >= 4) {
                                 pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
-                                pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                pages += '<li><a style="z-index: 2;">...</a></li>'
                                 i += pageCount - 3;
                             }
                             
@@ -282,7 +298,7 @@ $(".getSearchValue").click(function (evt) {
                         else {
                             if (pageCount - i >= 4) {
                                 pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
-                                pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
+                                pages += '<li><a style="z-index: 2;">...</a></li>'
                                 i += pageCount - 3;
                             }
                             pages += '<li><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
@@ -381,18 +397,73 @@ $('.clicked').click(function (evt) {
                         }
                     }
                     for (var i = 1; i <= pageCount; i++) {
-                        if (i == (pagingInfo.currPage + 1)) {
-                            pages += '<li class="active"><a  href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
-                        } else {
-                            if (pageCount - i >= 4) {
-                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
-                                pages += '<li><a href = "#" style="z-index: 2;">...</a></li>'
-                                i += pageCount - 3;
-                            }
-                            pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
-                        }
+                        if (i == (currentPage + 1)) {
+                            if (i == 1) {
+                                if (pageCount > 3) {
+                                    pages += '<li class="active"><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">' + (i + 1) + '</a></li>'
+                                    pages += '<li><a style="z-index: 2;">...</a></li>'
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 2) + ',' + pagingInfo.pageSize + ')">' + (pageCount - 1) + '</a></li>'
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 1) + ',' + pagingInfo.pageSize + ')">' + (pageCount) + '</a></li>'
+                                }
+                                else {
 
-                    }
+                                    pages += '<li class="active"><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                                }
+
+                            }
+                            else
+                                if (i == (pageCount - 1)) {
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 2) + ',' + pagingInfo.pageSize + ')">' + (2) + '</a></li>'
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (0) + ',' + pagingInfo.pageSize + ')">' + (1) + '</a></li>'
+                                    pages += '<li><a style="z-index: 2;">...</a></li>'
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">' + (i - 1) + '</a></li>'
+                                    pages += '<li class="active"><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+
+                                }
+                                else
+                                    pages += '<li class="active"><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                            }
+                            else {
+                                if (pageCount - i >= 4) {
+                                    while (i <= pageCount) {
+                                        if (i == (currentPage + 1)) {
+
+
+                                            if (i == (pageCount)) {
+
+                                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (0) + ',' + pagingInfo.pageSize + ')">' + (1) + '</a></li>'
+                                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (1) + ',' + pagingInfo.pageSize + ')">' + (2) + '</a></li>'
+                                                pages += '<li><a style="z-index: 2;">...</a></li>'
+                                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">' + (i - 1) + '</a></li>'
+                                                pages += '<li class="active"><a href = "#" style="z-index: 2;"  onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+
+                                            } else {
+                                                if ((i - 2) >= 1) {
+                                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (0) + ',' + pagingInfo.pageSize + ')">' + (1) + '</a></li>'
+                                                    pages += '<li><a style="z-index: 2;">...</a></li>'
+                                                }
+                                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 2) + ',' + pagingInfo.pageSize + ')">' + (i - 1) + '</a></li>'
+                                                pages += '<li class="active"><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+                                                pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i) + ',' + pagingInfo.pageSize + ')">' + (i + 1) + '</a></li>'
+                                                if (i != (pageCount - 1)) {
+                                                    pages += '<li><a style="z-index: 2;">...</a></li>'
+                                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (pageCount - 1) + ',' + pagingInfo.pageSize + ')">' + (pageCount) + '</a></li>'
+                                                }
+
+                                                i += pageCount - 3;
+                                            }
+                                        }
+                                        i++;
+                                    }
+                                }
+                                else {
+
+                                    pages += '<li><a href = "#" style="z-index: 2;" onclick ="getPage(' + (i - 1) + ',' + pagingInfo.pageSize + ')">' + i + '</a></li>'
+
+                                }
+                            }
+                        }
                     for (var i = 1; i <= pageCount; i++) {
                         if (i == (pagingInfo.currPage + 1)) {
                             if ((i) < pageCount) {

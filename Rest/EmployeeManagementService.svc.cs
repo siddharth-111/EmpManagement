@@ -22,13 +22,13 @@ namespace Rest
 
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
        // BusinessLogic BusinessLayerObj = new BusinessLogic();
-        BLEmployee BLEmployee = new BLEmployee();        
+        BusinessLayer.Employee BLEmployee = new BusinessLayer.Employee();        
 
         #endregion Fields       
 
         #region Get Methods
 
-        public List<Employee> Retrieve(int PageSize, int CurrPage, string SortField, string SortDirection, string SearchString)
+        public List<DataObject.Employee> Retrieve(int PageSize, int CurrPage, string SortField, string SortDirection, string SearchString)
         {
             _log.Info("Rest Retrieve method start");
 
@@ -37,7 +37,7 @@ namespace Rest
 
                 _log.Debug("Rest Retrieve method data passed :" + PageSize + "," + CurrPage + "," + SortField + "," + SortDirection + "," + SearchString);
 
-                List<Employee> JsonEmployee = BLEmployee.Retrieve(SearchString, SortDirection, SortField, PageSize, CurrPage);
+                List<DataObject.Employee> JsonEmployee = BLEmployee.Retrieve(SearchString, SortDirection, SortField, PageSize, CurrPage);
 
                 _log.Debug("Rest Retrieve method data returned:" + Log.SerializeObject(JsonEmployee));
 
@@ -59,7 +59,7 @@ namespace Rest
             return null;
         }
 
-        public Employee RetrieveById(string EmployeeID)
+        public DataObject.Employee RetrieveById(string EmployeeID)
         {
 
             _log.Info("Rest RetrieveById method start");
@@ -69,7 +69,7 @@ namespace Rest
 
                 _log.Debug("Rest RetrieveById method data passed :" + EmployeeID);
 
-                Employee Employee = BLEmployee.RetrieveById(EmployeeID);
+                DataObject.Employee Employee = BLEmployee.RetrieveById(EmployeeID);
 
                 _log.Debug("Rest RetrieveById method returned data :" + Log.SerializeObject(Employee));
 
@@ -98,7 +98,7 @@ namespace Rest
 
         #region Post Methods
 
-        public bool Create(Employee employee)
+        public bool Create(DataObject.Employee employee)
         {
 
             _log.Info("Rest Create method start");
@@ -131,7 +131,7 @@ namespace Rest
 
         }
 
-        public bool Edit(Employee employee)
+        public bool Edit(DataObject.Employee employee)
         {
 
             _log.Info("Rest Edit method start");
