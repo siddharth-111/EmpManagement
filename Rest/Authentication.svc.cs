@@ -18,7 +18,7 @@ namespace Rest
     {
         #region Fields
 
-        BLUser BLUser = new BLUser();              
+        BusinessLayer.User BLUser = new BusinessLayer.User();              
         
         private static readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -26,7 +26,7 @@ namespace Rest
 
         #region Post Methods
 
-        public bool IsUserValid(User login)
+        public bool IsUserValid(DataObject.User login)
         {
             _log.Info("Rest IsUserValid start");
             try
@@ -51,7 +51,7 @@ namespace Rest
 
         }
 
-        public bool Register(User register)
+        public bool Register(DataObject.User register)
         {
             _log.Info("Rest service Register start:");
             try

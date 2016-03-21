@@ -1,14 +1,14 @@
-﻿@model EmpManagement.Models.RegisterModel
+﻿@model EmployeeManagement.Models.RegisterModel
 @{
     ViewBag.Title = "Register";
 }
 @section css {
-    <link href="@Url.Content("../../assets/css/bootstrap.css")" rel = "stylesheet" />
+    <link href="@Url.Content("~/Content/assets/css/bootstrap.css")" rel = "stylesheet" />
     <!-- FONTAWESOME STYLE CSS -->
-    <link href="@Url.Content("../../assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/assets/css/font-awesome.min.css")" rel="stylesheet" />
     <!-- CUSTOM STYLE CSS -->
-    <link href="@Url.Content("../../assets/css/style.css")" rel="stylesheet" />
-    <link href="@Url.Content("../../Content/assets/css/Login.css")" rel = "stylesheet" />
+    <link href="@Url.Content("~/Content/assets/css/style.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/assets/css/Login.css")" rel = "stylesheet" />
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
 }
@@ -81,13 +81,13 @@
 </section>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src = "@Url.Content("../../Content/assets/plugins/jquery-1.10.2.js")"></script>
+    <script src = "@Url.Content("~/Content/assets/plugins/jquery-1.10.2.js")"></script>
     <!-- BOOTSTRAP CORE SCRIPT   -->
-    <script src="@Url.Content("../../Content/assets/plugins/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Content/assets/plugins/bootstrap.js")"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.9.0/jquery.validate.min.js"></script>
-    <script src ="@Url.Content("../../Content/assets/js/Register.js")"></script>
-    <script src="@Url.Content("../../Content/assets/js/custom.js")"></script>
+    <script src ="@Url.Content("~/Content/assets/js/Register.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/custom.js")"></script>
 }
 <div class="for-full-back footer-emp">
     Copyright © 2016 www.leadsquared.com | All Rights Reserved

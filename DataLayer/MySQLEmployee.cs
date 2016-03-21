@@ -135,37 +135,30 @@ namespace DataLayer
             return null;
         }
 
-        public Employee RetrieveById(string id)
+        public DataTable RetrieveById(string id)
         {
             _log.Info(" RetrieveById start : ");
             Employee SingleEmployee = new Employee();
-            MySqlConnection Con = new MySqlConnection(Connectionstr);
+            MySqlConnection Connection = new MySqlConnection(Connectionstr);
             try
             {
-                Con.Open();
-                MySqlCommand Cmd = new MySqlCommand("CALL udsp_Employee_RetrieveById('" + id + "')", Con);
-                MySqlDataAdapter Sda = new MySqlDataAdapter();
+                Connection.Open();
 
-                Cmd.Connection = Con;
-                Sda.SelectCommand = Cmd;
+                MySqlCommand Command = new MySqlCommand("CALL udsp_Employee_RetrieveById('" + id + "')", Connection);
+
+                MySqlDataAdapter SqlAdapter = new MySqlDataAdapter();
+
+                Command.Connection = Connection;
+
+                SqlAdapter.SelectCommand = Command;
+
                 DataTable EmployeeTable = new DataTable();
-                Sda.Fill(EmployeeTable);
 
-                foreach (DataRow row in EmployeeTable.Rows)
-                {
-                    SingleEmployee.EmployeeID = Guid.Parse(row["EmployeeID"].ToString());
-                    SingleEmployee.EmployeeName = Convert.ToString(row["Name"].ToString());
-                    SingleEmployee.Email = Convert.ToString(row["Email"].ToString());
-                    SingleEmployee.Address = Convert.ToString(row["Address"].ToString());
-                    SingleEmployee.Contact = Convert.ToString(row["Contact"].ToString());
-                    SingleEmployee.Dept = Convert.ToString(row["Dept"].ToString());
-                    SingleEmployee.DOB = Convert.ToString(row["DOB"].ToString());
-                    SingleEmployee.DOJ = Convert.ToString(row["DOJ"].ToString());
-                    SingleEmployee.Salary = Convert.ToInt32(row["Salary"].ToString());
-                }
-
+                SqlAdapter.Fill(EmployeeTable);
+                
                 _log.Debug("RetrieveById Employee Data:" + Log.SerializeObject(SingleEmployee));
-                return SingleEmployee;
+
+                return EmployeeTable;
 
             }
             catch (Exception e)
@@ -176,7 +169,7 @@ namespace DataLayer
             }
             finally
             {
-                Con.Close();
+                Connection.Close();
                 _log.Info("RetrieveById stop: ");
             }
 

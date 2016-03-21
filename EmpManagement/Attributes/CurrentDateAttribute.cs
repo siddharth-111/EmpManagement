@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-namespace EmpManagement.Attributes
+namespace EmployeeManagement.Attributes
 {
     public class CurrentDateAttribute:ValidationAttribute
     {

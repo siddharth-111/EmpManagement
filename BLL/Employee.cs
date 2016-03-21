@@ -56,19 +56,19 @@ namespace BusinessLayer
             _log.Info("RetrieveById Start");
             try {
                 _log.Debug("RetrieveById employee Id is :" + id);
-                
-                DataObject.Employee Employee = MySQLEmployee.RetrieveById(id);
-            ////    List<Employee> EmployeeList = new Employee().Deserialize(EmployeeTable);
-            //    if (EmployeeList.Count == 1)
-            //    {
-            //        _log.Info("RetrieveById The Employee data is :" + EmployeeList[0]);
-            //        return EmployeeList[0];
-            //    }
-            //    else
-            //        return null;
-            //    }   
-                return Employee;
-            }  
+  
+                DataTable EmployeeTable = MySQLEmployee.RetrieveById(id);
+
+                List<DataObject.Employee> EmployeeList = new DataObject.Employee().Deserialize(EmployeeTable);
+
+                if (EmployeeList.Count == 1)
+                {
+                    _log.Debug("RetrieveById The Employee data is :" + EmployeeList[0]);
+                    return EmployeeList[0];
+                }
+                else
+                    return null;
+                }            
             catch (Exception e)
             {
                 _log.Error("RetrieveById Exception is :" + e.Message);

@@ -16,11 +16,11 @@ namespace Rest
         #region Post Methods
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.WrappedRequest, ResponseFormat = WebMessageFormat.Json, UriTemplate = "IsUserValid/")]
-        bool IsUserValid(User login);
+        bool IsUserValid(DataObject.User login);
 
         [OperationContract]
         [WebInvoke(Method = "POST", BodyStyle = WebMessageBodyStyle.WrappedRequest, ResponseFormat = WebMessageFormat.Json, UriTemplate = "Register/")]
-        bool Register(User register);
+        bool Register(DataObject.User register);
         #endregion Post Methods
        
     }

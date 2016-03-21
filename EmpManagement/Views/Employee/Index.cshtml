@@ -1,14 +1,14 @@
-﻿@model IEnumerable<EmpManagement.Models.EmployeeDetails>
+﻿@model IEnumerable<EmployeeManagement.Models.EmployeeModel>
 @{
     ViewBag.Title = "Employee Management System";
 }
 @section css {
-       <link href="@Url.Content("../../Content/assets/css/bootstrap.css")" rel = "stylesheet" />
+       <link href="@Url.Content("~/Content/assets/css/bootstrap.css")" rel = "stylesheet" />
     <!-- FONTAWESOME STYLE CSS -->
-    <link href="@Url.Content("../../Content/assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/assets/css/font-awesome.min.css")" rel="stylesheet" />
     <!-- CUSTOM STYLE CSS -->
-    <link href="@Url.Content("../../Content/assets/css/style.css")" rel="stylesheet" />
-    <link href="@Url.Content("../../Content/assets/css/Login.css")" rel = "stylesheet" />
+    <link href="@Url.Content("~/Content/assets/css/style.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/assets/css/Login.css")" rel = "stylesheet" />
     <!-- GOOGLE FONT -->
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css' />
@@ -34,9 +34,6 @@
         <!-- /.container -->
     </nav>
 </div>
-@{
-    EmpManagement.Models.EmployeeDetails info = ViewBag.PagingInfo;
-}
 <div class="container">
     <div class="col-lg-12">
         <input type="button" class = "btn btn-primary pull-right" onclick = "location.href = '@Url.Action("Create")'" value="Create Employee"/>
@@ -113,11 +110,11 @@
     </div>
 </div>
 @section Scripts {
-    <script src = "@Url.Content("../../Content/assets/plugins/jquery-1.10.2.js")"></script>
+    <script src = "@Url.Content("~/Content/assets/plugins/jquery-1.10.2.js")"></script>
     <!-- BOOTSTRAP CORE SCRIPT   -->
-    <script src="@Url.Content("../../Content/assets/js/Employee.js")"></script>
-    <script src="@Url.Content("../../Content/assets/plugins/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/Employee.js")"></script>
+    <script src="@Url.Content("~/Content/assets/plugins/bootstrap.js")"></script>
     <!-- CUSTOM SCRIPTS -->
-    <script src="@Url.Content("../../Content/assets/js/custom.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/custom.js")"></script>
     @Scripts.Render("~/bundles/jqueryval")
 }

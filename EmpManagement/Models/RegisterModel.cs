@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace EmpManagement.Models
+namespace EmployeeManagement.Models
 {
     public class RegisterModel
     {

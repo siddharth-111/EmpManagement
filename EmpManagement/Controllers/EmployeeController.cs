@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using EmpManagement.Models;
+using EmployeeManagement.Models;
 using System.Data;
 using System.Dynamic;
 using System.Net;
@@ -11,11 +11,12 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
+using System.Web.Http.WebHost;
 using System.Configuration;
 using CommonUtility;
 using log4net;
 
-namespace EmpManagement.Controllers
+namespace EmployeeManagement.Controllers
 {
     [Authorize]
     public class EmployeeController : Controller
