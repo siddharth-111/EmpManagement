@@ -55,7 +55,7 @@ namespace DataLayer
                         });
                     }
 
-                    MySqlCommand cmdCount = new MySqlCommand("CALL getCount()", Con);
+                    MySqlCommand cmdCount = new MySqlCommand("CALL udsp_Employee_getCount()", Con);
                     int Count = Convert.ToInt32(cmdCount.ExecuteScalar());
                     int PageCount = Convert.ToInt32(Math.Ceiling((double)((Count + pageSize - 1) / pageSize)));
                     Employeelist.Add(new Employee
@@ -85,7 +85,16 @@ namespace DataLayer
                 try
                 {
                     Con.Open();
-                    MySqlCommand Cmd = new MySqlCommand("CALL udsp_Employee_Retrieve('" + sortField + "','" + sortDirection + "'," + (currPage * pageSize) + "," + (pageSize) + ",'" + searchString + "')", Con);
+                    MySqlCommand Cmd = new MySqlCommand("udsp_Employee_Retrieve", Con);
+                   Cmd.CommandType = CommandType.StoredProcedure;
+               //     MySqlCommand Cmd = new MySqlCommand("CALL udsp_Employee_Retrieve('" + sortField + "','" + sortDirection + "'," + (currPage * pageSize) + "," + (pageSize) + ",'" + searchString + "')", Con);
+               //     Cmd.CommandText = "CALL udsp_Employee_Retrieve(@sortField,@sortDirection,@minIndex,@maxIndex,@searchString);";
+                   Cmd.Parameters.AddWithValue("@field_name", sortField);
+                   Cmd.Parameters.AddWithValue("@sortDir", sortDirection);
+                   Cmd.Parameters.AddWithValue("@minIndex", (currPage * pageSize));
+                   Cmd.Parameters.AddWithValue("@maxIndex", pageSize);
+                   Cmd.Parameters.AddWithValue("@search", searchString);
+             
                     MySqlDataAdapter Sda = new MySqlDataAdapter();
                     Cmd.Connection = Con;
                     Sda.SelectCommand = Cmd;
@@ -108,7 +117,7 @@ namespace DataLayer
                     }
 
 
-                    MySqlCommand CmdCount = new MySqlCommand("CALL getSearchCount('" + searchString + "')", Con);
+                    MySqlCommand CmdCount = new MySqlCommand("CALL udsp_Employee_getSearchCount('" + searchString + "')", Con);
                     int Count = Convert.ToInt32(CmdCount.ExecuteScalar());
                     int PageCount = Convert.ToInt32(Math.Ceiling((double)((Count + pageSize - 1) / pageSize)));
                     Employeelist.Add(new Employee
