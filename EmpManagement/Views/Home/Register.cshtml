@@ -32,52 +32,59 @@
 </nav>
 <!--End Navigation -->
 <section class="fade-in color-white" id="login">
+
+
     <div class="login">
-        @if (TempData["Success"] != null)
+      @if (TempData["Success"] != null)
         {
-            <div class="row text-center color-white">
+            <div class="row text-center color-white prompt-reload">
                 <div class="col-md-10 col-md-offset-1">
                     <h6 class="alert alert-success text-center">
                         <span class="glyphicon glyphicon glyphicon-ok"></span>&nbsp;&nbsp;@TempData["Success"]</h6>
                 </div>
             </div>
         }
-        <div class="login-triangle">
+            <div class="login-triangle">
+            </div>
+            <h2 class="login-header">
+                Register User</h2>
+            <div class="login-container">
+                @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { id = "createForm" }))
+                {
+                    <div style="font-size: 12px; padding-left: 12px;" class="help-blocked ">
+                        @Html.ValidationSummary(true, "", new { @class = "validation-message errors" })
+                    </div>
+                    @Html.AntiForgeryToken()
+                    <p style="padding: 12px 12px 0px 12px;" class="index">
+                        @Html.TextBoxFor(model => model.Email, new { @maxlength="50", placeholder = @Html.DisplayNameFor(m => m.Email) })
+                        <span class=" validation-message errors " style="font-size: 12px; display: block;
+                            line-height: 18px;"></span>
+                    </p>       
+                    <p class="index" style="padding: 12px 12px 0px 12px;">
+                        @Html.TextBoxFor(model => model.Password, new { @maxlength="50", type = "password", placeholder = @Html.DisplayNameFor(m => m.Password) })
+                        <span class=" validation-message errors" style="font-size: 12px; display: block;
+                            line-height: 18px;"></span>
+                    </p>  
+                     <p class="index" style="padding: 12px 12px 0px 12px;">
+                     @Html.TextBoxFor(model => model.ConfirmPassword, new { type = "password", @maxlength="50", placeholder = @Html.DisplayNameFor(m => m.ConfirmPassword) })
+                   <span class=" validation-message errors " style="font-size: 12px; display: block;
+                            line-height: 18px;"></span>
+                     </p>  
+                <p class="index" style="padding: 12px 12px 0px 12px;">
+                    @Html.TextBoxFor(model => model.Name, new { type = "text", @maxlength="50", placeholder = @Html.DisplayNameFor(m => m.Name) })
+                        <span class=" validation-message errors " style="font-size: 12px; display: block;
+                            line-height: 18px;"></span>
+                </p>  
+                <p  class="index" style="padding: 12px 12px 0px 12px;">
+                    @Html.TextBoxFor(model => model.Contact, new { @maxlength="20", placeholder = @Html.DisplayNameFor(m => m.Contact) })
+                         <span class=" validation-message errors" style="font-size: 12px; display: block;
+                            line-height: 18px;"></span> 
+                 </p>
+                    <p class="index" style="padding: 12px 12px 0px 12px;">
+                        <input type="submit" value="Register" id="formLogin" /></p>
+                }
+            </div>
         </div>
-        <h2 class="login-header">
-            EMS Registration</h2>
-        <div class="login-container">
-            @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { id = "createForm" }))
-            {
-                 <div style="font-size: 12px; padding-left: 12px;" class="help-blocked ">
-                        @Html.ValidationSummary(true, "", new { @class = "validation-message" })
-                 </div>
-                @Html.AntiForgeryToken()
-                <p style="padding: 12px 12px 0px 12px;">
-                    @Html.TextBoxFor(model => model.Email, new { placeholder = @Html.DisplayNameFor(m => m.Email) })
-                    <span class=" validation-message errors register" style="font-size: 12px;"></span>
-                </p>       
-                <p>
-                    @Html.TextBoxFor(model => model.Password, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.Password) })
-                    <span class=" validation-message errors register" style="font-size: 12px;"></span>
-                </p>  
-                <p>
-                    @Html.TextBoxFor(model => model.ConfirmPassword, new { type = "password", placeholder = @Html.DisplayNameFor(m => m.ConfirmPassword) })
-                    <span class=" validation-message errors register" style="font-size: 12px;"></span>
-                </p>  
-                <p>
-                    @Html.TextBoxFor(model => model.Name, new { type = "text", placeholder = @Html.DisplayNameFor(m => m.Name) })
-                    <span class=" validation-message errors register" style="font-size: 12px;"></span>
-                </p>  
-                <p>
-                    @Html.TextBoxFor(model => model.Contact, new { type = "number", placeholder = @Html.DisplayNameFor(m => m.Contact) })
-                    <span class=" validation-message errors register" style="font-size: 12px;"></span>
-                </p>  
-                <p>
-                    <input type="submit" value="Register" id="formLogin" /></p>
-            }
-        </div>
-    </div>
 </section>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

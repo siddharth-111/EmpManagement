@@ -1,17 +1,4 @@
-﻿Date.prototype.toDateInputValue = (function () {
-    var local = new Date(this);
-    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-    return local.toJSON().slice(0, 10);
-});
-
-Date.prototype.toBackDate = (function () {
-    var local = new Date(1999, 11, 31);
-    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-    return local.toJSON().slice(0, 10);
-});
-$(document).ready(function () {
-    $('#DOJ').val(new Date().toDateInputValue());
-    $('#DOB').val(new Date().toBackDate());
+﻿$(document).ready(function () {
     $('#DOJ').addClass('requireDOJ dateLowerThanToday create');
     $('#DOB').addClass('requireDOB dateofBirth create');
     if ($(".prompt-reload")[0]) {
@@ -28,8 +15,7 @@ $(document).ready(function () {
     }, "Joining date must be lesser than today's date");
 
     $.validator.addMethod("dateofBirth", function (value, element) {
-        var CompleteDate = value.split("-");
-        var myDate = CompleteDate[0] + "-" + (CompleteDate[1] - 1) + "-" + CompleteDate[2];
+        var myDate = value;
         var limitDate = new Date(1999, 11, 31);
         return Date.parse(myDate) <= limitDate;
     }, "Date of birth cannot lie beyond the year 1999");

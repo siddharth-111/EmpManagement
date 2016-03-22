@@ -3,7 +3,7 @@
     //validation rules
     $("#createForm").validate({
         //set this to false if you don't what to set focus on the first invalid input
-
+        onkeyup: true,
         errorPlacement: function (error, element) {
             error.appendTo(".errors");
         },

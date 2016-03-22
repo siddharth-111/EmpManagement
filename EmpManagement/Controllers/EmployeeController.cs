@@ -256,7 +256,7 @@ namespace EmployeeManagement.Controllers
                        _log.Debug("Post Edit method return data : " + IsEmployeeEdited);
                      
                         //    _log.Info("Create Employee method stop unsuccessful, The Employee details are--> Username:" + newEmployee.EmployeeName + " Email:" + newEmployee.email + " DOB:" + newEmployee.DOB + " DOJ:" + newEmployee.DOJ + " Address:" + newEmployee.Address + " Salary:" + newEmployee.salary); ;
-                        ModelState.AddModelError("", "Error in saving the details of employee,Duplicate Email ID");
+                        ModelState.AddModelError("", "An employee with the same email address exists");
                     }
 
 
@@ -277,8 +277,8 @@ namespace EmployeeManagement.Controllers
             return View(editedEmp);
         }
 
-        // POST : /Employee/DeleteEmployee
-        public ActionResult Delete(string id)
+        // POST : /Employee/Delete
+        public JsonResult Delete(string id)
         {
             _log.Info("Delete method start");
             try
@@ -300,26 +300,22 @@ namespace EmployeeManagement.Controllers
                 bool IsEmployeeDeleted = (bool)Data.SelectToken("DeleteResult");
 
                 if (IsEmployeeDeleted)
-                {
-
-                    TempData["Delete"] = "Deleted the employee successfully!!";
+                {              
 
                     _log.Debug("Delete return data is " + IsEmployeeDeleted);
 
-                    return RedirectToAction("Index", "Employee");
+                   return Json(IsEmployeeDeleted, JsonRequestBehavior.AllowGet);
                 }
                 else
-                {
-
-                    TempData["DeleteFail"] = "Couldn't Delete the Employee";
-
+                {             
                     _log.Debug("Delete Employee unsuccessful, return data is:" + IsEmployeeDeleted);
 
-                    ModelState.AddModelError("", "Error in Deleting the Employee");
+                    return Json(IsEmployeeDeleted, JsonRequestBehavior.AllowGet);                 
                 }
             }
             catch (Exception ex)
             {
+                return Json(false, JsonRequestBehavior.AllowGet); 
 
                 _log.Error("Error in deleting the employee, the error is : " + ex.Message);
 
@@ -330,8 +326,7 @@ namespace EmployeeManagement.Controllers
                 _log.Info("Delete method stop");
 
             }
-
-            return RedirectToAction("Index", "Employee");
+      
         }
 
         //Logout

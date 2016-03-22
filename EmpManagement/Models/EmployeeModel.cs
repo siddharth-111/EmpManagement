@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace EmployeeManagement.Models
 {
@@ -13,11 +14,13 @@ namespace EmployeeManagement.Models
         [Required(ErrorMessage = "Employee Name is required")]
         [Display(Name = "Employee Name")]
         [StringLength(50)]
+        [AllowHtml]
         public string EmployeeName { get; set; }
 
         [Required(ErrorMessage = "Address is required")]
         [Display(Name = "Address")]
-        [StringLength(100)]
+        [StringLength(200)]
+        [AllowHtml]
         public string Address { get; set; }
 
         [Display(Name = "Date of birth")]
@@ -28,16 +31,16 @@ namespace EmployeeManagement.Models
          "Date of birth cannot lie after the year 2000")]
         public Nullable<System.DateTime> DOB { get; set; }
 
-        [Display(Name = "Salary")]
-        [Required(ErrorMessage = "Salary is required")]
+        [Display(Name = "Salary")]       
         public int Salary { get; set; }
+
         [Required(ErrorMessage = "Please enter an email")]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail is not valid")]
         [Display(Name = "Email")]
+        [StringLength(50)]
         public string Email { get; set; }
 
         [DataType(DataType.Date)]
-
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "Date of Joining is required")]
         [ValidJoinDate(ErrorMessage =
@@ -46,12 +49,16 @@ namespace EmployeeManagement.Models
 
 
         [Display(Name = "Department")]
+        [Required(ErrorMessage = "Department is required")]
         public string Dept { get; set; }
+
+
         [Display(Name = "Mobile")]
         [RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
         public string Contact { get; set; }
 
         public int Pagecount { get; set; }
+
         public int TotalRecords { get; set; }
     }
 

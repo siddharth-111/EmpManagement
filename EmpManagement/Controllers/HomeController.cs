@@ -104,9 +104,9 @@ namespace EmployeeManagement.Controllers
 
                     if (IsValid)
                     {
-                        _log.Debug( "The user is valid , the returned data is: " + IsValid); 
-                
-                        FormsAuthentication.RedirectFromLoginPage(user.Email, false);
+                        _log.Debug( "The user is valid , the returned data is: " + IsValid);
+
+                        FormsAuthentication.RedirectFromLoginPage(user.Email, true);
 
                         return RedirectToAction("Index", "Employee");
                     }
@@ -120,14 +120,14 @@ namespace EmployeeManagement.Controllers
             catch (Exception ex)
             {
 
-                _log.Error( "Error in _log.ging in,the error is : " + ex.Message);
+                _log.Error( "Error in logging in,the error is : " + ex.Message);
 
-                ModelState.AddModelError("", "Unable to _log.in. Try again, and if the problem persists, see your system administrator.");
+                ModelState.AddModelError("", "Unable to login Try again, and if the problem persists, see your system administrator.");
             }
             finally
             {
 
-                _log.Info( "Employee Controller _log.in method mandatory stop");
+                _log.Info( "Employee Controller login method mandatory stop");
 
             }
 
@@ -179,7 +179,7 @@ namespace EmployeeManagement.Controllers
                     {
                        _log.Debug( "Post Register unsuccessful, the returned data is +" + IsCreated);
 
-                        ModelState.AddModelError("", "Cannot register,Duplicate username/email");
+                        ModelState.AddModelError("", "Cannot register,Duplicate Email address");
                     }
 
                 }

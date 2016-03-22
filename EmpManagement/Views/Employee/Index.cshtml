@@ -43,19 +43,33 @@
                @* <span class="input-group-addon"><button class="icon "><span class="glyphicon glyphicon glyphicon-search">
                 </span></button></span>*@
                 <div class="input-group-btn">
-                <button class="btn btn-primary getSearchValue " type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                <button class="btn getSearchValue " type="submit"><i class="glyphicon glyphicon-search"></i></button>
                  </div>
             </div>
         </div>
     </div>
     @Html.Hidden("SortField", "Name")
     @Html.Hidden("SortDirection", "ascending")
-    <div class="col-lg-12" style="margin-top: 25px">
+    <div class="col-lg-12" style="margin-top: 25px">  
+        <div class="row text-center prompt-reload"  style = "display:none;">
+            <div class="col-md-3 col-md-offset-4">
+                <h6 class="alert alert-success text-center">
+                    <span class="glyphicon glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Employee deleted!</h6>
+            </div>
+        </div>
+        
+        <div class="row text-center prompt-reloadFail" style = "display:none;">
+            <div class="col-md-3 col-md-offset-4">
+                <h6 class="alert alert-danger text-center">
+                    <span class="glyphicon glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Error in deleting</h6>
+            </div>
+        </div>
+    
         <table class="table table-bordered table-hover table-striped" id="employeeTable">
             <thead>
                 <tr>
                     <th>                     
-                         <a href="#" data-sortfield="Name" class="clicked">Employee name </a>
+                         <a href="#" data-sortfield="Name" class="clicked">Name </a>
                     </th>
                     <th>
                          <a href="#" data-sortfield="Email" class="clicked">Email </a>
@@ -72,10 +86,10 @@
                     <th>
                         <a href="#" data-sortfield="DOB" class="clicked">Date of Birth </a>
                     </th>
-                    <th>
+                    <th  style="text-align: right;">
                         <a href="#" data-sortfield="Contact" class="clicked">Contact </a>
                     </th>
-                    <th>
+                    <th  style="text-align: right;">
                         <a href="#" data-sortfield="Salary" class="clicked">Salary </a>
                     </th>
                     <th style="text-align: center;">
@@ -98,10 +112,10 @@
     <div class="modal-dialog modal-sm">
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style = "border-bottom-width: 0px;">
                 <h4 class="modal-title text-center">
                     Are you sure you want to delete employee?</h4>
-                <button style="width:45%;float:left;" class ="btn btn-default btn-primary" id = "empId" value="" onclick="location.href='@Url.Action("Delete")?id=' + $('#empId').val()">
+                <button style="width:45%;float:left;" data-dismiss="modal" class ="btn btn-default btn-primary" id = "empId" value="" onclick="deleteEmployee($('#empId').val())" >
                     Yes</button>
                 <input type="button" style="width: 45%; float: right;" class="btn btn-default btn-danger align-button"
                     data-dismiss="modal" value="No" />

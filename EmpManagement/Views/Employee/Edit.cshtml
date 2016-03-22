@@ -1,6 +1,6 @@
 ﻿@model EmployeeManagement.Models.EmployeeModel
 @{
-    ViewBag.Title = "Edit Employee";
+    ViewBag.Title = "Update Employee";
 }
 @section css {
     <link href="@Url.Content("~/Content/assets/css/bootstrap.css")" rel = "stylesheet" />
@@ -36,7 +36,7 @@
 <div class="container fade-in">
     <div class="row text-center">
         <h1 style="line-height: 1;">
-            Edit Employee</h1>
+            Update Employee</h1>
     </div>
     @if (TempData["Success"] != null)
     {
@@ -111,23 +111,23 @@
                 <div class="validation-message" id="errors">
                 </div>
                      <div style="font-size: 12px; padding-left: 12px;" class="help-blocked ">
-                        @Html.ValidationSummary(true, "", new { @class = "validation-message" })
+                        @Html.ValidationSummary(true, "", new { @class = "validation-message errors" })
                     </div>
                 @Html.HiddenFor(model => model.EmployeeID)
                 @Html.AntiForgeryToken()
                 <p style="font-size: 14px; line-height: 25px;">
                     Email:
-                    @Html.TextBoxFor(model => model.Email, new { @class = "create" })
+                    @Html.TextBoxFor(model => model.Email, new {  @maxlength="50", @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
                 <p style="font-size: 14px; line-height: 25px;">
                     Employee Name:
-                    @Html.TextBoxFor(model => model.EmployeeName, new { @class = "create" })
+                    @Html.TextBoxFor(model => model.EmployeeName, new { @maxlength="50", @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
                 <p style="font-size: 14px; line-height: 25px;">
                     Address:
-                    @Html.TextBoxFor(model => model.Address, new { @class = "create" })
+                    @Html.TextBoxFor(model => model.Address, new { @maxlength="200", @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
                 <p style="font-size: 14px; line-height: 25px;">
@@ -151,16 +151,16 @@
                 </p>
                 <p style="font-size: 14px; line-height: 25px;">
                     Salary:
-                    @Html.TextBoxFor(model => model.Salary, new { @class = "isNumber create" })
+                    @Html.TextBoxFor(model => model.Salary, new {  @maxlength="10", @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
                 <p style="font-size: 14px; line-height: 25px;">
                     Mobile:
-                    @Html.TextBoxFor(model => model.Contact, new { @class = "create" })
+                    @Html.TextBoxFor(model => model.Contact, new {  @maxlength="20", @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
                 <p class="index" style="padding: 5px 12px 0px 12px;">
-                    <input type="submit" style="padding: 12px;" class="btn btn-primary" value="Edit Employee" />
+                    <input type="submit" style="padding: 12px;" class="btn btn-primary" value="Save" />
                 </p>
             </div>
         </div>                    
@@ -171,7 +171,7 @@
     <!-- BOOTSTRAP CORE SCRIPT   -->
     <script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.9.0/jquery.validate.min.js"></script>
-    <script src="@Url.Content("~/Content/assets/js/CreateEmployee.js")"></script>
+    <script src="@Url.Content("~/Content/assets/js/EditEmployee.js")"></script>
     <script src="@Url.Content("~/Content/assets/plugins/bootstrap.js")"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="@Url.Content("~/Content/assets/js/custom.js")"></script>

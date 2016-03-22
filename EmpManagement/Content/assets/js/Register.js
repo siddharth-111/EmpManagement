@@ -5,7 +5,13 @@
         var myDate = value;
         return Date.parse(myDate) < new Date();
     }, "Joining date must be lesser than today's date");
+    if ($(".prompt-reload")[0]) {
+        // Do something if class exists
 
+        setTimeout(function () {
+            window.location.href = "/Employee";
+        }, 2000);
+    }
     $.validator.addMethod("dateofBirth", function (value, element) {
         var myDate = value;
         var limitDate = new Date();

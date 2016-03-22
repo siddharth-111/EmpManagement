@@ -121,22 +121,22 @@
         <div class="login" style="margin: 0px auto 0px;">
             <div class="login-container">
                 <div style="font-size: 12px; padding-left: 12px;" class="help-blocked ">
-                    @Html.ValidationSummary(true, "", new { @class = "validation-message" })
+                    @Html.ValidationSummary(true, "", new { @class = "validation-message errors" })
                 </div>
                 @Html.AntiForgeryToken()
                 <p style="font-size: 14px; line-height: 25px;">
                     Email:
-                    @Html.TextBoxFor(model => model.Email, new { @class = "create" })
+                    @Html.TextBoxFor(model => model.Email, new { @maxlength="50", @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
                 <p style="font-size: 14px; line-height: 25px;">
                     Employee Name:
-                    @Html.TextBoxFor(model => model.EmployeeName, new { @class = "create" })
+                    @Html.TextBoxFor(model => model.EmployeeName, new { @maxlength="50", @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
                 <p style="font-size: 14px; line-height: 25px;">
                     Address:
-                    @Html.TextBoxFor(model => model.Address, new { @class = "create" })
+                    @Html.TextBoxFor(model => model.Address, new { @maxlength="200", @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
                 <p style="font-size: 14px; line-height: 25px;">
@@ -159,12 +159,12 @@
                 </p>
                 <p style="font-size: 14px; line-height: 25px;">
                     Salary:
-                    @Html.TextBoxFor(model => model.Salary, new { @class = "isNumber  create" })
+                    @Html.TextBoxFor(model => model.Salary, new { @maxlength="10",@class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
                 <p style="font-size: 14px; line-height: 25px;">
                     Mobile:
-                    @Html.TextBoxFor(model => model.Contact, new { @class = "create" })
+                    @Html.TextBoxFor(model => model.Contact, new { @maxlength="20", @class = "create" })
                     <span class=" validation-message errors" style="font-size: 11px;"></span>
                 </p>
                 <p class="index" style="padding: 5px 12px 0px 12px;">

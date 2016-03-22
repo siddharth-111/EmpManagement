@@ -105,8 +105,9 @@ section {
     HEADER STYLES
 ==================================================*/
 #home {
-    padding:20px 40px 130px 40px;
+       padding: 140px 0px 130px 0px;
 }
+
 .head-main {
     font-size:120px !important;
     font-weight:900!important;
